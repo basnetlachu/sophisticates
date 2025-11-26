@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="./">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sophisticates - Clarity in Complexity, Redefining Reality</title>
+    <link rel="stylesheet" href="styles.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-floating">
+        <div class="nav-content">
+            <div class="logo">
+                <img src="sophisticates.png" alt="Sophisticates Logo" class="logo-image">
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <div class="nav-links desktop-nav">
+                <a href="#vision" class="nav-link">Vision</a>
+                <a href="#purpose" class="nav-link">Purpose</a>
+                <a href="#values" class="nav-link">Values</a>
+            </div>
+            
+            <!-- Mobile Hamburger (only shows on mobile) -->
+            <button class="mobile-hamburger" id="mobileHamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu (only shows on mobile) -->
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="#vision" class="mobile-nav-link">Vision</a>
+            <a href="#purpose" class="mobile-nav-link">Purpose</a>
+            <a href="#values" class="mobile-nav-link">Values</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section - Full Screen Immersive -->
+    <section class="hero-immersive" id="hero">
+        <div class="neural-background">
+            <canvas id="neuralCanvas"></canvas>
+            <div class="floating-particles"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="line-2">Clarity in Complexity, Redefining Reality.</span>
+            </h1>
+            <p class="hero-subtitle">
+                We decode the complexity of tomorrow to propel humanity beyond boundaries.
+            </p>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-line"></div>
+            <span>Scroll to explore</span>
+        </div>
+    </section>
+
+    <!-- Vision/Purpose Morphing Section -->
+    <section class="morphing-section" id="vision">
+        <div class="morph-container">
+            <div class="morph-content vision-content active">
+                <h2 class="section-title">Our Vision</h2>
+                <p class="section-text">
+                    To be the pioneering force that transforms humanity's relationship with the future by turning complexity into breakthrough innovation and boundaries into launchpads for human potential.
+                </p>
+            </div>
+            <div class="morph-content purpose-content" id="purpose">
+                <h2 class="section-title">Our Purpose</h2>
+                <p class="section-text">
+                    To turn the world's hardest problems into progress that benefits people and planet.
+                </p>
+            </div>
+        </div>
+        <div class="morph-background">
+            <div class="floating-shapes"></div>
+        </div>
+    </section>
+
+    <!-- Value Proposition Showcase -->
+    <section class="value-prop-showcase" id="value-prop">
+        <div class="showcase-container">
+            <div class="showcase-left">
+                <h2 class="showcase-title">Value Proposition</h2>
+                <p class="showcase-text">
+                    The simplest path through the world's hardest problems, actionable intelligence, resilient systems, and breakthroughs that endure.
+                </p>
+            </div>
+            <div class="showcase-right">
+                <div class="clarity-logo-animated">
+                    <div class="logo-particles"></div>
+                    <div class="logo-text">Beyond Limits</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Optimization Section - New Complex Animation -->
+    <section class="optimization-section" id="optimization">
+        <div class="optimization-container">
+            <div class="optimization-content">
+                <h2 class="optimization-title">Optimization at the Core</h2>
+                <p class="optimization-text">
+                    We refine systems that are designed to optimize, finding the most efficient path through the chaos of data. Witness the transformation from entropy to order.
+                </p>
+                <div class="optimization-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">10x</span>
+                        <span class="stat-label">Efficiency</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">99%</span>
+                        <span class="stat-label">Precision</span>
+                    </div>
+                </div>
+            </div>
+            <div class="optimization-visual">
+                <canvas id="optimizationCanvas"></canvas>
+                <div class="visual-overlay"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Values Orbital Display -->
+    <section class="values-orbital" id="values">
+        <div class="orbital-container">
+            <h2 class="orbital-title">Core Values</h2>
+            <div class="orbital-system">
+                <div class="central-hub">
+                    <div class="hub-content">
+                        <h3 class="hub-title">Insight</h3>
+                        <p class="hub-description">
+                            Make the complex clear so teams can act with confidence. Simplify without losing rigor; visualize systems; state trade-offs; document decisions.
+                        </p>
+                    </div>
+                </div>
+                <div class="orbital-ring ring-1">
+                    <div class="orbital-item" data-value="core-courage">
+                        <div class="orbital-icon">
+                            <img src="icon_empowerment_animated.png" alt="Core Courage">
+                        </div>
+                        <div class="orbital-content">
+                            <h4>Core Courage</h4>
+                            <p>Challenge assumptions and pursue bold ideas to find better answers. Run safe-to-fail experiments; speak up with evidence; share learnings; prioritize long-term impact.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="orbital-ring ring-2">
+                    <div class="orbital-item" data-value="stewardship">
+                        <div class="orbital-icon">
+                            <img src="icon_innovation_animated.png" alt="Stewardship">
+                        </div>
+                        <div class="orbital-content">
+                            <h4>Stewardship</h4>
+                            <p>Build and scale innovation responsibly for people, society, and the planet. Embed ethics, safety, and privacy by design; check for unintended consequences; measure real-world impact; own and correct harms quickly.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brand Personality Sequential Display -->
+    <section class="personality-sequential" id="personality">
+        <div class="sequential-container">
+            <h2 class="sequential-title">Brand Personality</h2>
+            <div class="personality-timeline">
+                <div class="timeline-item" data-index="1">
+                    <div class="timeline-marker">
+                        <div class="marker-dot"></div>
+                        <div class="marker-line"></div>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Visionary yet Grounded</h3>
+                        <p>We imagine a future of limitless AI efficiency, but we stay rooted in rigorous engineering that delivers real-world impact.</p>
+                    </div>
+                </div>
+                <div class="timeline-item" data-index="2">
+                    <div class="timeline-marker">
+                        <div class="marker-dot"></div>
+                        <div class="marker-line"></div>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Boldly Innovative</h3>
+                        <p>We challenge conventional limits of hardware and software, creating solutions that redefine what's possible in AI computing.</p>
+                    </div>
+                </div>
+                <div class="timeline-item" data-index="3">
+                    <div class="timeline-marker">
+                        <div class="marker-dot"></div>
+                        <div class="marker-line"></div>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Precisely Intelligent</h3>
+                        <p>We merge scientific depth with practical precision, making optimization not just powerful but measurable and dependable.</p>
+                    </div>
+                </div>
+                <div class="timeline-item" data-index="4">
+                    <div class="timeline-marker">
+                        <div class="marker-dot"></div>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Human-Centered</h3>
+                        <p>We see beyond algorithms — our breakthroughs consider energy, sustainability, and the people who will benefit from efficient AI.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Immersive Experience -->
+    <section class="cta-immersive" id="contact">
+        <div class="cta-background">
+            <div class="particle-burst"></div>
+        </div>
+        <div class="cta-content">
+            <h2 class="cta-title">Something Extraordinary <span class="highlight-pulse">is about to be Launched!</span></h2>
+            <p class="cta-subtitle">Be prepared — something significant is on the horizon, and we're getting ready to launch a breakthrough that will make a real impact.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-minimal">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="sophisticates.png" alt="Sophisticates Logo" class="footer-logo-image">
+            </div>
+            <div class="footer-tagline">Clarity in Complexity, Redefining Reality.</div>
+            <div class="footer-copyright">&copy; 2025 Sophisticates. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
