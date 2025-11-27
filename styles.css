@@ -343,12 +343,12 @@ body {
 
 /* Morphing Section */
 .morphing-section {
-    min-height: 60vh;
+    min-height: 40vh;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    padding: 60px 0;
+    padding: 40px 0;
 }
 
 .morph-container {
@@ -422,10 +422,10 @@ body {
 
 /* Value Proposition Showcase */
 .value-prop-showcase {
-    min-height: 60vh;
+    min-height: 40vh;
     display: flex;
     align-items: center;
-    padding: 60px 0;
+    padding: 40px 0;
 }
 
 .showcase-container {
@@ -514,12 +514,12 @@ body {
 
 /* Core Values Orbital Display */
 .values-orbital {
-    min-height: 80vh;
+    min-height: 60vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 80px 0;
+    padding: 50px 0;
     position: relative;
 }
 
@@ -722,12 +722,12 @@ body {
 
 /* Sequential Personality Timeline */
 .personality-sequential {
-    min-height: 60vh;
+    min-height: 40vh;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    padding: 60px 0;
+    padding: 40px 0;
 }
 
 .sequential-container {
@@ -885,13 +885,13 @@ body {
 
 /* CTA Immersive */
 .cta-immersive {
-    min-height: 60vh;
+    min-height: 40vh;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     overflow: hidden;
-    padding: 60px 0;
+    padding: 40px 0;
 }
 
 .cta-background {
@@ -1179,12 +1179,12 @@ body {
         max-width: 150px;
     }
     
-    /* Disable heavy animations on small screens */
-    .floating-particles,
+    /* Disable heavy animations on small screens - REMOVED per user request */
+    /* .floating-particles,
     .particle-burst {
         animation: none;
         opacity: 0.2;
-    }
+    } */
 }
 
 /* Touch device optimizations */
@@ -1210,12 +1210,12 @@ body {
 
 /* Optimization Section */
 .optimization-section {
-    min-height: 80vh;
+    min-height: 60vh;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    padding: 80px 0;
+    padding: 50px 0;
     background: radial-gradient(circle at 50% 50%, rgba(20, 20, 20, 0.8), #000000);
     overflow: hidden;
 }
