@@ -681,11 +681,11 @@ function initializePerformanceOptimizations() {
 
     // Reduce animations on mobile for better performance
     if (isMobile) {
-        ScrollTrigger.getAll().forEach(trigger => {
-            if (trigger.vars.scrub) {
-                trigger.kill();
-            }
-        });
+        // ScrollTrigger.getAll().forEach(trigger => {
+        //     if (trigger.vars.scrub) {
+        //         trigger.kill();
+        //     }
+        // });
 
         // Disable some heavy animations on very small screens - REMOVED per user request
         /* if (window.innerWidth <= 480) {
@@ -844,7 +844,7 @@ function createRippleEffect(element, color) {
 
 // Create explosion effect
 function createExplosionEffect(element) {
-    if (prefersReducedMotion || isMobile) return;
+    if (prefersReducedMotion) return;
 
     const particles = [];
     const particleCount = 8;
