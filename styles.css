@@ -17,6 +17,109 @@ body {
     overflow-x: hidden;
 }
 
+/* Logo Intro Animation */
+.logo-intro-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.logo-intro-overlay.fade-out {
+    opacity: 0;
+    transform: scale(1.2);
+    pointer-events: none;
+}
+
+.logo-intro-container {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    max-width: 90vw;
+    max-height: 90vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.logo-component {
+    transform-origin: center;
+}
+
+
+/* Scroll Indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: -120px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    animation: scrollIndicatorFadeIn 1s ease-out 2.5s forwards;
+    cursor: pointer;
+    z-index: 3;
+}
+
+.scroll-indicator p {
+    font-size: 0.9rem;
+    color: #888888;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.scroll-arrow {
+    width: 30px;
+    height: 30px;
+    border-right: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    transform: rotate(45deg);
+    animation: arrowBounce 2s ease-in-out infinite;
+}
+
+@keyframes arrowBounce {
+
+    0%,
+    100% {
+        transform: rotate(45deg) translateY(0);
+        opacity: 1;
+    }
+
+    50% {
+        transform: rotate(45deg) translateY(10px);
+        opacity: 0.5;
+    }
+}
+
+@keyframes scrollIndicatorFadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Hide main content initially */
+body.loading .nav-floating,
+body.loading .hero-immersive,
+body.loading section {
+    opacity: 0;
+}
+
+
 .container {
     max-width: 1100px;
     margin: 0 auto;
@@ -235,7 +338,9 @@ body {
 
 /* ALL YOUR ORIGINAL STYLES EXACTLY AS THEY WERE */
 .hero-immersive {
-    height: 100vh;
+    height: 85vh;
+    /* Reduced from 100vh */
+    min-height: 600px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -650,6 +755,8 @@ body {
     transform: translate(-50%, -50%);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 50%;
+    pointer-events: none;
+    /* Allow clicks to pass through the ring itself */
 }
 
 .ring-1 {
@@ -690,6 +797,8 @@ body {
     cursor: pointer;
     transition: all 0.4s ease;
     z-index: 5;
+    pointer-events: auto;
+    /* Re-enable clicks for the items */
 }
 
 .orbital-item:hover {
@@ -718,14 +827,88 @@ body {
     text-align: center;
     opacity: 0;
     pointer-events: none;
-    transition: all 0.4s ease;
+    /* transition: all 0.4s ease; */
+    /* background: rgba(0, 0, 0, 0.95); */
+    display: none;
+    /* Hide original content as we use overlay now */
+}
+
+/* Orbital Overlay Styles */
+.orbital-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.orbital-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.orbital-overlay-content {
+    position: relative;
     background: rgba(0, 0, 0, 0.95);
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    border-radius: 15px;
-    padding: 25px;
-    z-index: 2000;
-    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 50px 40px;
+    max-width: 600px;
+    width: 90%;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.orbital-overlay.active .orbital-overlay-content {
+    transform: scale(1);
+}
+
+.orbital-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 2rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+    line-height: 1;
+    padding: 0;
+}
+
+.orbital-close:hover {
+    opacity: 1;
+}
+
+.orbital-body h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #ffffff, #cccccc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+}
+
+.orbital-body p {
+    font-size: 1rem;
+    color: #cccccc;
+    line-height: 1.6;
+    text-align: center;
 }
 
 .orbital-item:hover .orbital-content {
@@ -1148,10 +1331,15 @@ body {
     }
 
     .central-hub {
-        width: 50%;
-        height: 50%;
-        padding: 20px;
+        width: 60%;
+        height: 60%;
+        padding: 15px;
         font-size: 0.9rem;
+    }
+
+    .hub-description {
+        font-size: 0.7rem;
+        line-height: 1.2;
     }
 
     .ring-1 {

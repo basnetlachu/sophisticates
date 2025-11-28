@@ -9,6 +9,7 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function () {
     console.log('Initializing website...');
+
     initializeMobileNavigation();
     initializeScrollNavigation();
     initializeAnimations();
@@ -428,9 +429,50 @@ function initializeInteractions() {
 }
 
 // COMPLETE ORBITAL INTERACTIONS
+// COMPLETE ORBITAL INTERACTIONS
 function initializeOrbitalInteractions() {
     const orbitalItems = document.querySelectorAll('.orbital-item');
-    let activeTooltip = null;
+    const overlay = document.getElementById('orbital-overlay');
+    const overlayBody = document.querySelector('.orbital-body');
+    const closeBtn = document.querySelector('.orbital-close');
+    let activeItem = null;
+
+    // Close overlay function
+    function closeOverlay() {
+        if (overlay) {
+            overlay.classList.remove('active');
+            activeItem = null;
+
+            // Resume animations
+            document.querySelectorAll('.orbital-ring').forEach(ring => {
+                ring.style.animationPlayState = 'running';
+            });
+        }
+    }
+
+    // Close button click
+    if (closeBtn) {
+        closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeOverlay();
+        });
+    }
+
+    // Close on clicking outside content
+    if (overlay) {
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                closeOverlay();
+            }
+        });
+
+        // Close on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && overlay.classList.contains('active')) {
+                closeOverlay();
+            }
+        });
+    }
 
     orbitalItems.forEach((item, index) => {
         if (!isMobile) {
@@ -462,12 +504,14 @@ function initializeOrbitalInteractions() {
                     ease: 'power2.out'
                 });
 
-                // Resume orbital animation
-                const ring = item.closest('.orbital-ring');
-                if (ring) {
-                    setTimeout(() => {
-                        ring.style.animationPlayState = 'running';
-                    }, 500);
+                // Resume orbital animation ONLY if overlay is not active
+                if (!overlay || !overlay.classList.contains('active')) {
+                    const ring = item.closest('.orbital-ring');
+                    if (ring) {
+                        setTimeout(() => {
+                            ring.style.animationPlayState = 'running';
+                        }, 500);
+                    }
                 }
 
                 // Remove glow effect
@@ -482,90 +526,31 @@ function initializeOrbitalInteractions() {
         item.addEventListener('click', (e) => {
             e.stopPropagation();
 
-            if (isMobile) {
-                // Mobile: toggle active state
-                const wasActive = item.classList.contains('active');
-                orbitalItems.forEach(i => i.classList.remove('active'));
+            // Get content from the hidden child element
+            const hiddenContent = item.querySelector('.orbital-content');
+            if (hiddenContent && overlay && overlayBody) {
+                // Populate overlay
+                overlayBody.innerHTML = hiddenContent.innerHTML;
 
-                if (!wasActive) {
-                    item.classList.add('active');
-                    activeTooltip = item;
-                } else {
-                    activeTooltip = null;
-                }
-            } else {
-                // Desktop: show tooltip
-                if (activeTooltip && activeTooltip !== item) {
-                    const prevContent = activeTooltip.querySelector('.orbital-content');
-                    if (prevContent) {
-                        gsap.to(prevContent, {
-                            opacity: 0,
-                            scale: 0.8,
-                            duration: 0.3,
-                            ease: 'power2.in'
-                        });
-                    }
-                }
+                // Show overlay
+                overlay.classList.add('active');
+                activeItem = item;
+
+                // Pause all rings
+                document.querySelectorAll('.orbital-ring').forEach(ring => {
+                    ring.style.animationPlayState = 'paused';
+                });
 
                 createExplosionEffect(item);
 
-                const content = item.querySelector('.orbital-content');
-                if (content) {
-                    activeTooltip = item;
-
-                    gsap.fromTo(content,
-                        { opacity: 0, scale: 0.8, rotationY: -90 },
-                        {
-                            opacity: 1,
-                            scale: 1,
-                            rotationY: 0,
-                            duration: 0.6,
-                            ease: 'back.out(1.7)'
-                        }
-                    );
-
-                    const contentText = content.querySelector('p');
-                    if (contentText && !prefersReducedMotion) {
-                        typewriterEffect(contentText);
-                    }
+                // Typewriter effect for text
+                const contentText = overlayBody.querySelector('p');
+                if (contentText && !prefersReducedMotion) {
+                    typewriterEffect(contentText);
                 }
             }
         });
     });
-
-    // Close tooltip when clicking outside (desktop)
-    if (!isMobile) {
-        document.addEventListener('click', (e) => {
-            if (activeTooltip && !activeTooltip.contains(e.target)) {
-                const content = activeTooltip.querySelector('.orbital-content');
-                if (content) {
-                    gsap.to(content, {
-                        opacity: 0,
-                        scale: 0.8,
-                        duration: 0.3,
-                        ease: 'power2.in'
-                    });
-                }
-                activeTooltip = null;
-            }
-        });
-
-        // Close tooltip with escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && activeTooltip) {
-                const content = activeTooltip.querySelector('.orbital-content');
-                if (content) {
-                    gsap.to(content, {
-                        opacity: 0,
-                        scale: 0.8,
-                        duration: 0.3,
-                        ease: 'power2.in'
-                    });
-                }
-                activeTooltip = null;
-            }
-        });
-    }
 }
 
 // COMPLETE MOBILE FEATURES
@@ -1171,3 +1156,4 @@ function initializeOptimizationAnimation() {
     window.addEventListener('resize', resize);
     animate();
 }
+
