@@ -1,0 +1,15 @@
+node_modules
+dist
+.env
+.git
+.gitignore
+Dockerfile
+.dockerignore
+npm-debug.log
+
+# Ignore the root level contents that are not needed for the container
+index.html
+sitemap.xml
+robots.txt
+styles.css
+script.js

@@ -4,14 +4,14 @@ FROM node:20-slim
 # Set working directory
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy package files from the app subdirectory
+COPY sophisticates-react/package*.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy the rest of the application
-COPY . .
+# Copy the app subdirectory content
+COPY sophisticates-react/ .
 
 # Build the frontend
 RUN npm run build
