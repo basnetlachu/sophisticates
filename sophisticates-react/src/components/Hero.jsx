@@ -38,8 +38,10 @@ const Hero = () => {
             position: 'relative',
             overflow: 'hidden',
             background: 'var(--bg-color)',
-            paddingTop: '80px', // Accounting for fixed navbar
-            paddingBottom: '40px'
+            paddingTop: 'clamp(100px, 15vh, 120px)',
+            paddingBottom: 'clamp(40px, 8vh, 60px)',
+            paddingLeft: 'var(--container-padding)',
+            paddingRight: 'var(--container-padding)'
         }}>
 
             {/* Abstract Background Grid */}
@@ -89,13 +91,13 @@ const Hero = () => {
                         whileHover={{ scale: 1.05, backgroundColor: 'var(--text-main)', color: 'var(--bg-color)' }}
                         whileTap={{ scale: 0.95 }}
                         style={{
-                            marginTop: '40px',
-                            padding: '15px 40px',
+                            marginTop: 'clamp(30px, 5vh, 40px)',
+                            padding: 'clamp(12px, 2vh, 15px) clamp(30px, 5vw, 40px)',
                             backgroundColor: 'transparent',
                             border: '1px solid var(--text-main)',
                             color: 'var(--text-main)',
                             borderRadius: '2px',
-                            fontSize: '0.9rem',
+                            fontSize: 'clamp(0.75rem, 1.5vw, 0.9rem)',
                             fontFamily: 'Space Grotesk, sans-serif',
                             textTransform: 'uppercase',
                             letterSpacing: '0.2em',

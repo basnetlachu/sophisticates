@@ -34,7 +34,7 @@ const Navbar = () => {
         if (pathname === '/') {
             const element = document.getElementById(id);
             if (element) {
-                const navHeight = 80;
+                const navHeight = window.innerWidth <= 767 ? 64 : 80;
                 const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
                 window.scrollTo({
                     top: elementPosition - navHeight,
@@ -46,7 +46,7 @@ const Navbar = () => {
             setTimeout(() => {
                 const element = document.getElementById(id);
                 if (element) {
-                    const navHeight = 80;
+                    const navHeight = window.innerWidth <= 767 ? 64 : 80;
                     const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
                     window.scrollTo({
                         top: elementPosition - navHeight,
@@ -98,7 +98,7 @@ const Navbar = () => {
                     background: 'var(--nav-bg)',
                     backdropFilter: 'blur(10px)',
                     borderBottom: '1px solid var(--border-color)',
-                    height: '80px',
+                    height: 'clamp(64px, 10vh, 80px)',
                     display: 'flex',
                     alignItems: 'center'
                 }}
@@ -106,43 +106,55 @@ const Navbar = () => {
                 <div className="max-w-container" style={{
                     display: 'flex',
                     justifyContent: 'space-between',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    width: '100%'
                 }}>
-                    <div className="logo" onClick={handleLogoClick} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+                    <div className="logo" onClick={handleLogoClick} style={{
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        flexShrink: 0,
+                        height: '100%',
+                        paddingRight: '10px'
+                    }}>
                         <img
                             src="/sophisticates.png"
                             alt="Sophisticates"
                             className="flexible-logo"
-                            style={{ height: 'clamp(40px, 5vw, 56px)' }}
+                            style={{
+                                height: 'clamp(28px, 8vw, 40px)',
+                                width: 'auto',
+                                maxWidth: '140px',
+                                objectFit: 'contain'
+                            }}
                         />
                     </div>
 
                     {/* Right Side Actions */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(4px, 1.5vw, 16px)', flexShrink: 1 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(8px, 2vw, 16px)', flexShrink: 0 }}>
 
                         {/* Theme Toggle */}
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', height: '40px', flexShrink: 0 }}>
-                            <motion.button
-                                onClick={toggleTheme}
-                                whileTap={{ scale: 0.9 }}
-                                style={{
-                                    padding: 0,
-                                    cursor: 'pointer',
-                                    border: '1px solid var(--border-color)',
-                                    borderRadius: '50%',
-                                    width: '32px',
-                                    height: '32px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    color: 'var(--text-main)',
-                                    fontSize: '0.9rem',
-                                    background: 'transparent'
-                                }}
-                            >
-                                {isDarkMode ? '☼' : '☾'}
-                            </motion.button>
-                        </div>
+                        <motion.button
+                            onClick={toggleTheme}
+                            whileTap={{ scale: 0.9 }}
+                            style={{
+                                padding: 0,
+                                cursor: 'pointer',
+                                border: '1px solid var(--border-color)',
+                                borderRadius: '50%',
+                                width: '32px',
+                                height: '32px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                color: 'var(--text-main)',
+                                fontSize: '0.9rem',
+                                background: 'transparent',
+                                flexShrink: 0
+                            }}
+                        >
+                            {isDarkMode ? '☼' : '☾'}
+                        </motion.button>
 
                         {/* Desktop Navigation Links */}
                         <nav className="desktop-only" style={{ display: 'flex', gap: 'clamp(10px, 1.8vw, 24px)', alignItems: 'center', flexShrink: 1 }}>
@@ -167,7 +179,8 @@ const Navbar = () => {
                                 textTransform: 'uppercase',
                                 letterSpacing: '0.1em',
                                 cursor: 'pointer',
-                                flexShrink: 0
+                                flexShrink: 0,
+                                whiteSpace: 'nowrap'
                             }}
                             onClick={handleRequestAccess}
                         >
@@ -185,7 +198,7 @@ const Navbar = () => {
                                 width: '40px',
                                 height: '40px',
                                 cursor: 'pointer',
-                                paddingTop: '3px'
+                                flexShrink: 0
                             }}
                         >
                             <div style={{

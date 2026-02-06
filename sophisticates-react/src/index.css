@@ -25,19 +25,21 @@ body.light-mode {
   --nav-bg: rgba(255, 255, 255, 0.8);
 }
 
+/* Logo Visibility - Force High Contrast */
 .flexible-logo {
-  mix-blend-mode: multiply;
   display: block;
+  opacity: 1;
+  transition: filter 0.3s ease;
 }
 
 body.dark-mode .flexible-logo {
-  filter: invert(1) brightness(2);
-  mix-blend-mode: screen;
+  /* Forces logo to be White */
+  filter: grayscale(100%) brightness(0) invert(1);
 }
 
 body.light-mode .flexible-logo {
-  filter: contrast(1.1);
-  mix-blend-mode: multiply;
+  /* Forces logo to be Black */
+  filter: grayscale(100%) brightness(0);
 }
 
 * {
@@ -171,10 +173,31 @@ a {
 
 /* Responsiveness */
 
-/* Large Laptops / Desktops (Default) */
+/* Large Desktops (1920px+) */
+@media (min-width: 1920px) {
+  :root {
+    --section-spacing: 180px;
+    --container-padding: 80px;
+  }
+}
 
-/* Tablets / Small Laptops */
-@media (max-width: 1100px) {
+/* Standard Desktops (1440px - 1919px) - Default styles apply */
+
+/* Small Desktops / Large Laptops (1200px - 1439px) */
+@media (max-width: 1439px) {
+  :root {
+    --section-spacing: 140px;
+    --container-padding: 56px;
+  }
+}
+
+/* Tablets / Small Laptops (768px - 1199px) */
+@media (max-width: 1199px) {
+  :root {
+    --section-spacing: 100px;
+    --container-padding: 40px;
+  }
+
   .section-padding {
     padding: 100px 40px;
   }
@@ -183,13 +206,36 @@ a {
     grid-template-columns: 1fr !important;
     gap: 40px !important;
   }
+
+  /* Improve navbar spacing */
+  nav a {
+    font-size: 0.7rem !important;
+  }
 }
 
-/* Mobile Devices */
-@media (max-width: 768px) {
+/* Tablets Portrait (768px - 1024px) */
+@media (max-width: 1024px) {
+  .grid-stack-mobile {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+
+  /* Better image scaling */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Mobile Devices (up to 767px) */
+@media (max-width: 767px) {
+  :root {
+    --section-spacing: 80px;
+    --container-padding: 24px;
+  }
+
   * {
     cursor: auto !important;
-    /* Reverting to default cursor for better mobile UX */
   }
 
   .cursor-follower {
@@ -197,7 +243,7 @@ a {
   }
 
   .section-padding {
-    padding: 80px 24px;
+    padding: 80px 24px !important;
   }
 
   .desktop-only {
@@ -211,12 +257,12 @@ a {
   /* Helper to stack grids on mobile */
   .grid-stack-mobile {
     grid-template-columns: 1fr !important;
-    gap: 48px !important;
+    gap: 32px !important;
   }
 
   .footer-stack-mobile {
     flex-direction: column !important;
-    gap: 48px !important;
+    gap: 40px !important;
   }
 
   .flex-col-mobile {
@@ -226,34 +272,106 @@ a {
 
   .mobile-no-border {
     border: none !important;
+    border-right: none !important;
+    border-left: none !important;
     padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* Mobile Navbar Fixes */
+  header .max-w-container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  header {
+    height: 64px !important;
+  }
+
+  .logo {
+    min-width: 100px !important;
+  }
+
+  .logo img {
+    height: 32px !important;
   }
 
   /* Responsive Font Sizes */
   h1 {
-    font-size: 2.5rem !important;
+    font-size: clamp(2rem, 8vw, 2.5rem) !important;
+    line-height: 1.1 !important;
   }
 
   h2 {
-    font-size: 2rem !important;
+    font-size: clamp(1.5rem, 6vw, 2rem) !important;
   }
 
   h3 {
-    font-size: 1.5rem !important;
+    font-size: clamp(1.25rem, 5vw, 1.5rem) !important;
+  }
+
+  h4 {
+    font-size: 1rem !important;
   }
 
   p {
     font-size: 1rem !important;
+    max-width: 100% !important;
+  }
+
+  /* Better button sizing */
+  button,
+  a[role="button"] {
+    padding: 14px 24px !important;
+    font-size: 0.75rem !important;
+  }
+
+  /* Improve form inputs */
+  input,
+  textarea {
+    font-size: 16px !important;
+    /* Prevents zoom on iOS */
   }
 }
 
-/* Small Device Optimizations */
+/* Small Mobile Devices (up to 480px) */
 @media (max-width: 480px) {
+  :root {
+    --section-spacing: 60px;
+    --container-padding: 20px;
+  }
+
   .section-padding {
-    padding: 60px 20px;
+    padding: 60px 20px !important;
   }
 
   .max-w-container {
-    padding: 0 15px;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  h1 {
+    font-size: clamp(1.75rem, 10vw, 2rem) !important;
+  }
+
+  h2 {
+    font-size: clamp(1.25rem, 7vw, 1.5rem) !important;
+  }
+
+  /* Tighter spacing for very small screens */
+  .grid-stack-mobile {
+    gap: 24px !important;
+  }
+}
+
+/* Extra Small Devices (up to 375px) */
+@media (max-width: 375px) {
+  :root {
+    --container-padding: 16px;
+  }
+
+  .max-w-container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
   }
 }

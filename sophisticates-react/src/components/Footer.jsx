@@ -20,9 +20,11 @@ const Footer = () => {
 
     return (
         <footer style={{
-            padding: '80px 0',
+            padding: 'var(--section-spacing) 0',
             background: 'var(--bg-color)',
-            borderTop: '1px solid var(--border-color)'
+            borderTop: '1px solid var(--border-color)',
+            position: 'relative',
+            overflow: 'hidden'
         }}>
             <div
                 className="max-w-container footer-stack-mobile"

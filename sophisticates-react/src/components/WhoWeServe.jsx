@@ -49,8 +49,8 @@ const WhoWeServe = () => {
 
                 <div style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(clamp(280px, 40vw, 320px), 1fr))',
-                    gap: '2px', // Minimalist hairline border look
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
+                    gap: '2px',
                     background: 'var(--border-color)',
                     border: '1px solid var(--border-color)'
                 }}>
@@ -62,21 +62,21 @@ const WhoWeServe = () => {
                             transition={{ delay: i * 0.1, duration: 0.8 }}
                             style={{
                                 background: 'var(--bg-color)',
-                                padding: 'clamp(40px, 6vw, 60px) clamp(24px, 4vw, 40px)',
-                                minHeight: 'clamp(300px, 50vh, 350px)',
+                                padding: 'clamp(30px, 6vw, 60px) clamp(20px, 4vw, 40px)',
+                                minHeight: 'clamp(280px, 40vh, 350px)',
                                 display: 'flex',
                                 flexDirection: 'column',
                                 justifyContent: 'space-between'
                             }}
                         >
-                            <span style={{ fontFamily: 'monospace', fontSize: '0.7rem', color: 'var(--text-muted)', letterSpacing: '0.1em' }}>{item.tag}</span>
+                            <span style={{ fontFamily: 'monospace', fontSize: 'clamp(0.6rem, 1vw, 0.7rem)', color: 'var(--text-muted)', letterSpacing: '0.1em' }}>{item.tag}</span>
                             <div>
-                                <h3 style={{ fontSize: 'clamp(1.4rem, 4vw, 1.8rem)', color: 'var(--text-main)', marginBottom: '20px', letterSpacing: '-0.02em' }}>{item.title}</h3>
-                                <p style={{ fontSize: '1rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>{item.content}</p>
+                                <h3 style={{ fontSize: 'clamp(1.3rem, 3vw, 1.8rem)', color: 'var(--text-main)', marginBottom: 'clamp(16px, 3vw, 20px)', letterSpacing: '-0.02em' }}>{item.title}</h3>
+                                <p style={{ fontSize: 'clamp(0.9rem, 1.5vw, 1rem)', color: 'var(--text-muted)', lineHeight: '1.6' }}>{item.content}</p>
                             </div>
                             <motion.div
                                 whileHover={{ x: 10 }}
-                                style={{ width: '30px', height: '1px', background: 'var(--text-main)', marginTop: '40px' }}
+                                style={{ width: '30px', height: '1px', background: 'var(--text-main)', marginTop: 'clamp(30px, 5vw, 40px)' }}
                             />
                         </motion.div>
                     ))}
