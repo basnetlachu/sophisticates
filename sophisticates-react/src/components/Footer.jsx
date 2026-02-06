@@ -28,7 +28,15 @@ const Footer = () => {
         }}>
             <div
                 className="max-w-container footer-stack-mobile"
-                style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '48px', marginBottom: '80px' }}
+                style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-start',
+                    gap: '48px',
+                    marginBottom: '80px',
+                    position: 'relative',
+                    zIndex: 1
+                }}
             >
 
                 {/* Left: Brand info */}
@@ -87,17 +95,25 @@ const Footer = () => {
             {/* Bottom Bar */}
             <div style={{
                 borderTop: '1px solid var(--border-color)',
-                paddingTop: '30px',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                gap: '20px'
-            }} className="footer-stack-mobile">
-                <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', opacity: 0.5 }}>
-                    © {new Date().getFullYear()} Sophisticates. All rights reserved.
-                </p>
-                <div style={{ fontFamily: 'monospace', fontSize: '0.6rem', color: 'var(--text-muted)', opacity: 0.4, letterSpacing: '0.2em' }}>
-                    v1.1.0_STABLE
+                position: 'relative',
+                zIndex: 1
+            }}>
+                <div
+                    className="max-w-container footer-stack-mobile"
+                    style={{
+                        paddingTop: '30px',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        gap: '20px'
+                    }}
+                >
+                    <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', opacity: 0.5 }}>
+                        © {new Date().getFullYear()} Sophisticates. All rights reserved.
+                    </p>
+                    <div style={{ fontFamily: 'monospace', fontSize: '0.6rem', color: 'var(--text-muted)', opacity: 0.4, letterSpacing: '0.2em' }}>
+                        v1.1.0_STABLE
+                    </div>
                 </div>
             </div>
 

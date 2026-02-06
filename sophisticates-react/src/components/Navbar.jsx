@@ -23,9 +23,6 @@ const Navbar = () => {
         setIsMenuOpen(false);
         if (pathname === '/') {
             window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-            navigate('/');
-            window.scrollTo(0, 0);
         }
     };
 
@@ -109,14 +106,21 @@ const Navbar = () => {
                     alignItems: 'center',
                     width: '100%'
                 }}>
-                    <div className="logo" onClick={handleLogoClick} style={{
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        flexShrink: 0,
-                        height: '100%',
-                        paddingRight: '10px'
-                    }}>
+                    <Link
+                        to="/"
+                        className="logo"
+                        onClick={handleLogoClick}
+                        style={{
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            flexShrink: 0,
+                            height: '100%',
+                            paddingRight: '10px',
+                            textDecoration: 'none',
+                            color: 'inherit'
+                        }}
+                    >
                         <img
                             src="/sophisticates.png"
                             alt="Sophisticates"
@@ -128,7 +132,7 @@ const Navbar = () => {
                                 objectFit: 'contain'
                             }}
                         />
-                    </div>
+                    </Link>
 
                     {/* Right Side Actions */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(8px, 2vw, 16px)', flexShrink: 0 }}>
