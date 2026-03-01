@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /node_modules/
+Disallow: /dist/
+Disallow: /src/
 
 Sitemap: https://sophisticatesai.com/sitemap.xml

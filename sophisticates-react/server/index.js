@@ -90,8 +90,14 @@ app.post('/api/contact', async (req, res) => {
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../dist')));
 
-    // Catch-all route for SPA - must be last
+    // Catch-all route for SPA — only serve index.html for navigation requests
+    // Do NOT serve index.html for requests to static files (favicon.ico, images, etc.)
     app.use((req, res) => {
+        // If the request has a file extension, it's a missing static file — return 404
+        if (path.extname(req.path)) {
+            return res.status(404).send('Not Found');
+        }
+        // Otherwise it's a SPA navigation route — serve index.html
         res.sendFile(path.join(__dirname, '../dist/index.html'));
     });
 }
