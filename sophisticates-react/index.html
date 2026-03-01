@@ -17,7 +17,10 @@
   <meta property="og:title" content="Sophisticates | Deep Tech Frontiers">
   <meta property="og:description"
     content="Solving the hardest problems in AI, Quantum Computing, Physics, and Robotics.">
-  <meta property="og:image" content="/sophisticates.png">
+  <meta property="og:image" content="https://sophisticatesai.com/sophisticates.png">
+  <meta property="og:image:width" content="667">
+  <meta property="og:image:height" content="667">
+  <meta property="og:site_name" content="Sophisticates">
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
@@ -25,14 +28,15 @@
   <meta property="twitter:title" content="Sophisticates | Deep Tech Frontiers">
   <meta property="twitter:description"
     content="Solving the hardest problems in AI, Quantum Computing, Physics, and Robotics.">
-  <meta property="twitter:image" content="/sophisticates.png">
+  <meta property="twitter:image" content="https://sophisticatesai.com/sophisticates.png">
 
-  <!-- Required for Google Favicon in Search Results (Google requires multiples of 48x48) -->
-  <link rel="icon" type="image/png" sizes="48x48" href="/favicon.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="/favicon.png">
-  <link rel="icon" type="image/png" sizes="144x144" href="/favicon.png">
-  <link rel="icon" type="image/png" href="/favicon.png">
-  <link rel="apple-touch-icon" href="/favicon.png">
+  <!-- Favicons — Google requires multiples of 48×48 for search result favicons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
+  <link rel="icon" type="image/png" sizes="144x144" href="/favicon-144.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/favicon.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,22 +48,42 @@
   <!-- Brand Entity Signals -->
   <meta name="application-name" content="Sophisticates">
   <meta name="apple-mobile-web-app-title" content="Sophisticates">
-  <meta name="google-site-verification" content="brand-entity-sophisticates">
+  <!-- To verify your site with Google, get the real verification code from Google Search Console
+       and add: <meta name="google-site-verification" content="YOUR_REAL_CODE_HERE"> -->
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Sophisticates",
-    "alternateName": "Sophisticates AI",
+    "alternateName": ["Sophisticates AI", "Sophisticate"],
     "url": "https://sophisticatesai.com",
-    "logo": "https://sophisticatesai.com/sophisticates.png",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sophisticatesai.com/sophisticates.png",
+      "width": 667,
+      "height": 667
+    },
     "description": "Sophisticates is a deep tech company working on AI, AI infrastructure, GPU optimization, quantum computing, physics-based systems, and robotics.",
     "foundingDate": "2026",
     "industry": "Deep Tech",
     "sameAs": [
       "https://www.linkedin.com/company/sophisticates/"
-    ]
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "lachu.basnet@sophisticatesai.com",
+      "contactType": "customer support"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Sophisticates",
+    "alternateName": ["Sophisticates AI", "Sophisticate"],
+    "url": "https://sophisticatesai.com"
   }
   </script>
 </head>
