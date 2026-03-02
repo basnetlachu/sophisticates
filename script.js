@@ -1,5 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // Mark body as JS-loaded so CSS animations activate
+    // Without this, all content is visible by default (good for Google crawlers!)
+    document.body.classList.add('js-loaded');
+
     // --- Custom Cursor ---
     const cursor = document.querySelector('.cursor-follower');
     document.addEventListener('mousemove', (e) => {

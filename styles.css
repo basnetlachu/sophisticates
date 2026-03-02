@@ -193,20 +193,24 @@ body:hover .cursor-follower {
 
 .line {
     display: block;
+}
+
+/* Only animate hero text when JS has loaded */
+.js-loaded .line {
     opacity: 0;
     transform: translateY(30px);
     animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.line:nth-child(1) {
+.js-loaded .line:nth-child(1) {
     animation-delay: 0.2s;
 }
 
-.line:nth-child(2) {
+.js-loaded .line:nth-child(2) {
     animation-delay: 0.3s;
 }
 
-.line:nth-child(3) {
+.js-loaded .line:nth-child(3) {
     animation-delay: 0.4s;
 }
 
@@ -553,6 +557,72 @@ body:hover .cursor-follower {
     font-size: 0.75rem;
 }
 
+/* LinkedIn Block */
+.linkedin-block {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 24px;
+}
+
+.linkedin-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 8px 16px;
+    font-family: monospace;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    background: transparent;
+}
+
+.linkedin-btn:hover {
+    background: #0077b5;
+    border-color: #0077b5;
+    letter-spacing: 1.5px;
+}
+
+.linkedin-icon {
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.linkedin-btn:hover .linkedin-icon {
+    transform: scale(1.15);
+}
+
+.linkedin-followers {
+    font-family: monospace;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.45);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+/* Footer Social Icons */
+.footer-social {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.footer-social-link {
+    color: rgba(255, 255, 255, 0.4);
+    transition: color 0.3s ease, transform 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.footer-social-link:hover {
+    color: #0077b5;
+    transform: translateY(-2px);
+}
+
 .footer-right {
     display: flex;
     flex-direction: column;
@@ -579,13 +649,16 @@ body:hover .cursor-follower {
 }
 
 /* Scroll Reveal Animation */
-.reveal-on-scroll {
+/* Elements are visible by default (for SEO / no-JS crawlers) */
+/* Only hidden when JS has loaded and body has .js-loaded class */
+.js-loaded .reveal-on-scroll {
     opacity: 0;
     transform: translateY(30px);
     transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.reveal-on-scroll.is-visible {
+.reveal-on-scroll.is-visible,
+.js-loaded .reveal-on-scroll.is-visible {
     opacity: 1;
     transform: translateY(0);
 }
@@ -761,5 +834,15 @@ body:hover .cursor-follower {
     .footer-right {
         align-items: flex-start;
         text-align: left;
+    }
+
+    .footer-social {
+        justify-content: flex-start;
+    }
+
+    .linkedin-block {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
     }
 }
