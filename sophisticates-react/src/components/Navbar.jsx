@@ -121,15 +121,20 @@ const Navbar = () => {
                             color: 'inherit'
                         }}
                     >
-                        <img
+                        <motion.img
                             src="/sophisticates.png"
                             alt="Sophisticates"
                             className="flexible-logo"
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                            whileHover={{ scale: 1.15 }}
+                            whileTap={{ scale: 0.95 }}
                             style={{
                                 height: 'clamp(28px, 8vw, 40px)',
                                 width: 'auto',
                                 maxWidth: '140px',
-                                objectFit: 'contain'
+                                objectFit: 'contain',
+                                transformOrigin: 'center'
                             }}
                         />
                     </Link>

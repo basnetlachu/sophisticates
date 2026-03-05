@@ -1,12 +1,12 @@
 :root {
-    --bg-color: #050505;
+    --bg-color: #000000;
     --text-color: #ffffff;
     --accent-color: #ffffff;
-    --grid-line: rgba(255, 255, 255, 0.08);
+    --grid-line: rgba(255, 255, 255, 0.12);
     --font-display: 'Syne', sans-serif;
     --font-body: 'Space Grotesk', sans-serif;
-    --tech-blue: #3b82f6;
-    /* Subtle accent if needed, mostly mono */
+    --tech-blue: #ffffff;
+    /* Strict black and white mono */
 }
 
 * {
@@ -14,6 +14,11 @@
     padding: 0;
     box-sizing: border-box;
     cursor: none;
+}
+
+img {
+    /* Strict B&W adherence */
+    filter: grayscale(100%);
 }
 
 body {
@@ -257,6 +262,62 @@ body:hover .cursor-follower {
     border-top: 1px solid var(--grid-line);
 }
 
+/* Creative Additions */
+.creative-split {
+    align-items: stretch;
+}
+
+.creative-split .col-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.creative-img-wrapper {
+    margin-top: 40px;
+    width: 100%;
+    flex-grow: 1;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--grid-line);
+    background: #000;
+    max-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.creative-img-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(0, 0, 0, 0) 100%);
+    pointer-events: none;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+.creative-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(100%) contrast(1.1);
+    transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s;
+}
+
+.creative-img-wrapper:hover .creative-img {
+    transform: scale(1.05);
+    filter: grayscale(100%) contrast(1.3) brightness(1.2);
+}
+
+.alt-layout .creative-img-wrapper {
+    margin-top: 60px;
+    margin-bottom: 0px;
+    max-height: 60vh;
+}
+
 .col-left {
     padding: 60px 40px;
     border-right: 1px solid var(--grid-line);
@@ -427,15 +488,30 @@ body:hover .cursor-follower {
     padding: 40px;
     position: relative;
     transition: all 0.4s ease;
-    background: #050505;
+    background: #000;
     /* Match body bg */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    color: #fff;
 }
 
 .bento-box:hover {
-    background: #0a0a0a;
+    background: #fff;
+    color: #000;
+}
+
+.bento-box:hover h3,
+.bento-box:hover p {
+    color: #000;
+}
+
+.bento-box:hover .icon-abstract {
+    color: #000;
+}
+
+.bento-box:hover .bar {
+    background: #000;
 }
 
 .box-large {
@@ -501,17 +577,27 @@ body:hover .cursor-follower {
 .list-item {
     display: grid;
     grid-template-columns: 0.5fr 2fr 3fr;
-    padding: 40px 0;
+    padding: 40px 20px;
     border-bottom: 1px solid var(--grid-line);
-    transition: all 0.3s;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     opacity: 0.6;
     align-items: baseline;
+    color: #fff;
 }
 
 .list-item:hover {
     opacity: 1;
-    padding-left: 20px;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.03), transparent);
+    padding-left: 40px;
+    background: #fff;
+    color: #000;
+}
+
+.list-item:hover .index {
+    color: #000;
+}
+
+.list-item:hover .description {
+    color: #000;
 }
 
 .index {

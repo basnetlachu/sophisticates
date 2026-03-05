@@ -1,11 +1,11 @@
 :root {
-  --bg-color: #030303;
+  --bg-color: #000000;
   --text-main: #ffffff;
   --text-muted: rgba(255, 255, 255, 0.6);
-  --grid-line: rgba(255, 255, 255, 0.05);
+  --grid-line: rgba(255, 255, 255, 0.12);
   --accent: #ffffff;
   --border-color: rgba(255, 255, 255, 0.1);
-  --nav-bg: rgba(3, 3, 3, 0.8);
+  --nav-bg: rgba(0, 0, 0, 0.8);
 
   --font-display: 'Syne', sans-serif;
   --font-body: 'Space Grotesk', sans-serif;
@@ -48,6 +48,10 @@ body.light-mode .flexible-logo {
   padding: 0;
   cursor: none;
   /* We keep the custom cursor */
+}
+
+img {
+  filter: grayscale(100%);
 }
 
 html {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
 const ValueProposition = () => {
@@ -33,32 +33,41 @@ const ValueProposition = () => {
 };
 
 const BentoBox = ({ item, index }) => {
+    const [isHovered, setIsHovered] = useState(false);
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1, duration: 0.6 }}
             viewport={{ once: true }}
+            onHoverStart={() => setIsHovered(true)}
+            onHoverEnd={() => setIsHovered(false)}
             style={{
-                background: 'var(--bg-color)',
+                background: isHovered ? 'var(--accent)' : 'var(--bg-color)',
+                color: isHovered ? 'var(--bg-color)' : 'var(--text-main)',
                 padding: 'clamp(24px, 5vw, 50px)',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 minHeight: '320px',
                 position: 'relative',
-                overflow: 'hidden'
+                overflow: 'hidden',
+                transition: 'background 0.3s ease, color 0.3s ease'
             }}
-            whileHover={{ background: 'var(--bg-color)', opacity: 0.9 }}
         >
             <div>
-                <h3 style={{ fontFamily: 'Syne, sans-serif', color: 'var(--text-main)', fontSize: '1.8rem', marginBottom: '16px', lineHeight: 1.1 }}>
+                <h3 style={{ fontFamily: 'Syne, sans-serif', color: 'inherit', fontSize: '1.8rem', marginBottom: '16px', lineHeight: 1.1, transition: 'color 0.3s' }}>
                     {item.title}
                 </h3>
-                <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>{item.desc}</p>
+                <p style={{ fontSize: '0.95rem', color: isHovered ? 'var(--bg-color)' : 'var(--text-muted)', lineHeight: '1.6', transition: 'color 0.3s' }}>{item.desc}</p>
             </div>
 
-            {item.visual && <div style={{ marginTop: '40px' }}>{item.visual}</div>}
+            {item.visual && (
+                <div style={{ marginTop: '40px', color: isHovered ? 'var(--bg-color)' : 'var(--text-main)', transition: 'color 0.3s' }}>
+                    {React.cloneElement(item.visual, { isHovered })}
+                </div>
+            )}
         </motion.div>
     );
 };
@@ -67,16 +76,16 @@ const items = [
     {
         title: "The Simplest Path",
         desc: "We reduce complexity into the minimal set of variables that actually matter.",
-        visual: <div style={{ fontSize: '3rem', color: 'var(--text-main)', opacity: 0.2, textAlign: 'right' }}>↗</div>
+        visual: <div style={{ fontSize: '3rem', opacity: 0.4, textAlign: 'right' }}>↗</div>
     },
     {
         title: "Actionable Intelligence",
         desc: "We turn research-grade ideas into decisions and things that operate in reality.",
         visual: (
             <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-end', height: '40px', opacity: 0.8 }}>
-                <motion.div initial={{ height: 0 }} whileInView={{ height: '40%' }} transition={{ delay: 0.5, duration: 1 }} style={{ width: '8px', background: 'var(--text-main)' }} />
-                <motion.div initial={{ height: 0 }} whileInView={{ height: '90%' }} transition={{ delay: 0.7, duration: 1 }} style={{ width: '8px', background: 'var(--text-main)' }} />
-                <motion.div initial={{ height: 0 }} whileInView={{ height: '60%' }} transition={{ delay: 0.9, duration: 1 }} style={{ width: '8px', background: 'var(--text-main)' }} />
+                <motion.div initial={{ height: 0 }} whileInView={{ height: '40%' }} transition={{ delay: 0.5, duration: 1 }} style={{ width: '8px', background: 'currentColor' }} />
+                <motion.div initial={{ height: 0 }} whileInView={{ height: '90%' }} transition={{ delay: 0.7, duration: 1 }} style={{ width: '8px', background: 'currentColor' }} />
+                <motion.div initial={{ height: 0 }} whileInView={{ height: '60%' }} transition={{ delay: 0.9, duration: 1 }} style={{ width: '8px', background: 'currentColor' }} />
             </div>
         )
     },

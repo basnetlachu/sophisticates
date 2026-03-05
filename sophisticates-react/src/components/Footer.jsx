@@ -42,11 +42,21 @@ const Footer = () => {
                 {/* Left: Brand info */}
                 <div style={{ maxWidth: '400px', width: '100%' }}>
                     <Link to="/" onClick={() => window.scrollTo(0, 0)}>
-                        <img
+                        <motion.img
                             src="/sophisticates.png"
                             alt="Sophisticates"
                             className="flexible-logo"
-                            style={{ height: 'clamp(60px, 8vw, 84px)', opacity: 1, marginBottom: '30px' }}
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                            whileHover={{ scale: 1.15 }}
+                            whileTap={{ scale: 0.95 }}
+                            style={{
+                                height: 'clamp(60px, 8vw, 84px)',
+                                opacity: 1,
+                                marginBottom: '30px',
+                                objectFit: 'contain',
+                                transformOrigin: 'center'
+                            }}
                         />
                     </Link>
                     <p style={{ fontSize: '1rem', lineHeight: '1.6', color: 'var(--text-muted)', marginBottom: '40px' }}>
