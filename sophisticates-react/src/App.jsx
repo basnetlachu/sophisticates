@@ -66,8 +66,8 @@ const ChatWidget = () => {
       <motion.div
         style={{
           position: 'fixed',
-          bottom: 'max(15px, 4vh)',
-          right: 'max(15px, 4vw)',
+          bottom: 'max(20px, 4vh)',
+          right: 'max(20px, 4vw)',
           zIndex: 9999,
           display: 'flex',
           justifyContent: 'center',
@@ -79,7 +79,9 @@ const ChatWidget = () => {
           animate={{ scale: [1, 1.5], opacity: [0.3, 0] }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeOut" }}
           style={{
-            position: 'absolute', width: '65px', height: '65px',
+            position: 'absolute',
+            width: 'clamp(55px, 15vw, 70px)',
+            height: 'clamp(55px, 15vw, 70px)',
             borderRadius: '50%', backgroundColor: 'transparent',
             border: '1px solid var(--text-main)', zIndex: -1
           }}
@@ -89,15 +91,17 @@ const ChatWidget = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           style={{
-            width: '70px', height: '70px', borderRadius: '50%',
-            backgroundColor: 'transparent', border: '1px solid rgba(255,255,255,0.2)',
-            display: 'flex', justifyContent: 'center', alignItems: 'center',
-            cursor: 'pointer', boxShadow: '0 0 20px rgba(0,0,0,0.8)',
-            overflow: 'hidden', padding: 0
+            width: 'clamp(55px, 15vw, 70px)',
+            height: 'clamp(55px, 15vw, 70px)',
+            borderRadius: '50%',
+            backgroundColor: 'var(--bg-color)', border: '1px solid rgba(255,255,255,0.2)',
+            position: 'relative',
+            cursor: 'auto', boxShadow: '0 0 20px rgba(0,0,0,0.8)',
+            overflow: 'hidden', padding: 0, flexShrink: 0
           }}
         >
           <img src="/chat-icon.png" alt="AI Protocol"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scale(1.35)' }} />
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', transform: 'scale(1.2)' }} />
         </motion.button>
       </motion.div>
 
