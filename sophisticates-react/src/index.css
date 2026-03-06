@@ -96,10 +96,15 @@ body {
   background-color: white;
   border-radius: 50%;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 99999;
   transform: translate(-50%, -50%);
   transition: width 0.3s var(--ease-out-expo), height 0.3s var(--ease-out-expo);
   mix-blend-mode: exclusion;
+}
+
+input,
+textarea {
+  cursor: auto !important;
 }
 
 body:hover .cursor-follower {
@@ -375,5 +380,43 @@ a {
   .max-w-container {
     padding-left: 16px !important;
     padding-right: 16px !important;
+  }
+}
+
+/* Hero Early Access Component */
+.hero-join-btn {
+  background-color: var(--text-main);
+  color: var(--bg-color);
+  border-left: 1px solid var(--text-main);
+  transition: all 0.3s var(--ease-out-expo);
+}
+
+.hero-join-btn:hover {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  border-left: 1px solid var(--text-main);
+}
+
+.pulse-highlight {
+  animation: form-pulse 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes form-pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0px transparent;
+    border-color: var(--text-main);
+  }
+
+  25% {
+    transform: scale(1.03);
+    box-shadow: 0 0 30px var(--text-main);
+    border-color: var(--text-main);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0px transparent;
+    border-color: var(--text-main);
   }
 }

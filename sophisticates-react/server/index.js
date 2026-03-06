@@ -4,104 +4,327 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
+import OpenAI from 'openai';
 
 dotenv.config();
 
+// ─── OpenRouter AI Setup ──────────────────────────────────────────────────────
+const openai = new OpenAI({
+    apiKey: process.env.OPENROUTER_API_KEY,
+    baseURL: 'https://openrouter.ai/api/v1',
+    defaultHeaders: {
+        'HTTP-Referer': 'https://sophisticatesai.com',
+        'X-Title': 'Sophisticates AI'
+    }
+});
+
+// Ordered fallback list — tries each until one succeeds
+const AI_MODELS = [
+    'liquid/lfm-2.5-1.2b-instruct:free',
+    'google/gemma-3-4b-it:free',
+    'arcee-ai/trinity-mini:free',
+    'meta-llama/llama-3.2-3b-instruct:free',
+];
+
+const SYSTEM_PROMPT = `You are SOPH.AI — the official AI assistant embedded on the Sophisticates website (sophisticatesai.com).
+
+ABOUT SOPHISTICATES:
+Sophisticates is a deep tech company solving humanity's hardest problems across AI, Quantum Computing, Physics, and Robotics. The company's philosophy is "Clarity In Complexity, Redefining Reality." They operate at the intersection of deep research and production-grade engineering.
+
+CORE PRODUCT — MEMOPT:
+- Name: Memopt
+- Category: GPU Memory Optimization for PyTorch
+- What it does: Automatically identifies memory-bound operations, fixes cache thrashing, and eliminates redundant memory fetches in PyTorch deep learning models.
+- Performance: Delivers 1.1x to 3.8x speedup depending on model architecture
+- Status: Currently in pre-order / early access phase
+- Operating System: Linux, CUDA environments
+- Target users: ML engineers, AI researchers, data scientists running large models
+
+FOCUS DOMAINS:
+1. Artificial Intelligence — deep learning, inference optimization, GPU systems
+2. Quantum Computing — quantum algorithm research and simulation
+3. Physics — theoretical and applied physics problems
+4. Robotics — autonomous systems and precision engineering
+
+CONTACT:
+- General: hello@sophisticatesai.com
+- Partnerships: partnerships@sophisticatesai.com
+- Website: https://sophisticatesai.com
+- LinkedIn: https://www.linkedin.com/company/sophisticates/
+
+ACCESS / AVAILABILITY:
+- The company is in an early access/waitlist phase. Users who want to try Memopt can register via the Early Access form on the homepage.
+- Partnerships and enterprise engagements are open — prospects can email partnerships@sophisticatesai.com or schedule via the Calendly link on the contact page.
+
+YOUR ROLE:
+- Answer questions about Sophisticates, Memopt, and the company's focus areas with precision.
+- For general technical topics in AI, GPU optimization, PyTorch, quantum computing, or robotics — you may answer based on your general knowledge, labeling it as general context.
+- Keep all responses under 130 words and professional in tone.
+- You are precise, sophisticated, and technically credible. Never use casual language.
+- If asked something you genuinely cannot answer, direct the user to hello@sophisticatesai.com.
+- Do NOT make up product features, timelines, or pricing. Only state what is listed above.`;
+
+
+// ─── Branded Email HTML Template ──────────────────────────────────────────────
+const brandedEmail = ({ heading, body, footer = '' }) => `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>${heading}</title>
+</head>
+<body style="margin:0;padding:0;background-color:#050505;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;">
+  <!-- Wrapper table for full width background -->
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#050505;padding:60px 20px;">
+    <tr>
+      <td align="center">
+        <!-- Main Content Card -->
+        <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;margin:0 auto;background-color:#0a0a0a;border:1px solid #1a1a1a;border-radius:6px;overflow:hidden;">
+          
+          <!-- Header (Logo) -->
+          <tr>
+            <td style="padding:40px 40px 30px 40px;text-align:center;border-bottom:1px solid #141414;">
+              <div style="display:inline-block;padding:4px;border:1px solid #222222;border-radius:50%;margin-bottom:18px;">
+                <img src="https://sophisticatesai.com/sophisticates.png" alt="Sophisticates" width="44" height="44" style="display:block;border-radius:50%;" />
+              </div>
+              <h2 style="margin:0;font-size:10px;letter-spacing:0.35em;color:#888888;text-transform:uppercase;font-weight:600;">SOPHISTICATES</h2>
+            </td>
+          </tr>
+
+          <!-- Body -->
+          <tr>
+            <td style="padding:45px 40px 40px 40px;background-color:#0a0a0a;">
+              <h1 style="margin:0 0 24px 0;font-size:22px;font-weight:400;color:#ffffff;letter-spacing:-0.01em;line-height:1.4;">${heading}</h1>
+              <div style="font-size:15px;color:#a0a0a0;line-height:1.7;">
+                ${body}
+              </div>
+            </td>
+          </tr>
+
+          <!-- Footer Area inside Card -->
+          <tr>
+            <td style="padding:30px 40px 40px 40px;text-align:center;background-color:#080808;border-top:1px solid #141414;">
+              ${footer ? `<div style="margin-bottom:30px;">${footer}</div>` : ''}
+              <p style="margin:0 0 6px 0;font-size:9px;color:#555555;letter-spacing:0.25em;text-transform:uppercase;">
+                CLARITY IN COMPLEXITY
+              </p>
+              <a href="https://sophisticatesai.com" style="margin:0;font-size:11px;color:#777777;text-decoration:none;">sophisticatesai.com</a>
+            </td>
+          </tr>
+          
+        </table>
+        
+        <!-- Disclaimer Text Outside Card -->
+        <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;margin:0 auto;">
+          <tr>
+            <td style="padding:24px 40px;text-align:center;">
+              <p style="margin:0;font-size:10px;color:#333333;line-height:1.5;">This transmission was sent from the Sophisticates automated platform.<br>Please do not reply directly to this notification.</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+
+// ─── Express Setup ────────────────────────────────────────────────────────────
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Transporter configuration for Zoho Mail
+// ─── Nodemailer (Zoho) ───────────────────────────────────────────────────────
 const transporter = nodemailer.createTransport({
     host: 'smtp.zoho.com',
     port: 465,
-    secure: true, // use SSL
+    secure: true,
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
     }
 });
 
-// API Endpoints
+// ─── Health Check ─────────────────────────────────────────────────────────────
 app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', message: 'Sophisticates Backend Operational' });
 });
 
+// ─── Contact Form ─────────────────────────────────────────────────────────────
 app.post('/api/contact', async (req, res) => {
     const { name, email, message } = req.body;
-
     if (!name || !email || !message) {
         return res.status(400).json({ status: 'error', message: 'Missing required fields' });
     }
 
-    // 1. Email to Admin
-    const adminMailOptions = {
-        from: `Sophisticates <${process.env.EMAIL_USER}>`,
-        to: process.env.ADMIN_EMAIL,
-        subject: `[Form] New Transmission from ${name}`,
-        text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
-        html: `<h3>New Contact Form Submission</h3><p><strong>Name:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p><strong>Message:</strong> ${message}</p>`
-    };
+    const adminHtml = brandedEmail({
+        heading: `New Transmission from ${name}`,
+        body: `
+          <p style="margin:0 0 20px 0;font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;">A new contact form submission has arrived through sophisticatesai.com.</p>
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr><td style="padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+              <span style="font-size:9px;letter-spacing:0.2em;color:rgba(255,255,255,0.3);text-transform:uppercase;">From</span>
+              <p style="margin:5px 0 0;font-size:15px;color:#fff;font-weight:500;">${name}</p>
+            </td></tr>
+            <tr><td style="padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+              <span style="font-size:9px;letter-spacing:0.2em;color:rgba(255,255,255,0.3);text-transform:uppercase;">Email</span>
+              <p style="margin:5px 0 0;font-size:15px;color:#fff;">${email}</p>
+            </td></tr>
+            <tr><td style="padding:12px 0;">
+              <span style="font-size:9px;letter-spacing:0.2em;color:rgba(255,255,255,0.3);text-transform:uppercase;">Message</span>
+              <p style="margin:5px 0 0;font-size:15px;color:#fff;line-height:1.75;">${message}</p>
+            </td></tr>
+          </table>`
+    });
 
-    // 2. Acknowledgement to Sender
-    const userMailOptions = {
-        from: `Sophisticates <${process.env.EMAIL_USER}>`,
-        to: email,
-        subject: `Transmission Received: Building the Future with Sophisticates`,
-        text: `Hello ${name},\n\nThis is an automated confirmation that we have received your transmission.\n\nOur team is currently analyzing your inquiry. We measure success by precision, and will respond as soon as the relevant specialists have reviewed your notes.\n\nThank you for reaching out to Sophisticates.\n\nBest regards,\nSophisticates Operational Command`,
-        html: `
-            <div style="font-family: 'Inter', sans-serif; max-width: 600px; padding: 40px; background: #030303; color: #ffffff;">
-                <h2 style="color: #ffffff; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px;">Transmission Confirmed.</h2>
-                <p style="font-size: 1.1rem; line-height: 1.6; color: rgba(255,255,255,0.7);">Hello ${name},</p>
-                <p style="font-size: 1.1rem; line-height: 1.6; color: rgba(255,255,255,0.7);">
-                    This is an automated confirmation that your transmission has been successfully received. 
-                    Our team is currently analyzing your inquiry with scientific rigor.
-                </p>
-                <p style="font-size: 1.1rem; line-height: 1.6; color: rgba(255,255,255,0.7);">
-                    We will respond as soon as the relevant specialists have reviewed your request.
-                </p>
-                <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
-                    <small style="color: rgba(255,255,255,0.4);">Sophisticates</small><br/>
-                </div>
-            </div>
-        `
-    };
+    const userHtml = brandedEmail({
+        heading: 'Transmission Received.',
+        body: `
+          <p style="font-size:15px;color:rgba(255,255,255,0.6);line-height:1.85;margin:0 0 18px 0;">Hello ${name},</p>
+          <p style="font-size:15px;color:rgba(255,255,255,0.6);line-height:1.85;margin:0 0 18px 0;">
+            Your message has been received by the Sophisticates team. We operate with precision — the relevant specialists will review your inquiry and respond accordingly.
+          </p>
+          <p style="font-size:15px;color:#a0a0a0;line-height:1.85;margin:0 0 24px 0;">
+            In the meantime, explore our work at
+            <a href="https://sophisticatesai.com" style="color:#ffffff;text-decoration:none;border-bottom:1px solid #555555;">sophisticatesai.com</a>.
+          </p>`,
+        footer: `<a href="https://sophisticatesai.com" style="display:inline-block;padding:14px 32px;background-color:#ffffff;color:#000000;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;font-weight:600;border-radius:2px;">EXPLORE SOPHISTICATES</a>`
+    });
 
     try {
-        // Send both emails
         await Promise.all([
-            transporter.sendMail(adminMailOptions),
-            transporter.sendMail(userMailOptions)
+            transporter.sendMail({
+                from: `Sophisticates <${process.env.EMAIL_USER}>`,
+                to: process.env.ADMIN_EMAIL,
+                subject: `[Contact] New Transmission from ${name}`,
+                html: adminHtml
+            }),
+            transporter.sendMail({
+                from: `Sophisticates <${process.env.EMAIL_USER}>`,
+                to: email,
+                subject: `Transmission Received — Sophisticates`,
+                html: userHtml
+            })
         ]);
         res.json({ status: 'success', message: 'Emails sent successfully' });
     } catch (error) {
-        console.error('Error sending email:', error);
+        console.error('Contact email error:', error);
         res.status(500).json({ status: 'error', message: 'Failed to send communication' });
     }
 });
 
-// Serve static files in production
+// ─── Early Access / Newsletter ────────────────────────────────────────────────
+app.post('/api/early-access', async (req, res) => {
+    const { email } = req.body;
+    if (!email) {
+        return res.status(400).json({ status: 'error', message: 'Email is required' });
+    }
+
+    const adminHtml = brandedEmail({
+        heading: 'New Early Access Request',
+        body: `
+          <p style="font-size:15px;color:rgba(255,255,255,0.6);line-height:1.8;margin:0 0 20px 0;">A new user has registered for early access to the Sophisticates platform.</p>
+          <div style="padding:18px 20px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);">
+            <span style="font-size:9px;letter-spacing:0.2em;color:rgba(255,255,255,0.3);text-transform:uppercase;">Registered Email</span>
+            <p style="margin:6px 0 0;font-size:16px;color:#ffffff;font-weight:500;">${email}</p>
+          </div>`
+    });
+
+    const userHtml = brandedEmail({
+        heading: 'Access Granted.',
+        body: `
+          <p style="font-size:15px;color:rgba(255,255,255,0.6);line-height:1.85;margin:0 0 18px 0;">
+            Your email has been registered for the Sophisticates early access program. Your position in the priority queue has been confirmed.
+          </p>
+          <p style="font-size:15px;color:rgba(255,255,255,0.6);line-height:1.85;margin:0 0 24px 0;">
+            You will receive exclusive first-wave access to our platform and updates on our frontier research. We are engineering with precision — quality over velocity.
+          </p>
+          <div style="padding:20px 22px;background-color:#0f0f0f;border-left:3px solid #333333;margin:8px 0 0 0;">
+            <p style="margin:0;font-size:13px;color:#888888;line-height:1.7;font-style:italic;">
+              "Clarity In Complexity, Redefining Reality." — Sophisticates
+            </p>
+          </div>`,
+        footer: `<a href="https://sophisticatesai.com" style="display:inline-block;padding:14px 32px;background-color:#ffffff;color:#000000;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;font-weight:600;border-radius:2px;">EXPLORE THE PLATFORM</a>`
+    });
+
+    try {
+        await Promise.all([
+            transporter.sendMail({
+                from: `Sophisticates Early Access <${process.env.EMAIL_USER}>`,
+                to: process.env.ADMIN_EMAIL,
+                subject: `[Waitlist] New Early Access Request — ${email}`,
+                html: adminHtml
+            }),
+            transporter.sendMail({
+                from: `Sophisticates <${process.env.EMAIL_USER}>`,
+                to: email,
+                subject: `Early Access Confirmed — Sophisticates`,
+                html: userHtml
+            })
+        ]);
+        res.json({ status: 'success', message: 'Waitlist updated' });
+    } catch (error) {
+        console.error('Waitlist error:', error);
+        res.status(500).json({ status: 'error', message: 'Failed to join waitlist' });
+    }
+});
+
+// ─── AI Chatbot (OpenRouter with fallback) ────────────────────────────────────
+app.post('/api/chat', async (req, res) => {
+    const { message, history } = req.body;
+    if (!message) {
+        return res.status(400).json({ status: 'error', message: 'Message is required' });
+    }
+
+    const messages = [
+        { role: 'system', content: SYSTEM_PROMPT },
+        ...(history || []).map(msg => ({
+            role: msg.role === 'assistant' ? 'assistant' : 'user',
+            content: msg.content
+        })),
+        { role: 'user', content: message }
+    ];
+
+    let lastError = null;
+    for (const model of AI_MODELS) {
+        try {
+            const completion = await openai.chat.completions.create({
+                model,
+                messages,
+                max_tokens: 200
+            });
+            const reply = completion.choices[0]?.message?.content || 'No response generated.';
+            console.log(`✦ Chat served by: ${model}`);
+            return res.json({ status: 'success', reply });
+        } catch (err) {
+            const status = err?.status || 500;
+            console.warn(`Model ${model} failed (${status}), trying next...`);
+            lastError = err;
+            // Only try next model for rate-limit / unavailable errors
+            if (status !== 429 && status !== 503 && status !== 404) break;
+        }
+    }
+
+    console.error('All models failed:', lastError?.message || lastError);
+    res.status(500).json({ status: 'error', message: 'AI protocol temporarily unavailable. Please try again in a moment.' });
+});
+
+// ─── Production Static File Serving ──────────────────────────────────────────
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../dist')));
-
-    // Catch-all route for SPA — only serve index.html for navigation requests
-    // Do NOT serve index.html for requests to static files (favicon.ico, images, etc.)
     app.use((req, res) => {
-        // If the request has a file extension, it's a missing static file — return 404
         if (path.extname(req.path)) {
             return res.status(404).send('Not Found');
         }
-        // Otherwise it's a SPA navigation route — serve index.html
         res.sendFile(path.join(__dirname, '../dist/index.html'));
     });
 }
 
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`✦ Sophisticates server running on port ${PORT}`);
 });

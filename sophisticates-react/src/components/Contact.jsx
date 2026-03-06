@@ -66,8 +66,29 @@ const Contact = () => {
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(24px, 4vw, 30px)', marginTop: 'clamp(40px, 8vw, 60px)' }}>
                         <div>
-                            <span style={{ fontSize: 'clamp(0.65rem, 1vw, 0.7rem)', textTransform: 'uppercase', color: 'var(--text-muted)', letterSpacing: '0.1em' }}>Partnerships</span>
-                            <p style={{ fontSize: 'clamp(1rem, 2vw, 1.2rem)', color: 'var(--text-main)', margin: '5px 0', wordBreak: 'break-word' }}>partnerships@sophisticatesai.com</p>
+                            <span style={{ fontSize: 'clamp(0.65rem, 1vw, 0.7rem)', textTransform: 'uppercase', color: 'var(--text-muted)', letterSpacing: '0.1em' }}>Partnerships / Booking</span>
+                            <p style={{ fontSize: 'clamp(1rem, 2vw, 1.2rem)', color: 'var(--text-main)', margin: '5px 0', wordBreak: 'break-word', marginBottom: '15px' }}>partnerships@sophisticatesai.com</p>
+
+                            <motion.button
+                                whileHover={{ scale: 1.02, backgroundColor: 'var(--text-main)', color: 'var(--bg-color)' }}
+                                whileTap={{ scale: 0.98 }}
+                                onClick={() => window.open('https://calendly.com/', '_blank')}
+                                style={{
+                                    padding: 'clamp(10px, 2vw, 12px) clamp(20px, 3vw, 24px)',
+                                    background: 'transparent',
+                                    border: '1px solid var(--text-main)',
+                                    color: 'var(--text-main)',
+                                    fontSize: 'clamp(0.7rem, 1.2vw, 0.8rem)',
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '0.1em',
+                                    cursor: 'pointer',
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '10px'
+                                }}
+                            >
+                                <span style={{ fontSize: '1.2rem' }}>🗓</span> SCHEDULE CONSULTATION
+                            </motion.button>
                         </div>
                         <div>
                             <span style={{ fontSize: 'clamp(0.65rem, 1vw, 0.7rem)', textTransform: 'uppercase', color: 'var(--text-muted)', letterSpacing: '0.1em' }}>Contact</span>

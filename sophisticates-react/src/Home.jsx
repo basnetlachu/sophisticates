@@ -11,6 +11,7 @@ import UseCases from './components/UseCases';
 import Roadmap from './components/Roadmap';
 import Values from './components/Values';
 import Personality from './components/Personality';
+import FAQ from './components/FAQ';
 import Contact from './components/Contact';
 
 function Home() {
@@ -45,6 +46,7 @@ function Home() {
             <Roadmap />
             <Values />
             <Personality />
+            <FAQ />
             <Contact />
         </main>
     );

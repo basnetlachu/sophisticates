@@ -56,7 +56,16 @@ const Navbar = () => {
 
     const handleRequestAccess = () => {
         setIsMenuOpen(false);
-        handleNavClick('contact');
+        handleNavClick('hero');
+        setTimeout(() => {
+            const input = document.getElementById('early-access-email');
+            const form = document.getElementById('early-access-form');
+            if (input && form) {
+                input.focus();
+                form.classList.add('pulse-highlight');
+                setTimeout(() => form.classList.remove('pulse-highlight'), 1200);
+            }
+        }, 800); // Wait for the scroll to finish
     };
 
     // Close menu when resizing to desktop
