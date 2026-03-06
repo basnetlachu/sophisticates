@@ -62,7 +62,7 @@ const Products = () => {
 
                     <div style={{ marginTop: 'clamp(40px, 6vw, 50px)', display: 'flex', gap: 'clamp(15px, 3vw, 20px)', alignItems: 'center', flexWrap: 'wrap' }}>
                         <motion.a
-                            href="https://memopt.sophisticatesai.com"
+                            href="https://memopt.com"
                             whileHover={{ scale: 1.05, backgroundColor: 'var(--text-main)', color: 'var(--bg-color)' }}
                             whileTap={{ scale: 0.95 }}
                             style={{

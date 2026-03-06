@@ -45,7 +45,7 @@ const Infrastructure = () => {
                             We engineer systems that <strong style={{ fontWeight: 500, color: 'var(--text-main)' }}>transcend hardware limitations</strong> through algorithmic precision. Memopt, our specialized memory optimization tool, eliminates traffic bottlenecks to align computational potential with effective memory bandwidth.
                         </p>
                         <motion.a
-                            href="https://memopt.sophisticatesai.com"
+                            href="https://memopt.com"
                             whileHover={{ letterSpacing: '0.3em', color: 'var(--text-main)' }}
                             style={{
                                 color: 'var(--text-main)',
