@@ -1,35 +1,7 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 
 const Hero = () => {
-    const [email, setEmail] = useState('');
-    const [status, setStatus] = useState('idle');
-
-    const handleEarlyAccess = async (e) => {
-        e.preventDefault();
-        if (!email) return;
-        setStatus('submitting');
-
-        try {
-            const response = await fetch('/api/early-access', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email })
-            });
-
-            if (response.ok) {
-                setStatus('success');
-                setEmail('');
-            } else {
-                setStatus('error');
-                setTimeout(() => setStatus('idle'), 3000);
-            }
-        } catch (error) {
-            console.error('Submission error:', error);
-            setStatus('error');
-            setTimeout(() => setStatus('idle'), 3000);
-        }
-    };
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -116,95 +88,32 @@ const Hero = () => {
                     <div style={{ width: '1px', height: '60px', background: 'linear-gradient(to bottom, var(--text-main), transparent)', marginTop: '20px' }}></div>
 
                     <div style={{ marginTop: 'clamp(30px, 5vh, 40px)', width: '100%', maxWidth: '400px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <AnimatePresence mode="wait">
-                            {status === 'success' ? (
-                                <motion.div
-                                    key="success"
-                                    initial={{ opacity: 0, scale: 0.95 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.95 }}
-                                    style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        gap: '10px',
-                                        color: 'var(--text-main)',
-                                        border: '1px solid var(--text-main)',
-                                        padding: 'clamp(12px, 2vh, 15px) clamp(20px, 4vw, 30px)',
-                                        fontFamily: 'Space Grotesk, sans-serif',
-                                        textTransform: 'uppercase',
-                                        letterSpacing: '0.1em',
-                                        fontSize: 'clamp(0.75rem, 1.5vw, 0.9rem)',
-                                        width: '100%',
-                                        backgroundColor: 'var(--bg-color)'
-                                    }}
-                                >
-                                    <span style={{ fontSize: '1.2rem' }}>✓</span> ACCESSED GRANTED
-                                </motion.div>
-                            ) : (
-                                <motion.form
-                                    id="early-access-form"
-                                    key="form"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    onSubmit={handleEarlyAccess}
-                                    style={{
-                                        display: 'flex',
-                                        width: '100%',
-                                        position: 'relative',
-                                        border: '1px solid var(--text-main)',
-                                        background: 'var(--bg-color)',
-                                        overflow: 'visible'
-                                    }}
-                                >
-                                    <input
-                                        id="early-access-email"
-                                        type="email"
-                                        required
-                                        placeholder="ENTER EMAIL FOR EARLY ACCESS"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        disabled={status === 'submitting'}
-                                        style={{
-                                            flex: 1,
-                                            padding: 'clamp(12px, 2vh, 15px) clamp(20px, 4vw, 30px)',
-                                            paddingRight: '110px',
-                                            backgroundColor: 'transparent',
-                                            border: 'none',
-                                            color: 'var(--text-main)',
-                                            outline: 'none',
-                                            fontSize: 'clamp(0.8rem, 3vw, 0.95rem)',
-                                            fontFamily: 'Space Grotesk, sans-serif',
-                                            letterSpacing: '0.1em',
-                                            textTransform: 'uppercase',
-                                        }}
-                                    />
-                                    <button
-                                        type="submit"
-                                        disabled={status === 'submitting'}
-                                        className="hero-join-btn"
-                                        style={{
-                                            position: 'absolute',
-                                            right: '0',
-                                            top: '0',
-                                            bottom: '0',
-                                            width: '100px',
-                                            border: 'none',
-                                            fontSize: 'clamp(0.75rem, 3vw, 0.9rem)',
-                                            fontFamily: 'Space Grotesk, sans-serif',
-                                            textTransform: 'uppercase',
-                                            letterSpacing: '0.1em',
-                                            cursor: 'pointer',
-                                            fontWeight: 'bold',
-                                            opacity: status === 'submitting' ? 0.5 : 1
-                                        }}
-                                    >
-                                        {status === 'submitting' ? '...' : (status === 'error' ? 'ERR' : 'JOIN')}
-                                    </button>
-                                </motion.form>
-                            )}
-                        </AnimatePresence>
+                        <motion.button
+                            variants={itemVariants}
+                            whileHover={{ backgroundColor: 'var(--text-main)', color: 'var(--bg-color)' }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => {
+                                const el = document.getElementById('newsletter');
+                                if (el) {
+                                    el.scrollIntoView({ behavior: 'smooth' });
+                                }
+                            }}
+                            style={{
+                                padding: 'clamp(14px, 2vh, 18px) clamp(30px, 5vw, 40px)',
+                                backgroundColor: 'transparent',
+                                border: '1px solid var(--text-main)',
+                                color: 'var(--text-main)',
+                                fontSize: 'clamp(0.85rem, 1.5vw, 1rem)',
+                                fontFamily: 'Space Grotesk, sans-serif',
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.1em',
+                                cursor: 'pointer',
+                                fontWeight: 'bold',
+                                transition: 'background-color 0.3s ease, color 0.3s ease'
+                            }}
+                        >
+                            REQUEST EARLY ACCESS
+                        </motion.button>
                     </div>
                 </motion.div>
             </motion.div>

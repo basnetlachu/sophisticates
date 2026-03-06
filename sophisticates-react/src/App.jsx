@@ -10,7 +10,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { role: 'assistant', content: 'Greetings. I am SOPHISTICATES BOT, the Sophisticates AI protocol.\n\nHow can I assist you with enterprise architecture or technical integrations today?' }
+    { role: 'assistant', content: 'Greetings. I am SOPHISTICATES Chatbot, the Sophisticates protocol.\n\nHow can I assist you with enterprise architecture or technical integrations today?' }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);

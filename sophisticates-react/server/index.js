@@ -10,20 +10,20 @@ dotenv.config();
 
 // ─── OpenRouter AI Setup ──────────────────────────────────────────────────────
 const openai = new OpenAI({
-    apiKey: process.env.OPENROUTER_API_KEY,
-    baseURL: 'https://openrouter.ai/api/v1',
-    defaultHeaders: {
-        'HTTP-Referer': 'https://sophisticatesai.com',
-        'X-Title': 'Sophisticates AI'
-    }
+  apiKey: process.env.OPENROUTER_API_KEY,
+  baseURL: 'https://openrouter.ai/api/v1',
+  defaultHeaders: {
+    'HTTP-Referer': 'https://sophisticatesai.com',
+    'X-Title': 'Sophisticates AI'
+  }
 });
 
 // Ordered fallback list — tries each until one succeeds
 const AI_MODELS = [
-    'liquid/lfm-2.5-1.2b-instruct:free',
-    'google/gemma-3-4b-it:free',
-    'arcee-ai/trinity-mini:free',
-    'meta-llama/llama-3.2-3b-instruct:free',
+  'liquid/lfm-2.5-1.2b-instruct:free',
+  'google/gemma-3-4b-it:free',
+  'arcee-ai/trinity-mini:free',
+  'meta-llama/llama-3.2-3b-instruct:free',
 ];
 
 const SYSTEM_PROMPT = `You are SOPH.AI — the official AI assistant embedded on the Sophisticates website (sophisticatesai.com).
@@ -74,19 +74,19 @@ const brandedEmail = ({ heading, body, footer = '' }) => `
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>${heading}</title>
 </head>
-<body style="margin:0;padding:0;background-color:#050505;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;">
+<body style="margin:0;padding:0;background-color:#f8f8f8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;">
   <!-- Wrapper table for full width background -->
-  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#050505;padding:60px 20px;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f8f8f8;padding:60px 20px;">
     <tr>
       <td align="center">
         <!-- Main Content Card -->
-        <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;margin:0 auto;background-color:#0a0a0a;border:1px solid #1a1a1a;border-radius:6px;overflow:hidden;">
+        <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;margin:0 auto;background-color:#ffffff;border:1px solid #eaeaec;border-radius:6px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.03);">
           
           <!-- Header (Logo) -->
           <tr>
-            <td style="padding:40px 40px 30px 40px;text-align:center;border-bottom:1px solid #141414;">
-              <div style="display:inline-block;padding:4px;border:1px solid #222222;border-radius:50%;margin-bottom:18px;">
-                <img src="https://sophisticatesai.com/sophisticates.png" alt="Sophisticates" width="44" height="44" style="display:block;border-radius:50%;" />
+            <td style="padding:40px 40px 30px 40px;text-align:center;border-bottom:1px solid #f2f2f2;">
+              <div style="display:inline-block;padding:4px;border:1px solid #eeeeee;border-radius:50%;margin-bottom:18px;">
+                <img src="https://sophisticatesai.com/sophisticates.png" alt="Sophisticates" width="44" height="44" style="display:block;border-radius:50%;filter:invert(1);" />
               </div>
               <h2 style="margin:0;font-size:10px;letter-spacing:0.35em;color:#888888;text-transform:uppercase;font-weight:600;">SOPHISTICATES</h2>
             </td>
@@ -94,9 +94,9 @@ const brandedEmail = ({ heading, body, footer = '' }) => `
 
           <!-- Body -->
           <tr>
-            <td style="padding:45px 40px 40px 40px;background-color:#0a0a0a;">
-              <h1 style="margin:0 0 24px 0;font-size:22px;font-weight:400;color:#ffffff;letter-spacing:-0.01em;line-height:1.4;">${heading}</h1>
-              <div style="font-size:15px;color:#a0a0a0;line-height:1.7;">
+            <td style="padding:45px 40px 40px 40px;background-color:#ffffff;">
+              <h1 style="margin:0 0 24px 0;font-size:22px;font-weight:400;color:#0a0a0a;letter-spacing:-0.01em;line-height:1.4;">${heading}</h1>
+              <div style="font-size:15px;color:#444444;line-height:1.7;">
                 ${body}
               </div>
             </td>
@@ -104,12 +104,12 @@ const brandedEmail = ({ heading, body, footer = '' }) => `
 
           <!-- Footer Area inside Card -->
           <tr>
-            <td style="padding:30px 40px 40px 40px;text-align:center;background-color:#080808;border-top:1px solid #141414;">
+            <td style="padding:30px 40px 40px 40px;text-align:center;background-color:#fafafa;border-top:1px solid #f2f2f2;">
               ${footer ? `<div style="margin-bottom:30px;">${footer}</div>` : ''}
-              <p style="margin:0 0 6px 0;font-size:9px;color:#555555;letter-spacing:0.25em;text-transform:uppercase;">
+              <p style="margin:0 0 6px 0;font-size:9px;color:#888888;letter-spacing:0.25em;text-transform:uppercase;">
                 CLARITY IN COMPLEXITY
               </p>
-              <a href="https://sophisticatesai.com" style="margin:0;font-size:11px;color:#777777;text-decoration:none;">sophisticatesai.com</a>
+              <a href="https://sophisticatesai.com" style="margin:0;font-size:11px;color:#666666;text-decoration:none;">sophisticatesai.com</a>
             </td>
           </tr>
           
@@ -119,7 +119,7 @@ const brandedEmail = ({ heading, body, footer = '' }) => `
         <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;margin:0 auto;">
           <tr>
             <td style="padding:24px 40px;text-align:center;">
-              <p style="margin:0;font-size:10px;color:#333333;line-height:1.5;">This transmission was sent from the Sophisticates automated platform.<br>Please do not reply directly to this notification.</p>
+              <p style="margin:0;font-size:10px;color:#aaaaaa;line-height:1.5;">This transmission was sent from the Sophisticates automated platform.<br>Please do not reply directly to this notification.</p>
             </td>
           </tr>
         </table>
@@ -141,190 +141,198 @@ app.use(express.json());
 
 // ─── Nodemailer (Zoho) ───────────────────────────────────────────────────────
 const transporter = nodemailer.createTransport({
-    host: 'smtp.zoho.com',
-    port: 465,
-    secure: true,
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    }
+  host: 'smtp.zoho.com',
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
 });
 
 // ─── Health Check ─────────────────────────────────────────────────────────────
 app.get('/api/health', (req, res) => {
-    res.json({ status: 'ok', message: 'Sophisticates Backend Operational' });
+  res.json({ status: 'ok', message: 'Sophisticates Backend Operational' });
 });
 
 // ─── Contact Form ─────────────────────────────────────────────────────────────
 app.post('/api/contact', async (req, res) => {
-    const { name, email, message } = req.body;
-    if (!name || !email || !message) {
-        return res.status(400).json({ status: 'error', message: 'Missing required fields' });
-    }
+  const { name, businessName, email, country, message } = req.body;
+  if (!name || !email || !message || !businessName || !country) {
+    return res.status(400).json({ status: 'error', message: 'Missing required fields' });
+  }
 
-    const adminHtml = brandedEmail({
-        heading: `New Transmission from ${name}`,
-        body: `
-          <p style="margin:0 0 20px 0;font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;">A new contact form submission has arrived through sophisticatesai.com.</p>
+  const adminHtml = brandedEmail({
+    heading: `New Transmission from ${name}`,
+    body: `
+          <p style="margin:0 0 20px 0;font-size:14px;color:#666666;line-height:1.7;">A new contact form submission has arrived through sophisticatesai.com.</p>
           <table width="100%" cellpadding="0" cellspacing="0">
-            <tr><td style="padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
-              <span style="font-size:9px;letter-spacing:0.2em;color:rgba(255,255,255,0.3);text-transform:uppercase;">From</span>
-              <p style="margin:5px 0 0;font-size:15px;color:#fff;font-weight:500;">${name}</p>
+            <tr><td style="padding:12px 0;border-bottom:1px solid #f2f2f2;">
+              <span style="font-size:9px;letter-spacing:0.2em;color:#999999;text-transform:uppercase;">From</span>
+              <p style="margin:5px 0 0;font-size:15px;color:#0a0a0a;font-weight:500;">${name}</p>
             </td></tr>
-            <tr><td style="padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
-              <span style="font-size:9px;letter-spacing:0.2em;color:rgba(255,255,255,0.3);text-transform:uppercase;">Email</span>
-              <p style="margin:5px 0 0;font-size:15px;color:#fff;">${email}</p>
+            <tr><td style="padding:12px 0;border-bottom:1px solid #f2f2f2;">
+              <span style="font-size:9px;letter-spacing:0.2em;color:#999999;text-transform:uppercase;">Business Name</span>
+              <p style="margin:5px 0 0;font-size:15px;color:#0a0a0a;">${businessName}</p>
+            </td></tr>
+            <tr><td style="padding:12px 0;border-bottom:1px solid #f2f2f2;">
+              <span style="font-size:9px;letter-spacing:0.2em;color:#999999;text-transform:uppercase;">Business Email</span>
+              <p style="margin:5px 0 0;font-size:15px;color:#0a0a0a;">${email}</p>
+            </td></tr>
+            <tr><td style="padding:12px 0;border-bottom:1px solid #f2f2f2;">
+              <span style="font-size:9px;letter-spacing:0.2em;color:#999999;text-transform:uppercase;">Country</span>
+              <p style="margin:5px 0 0;font-size:15px;color:#0a0a0a;">${country}</p>
             </td></tr>
             <tr><td style="padding:12px 0;">
-              <span style="font-size:9px;letter-spacing:0.2em;color:rgba(255,255,255,0.3);text-transform:uppercase;">Message</span>
-              <p style="margin:5px 0 0;font-size:15px;color:#fff;line-height:1.75;">${message}</p>
+              <span style="font-size:9px;letter-spacing:0.2em;color:#999999;text-transform:uppercase;">Nature of Inquiry</span>
+              <p style="margin:5px 0 0;font-size:15px;color:#0a0a0a;line-height:1.75;">${message}</p>
             </td></tr>
           </table>`
-    });
+  });
 
-    const userHtml = brandedEmail({
-        heading: 'Transmission Received.',
-        body: `
-          <p style="font-size:15px;color:rgba(255,255,255,0.6);line-height:1.85;margin:0 0 18px 0;">Hello ${name},</p>
-          <p style="font-size:15px;color:rgba(255,255,255,0.6);line-height:1.85;margin:0 0 18px 0;">
+  const userHtml = brandedEmail({
+    heading: 'Transmission Received.',
+    body: `
+          <p style="font-size:15px;color:#333333;line-height:1.85;margin:0 0 18px 0;">Hello ${name},</p>
+          <p style="font-size:15px;color:#333333;line-height:1.85;margin:0 0 18px 0;">
             Your message has been received by the Sophisticates team. We operate with precision — the relevant specialists will review your inquiry and respond accordingly.
           </p>
-          <p style="font-size:15px;color:#a0a0a0;line-height:1.85;margin:0 0 24px 0;">
+          <p style="font-size:15px;color:#666666;line-height:1.85;margin:0 0 24px 0;">
             In the meantime, explore our work at
-            <a href="https://sophisticatesai.com" style="color:#ffffff;text-decoration:none;border-bottom:1px solid #555555;">sophisticatesai.com</a>.
+            <a href="https://sophisticatesai.com" style="color:#0a0a0a;text-decoration:none;border-bottom:1px solid #cccccc;">sophisticatesai.com</a>.
           </p>`,
-        footer: `<a href="https://sophisticatesai.com" style="display:inline-block;padding:14px 32px;background-color:#ffffff;color:#000000;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;font-weight:600;border-radius:2px;">EXPLORE SOPHISTICATES</a>`
-    });
+    footer: `<a href="https://sophisticatesai.com" style="display:inline-block;padding:14px 32px;background-color:#0a0a0a;color:#ffffff;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;font-weight:600;border-radius:2px;">EXPLORE SOPHISTICATES</a>`
+  });
 
-    try {
-        await Promise.all([
-            transporter.sendMail({
-                from: `Sophisticates <${process.env.EMAIL_USER}>`,
-                to: process.env.ADMIN_EMAIL,
-                subject: `[Contact] New Transmission from ${name}`,
-                html: adminHtml
-            }),
-            transporter.sendMail({
-                from: `Sophisticates <${process.env.EMAIL_USER}>`,
-                to: email,
-                subject: `Transmission Received — Sophisticates`,
-                html: userHtml
-            })
-        ]);
-        res.json({ status: 'success', message: 'Emails sent successfully' });
-    } catch (error) {
-        console.error('Contact email error:', error);
-        res.status(500).json({ status: 'error', message: 'Failed to send communication' });
-    }
+  try {
+    await Promise.all([
+      transporter.sendMail({
+        from: `Sophisticates <${process.env.EMAIL_USER}>`,
+        to: process.env.ADMIN_EMAIL,
+        subject: `[Contact] New Transmission from ${name}`,
+        html: adminHtml
+      }),
+      transporter.sendMail({
+        from: `Sophisticates <${process.env.EMAIL_USER}>`,
+        to: email,
+        subject: `Transmission Received — Sophisticates`,
+        html: userHtml
+      })
+    ]);
+    res.json({ status: 'success', message: 'Emails sent successfully' });
+  } catch (error) {
+    console.error('Contact email error:', error);
+    res.status(500).json({ status: 'error', message: 'Failed to send communication' });
+  }
 });
 
 // ─── Early Access / Newsletter ────────────────────────────────────────────────
 app.post('/api/early-access', async (req, res) => {
-    const { email } = req.body;
-    if (!email) {
-        return res.status(400).json({ status: 'error', message: 'Email is required' });
-    }
+  const { email } = req.body;
+  if (!email) {
+    return res.status(400).json({ status: 'error', message: 'Email is required' });
+  }
 
-    const adminHtml = brandedEmail({
-        heading: 'New Early Access Request',
-        body: `
-          <p style="font-size:15px;color:rgba(255,255,255,0.6);line-height:1.8;margin:0 0 20px 0;">A new user has registered for early access to the Sophisticates platform.</p>
-          <div style="padding:18px 20px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);">
-            <span style="font-size:9px;letter-spacing:0.2em;color:rgba(255,255,255,0.3);text-transform:uppercase;">Registered Email</span>
-            <p style="margin:6px 0 0;font-size:16px;color:#ffffff;font-weight:500;">${email}</p>
+  const adminHtml = brandedEmail({
+    heading: 'New Early Access Request',
+    body: `
+          <p style="font-size:15px;color:#666666;line-height:1.8;margin:0 0 20px 0;">A new user has registered for early access to the Sophisticates platform.</p>
+          <div style="padding:18px 20px;background:#f9f9f9;border:1px solid #eeeeee;border-radius:4px;">
+            <span style="font-size:9px;letter-spacing:0.2em;color:#999999;text-transform:uppercase;">Registered Email</span>
+            <p style="margin:6px 0 0;font-size:16px;color:#0a0a0a;font-weight:500;">${email}</p>
           </div>`
-    });
+  });
 
-    const userHtml = brandedEmail({
-        heading: 'Access Granted.',
-        body: `
-          <p style="font-size:15px;color:rgba(255,255,255,0.6);line-height:1.85;margin:0 0 18px 0;">
+  const userHtml = brandedEmail({
+    heading: 'Access Granted.',
+    body: `
+          <p style="font-size:15px;color:#333333;line-height:1.85;margin:0 0 18px 0;">
             Your email has been registered for the Sophisticates early access program. Your position in the priority queue has been confirmed.
           </p>
-          <p style="font-size:15px;color:rgba(255,255,255,0.6);line-height:1.85;margin:0 0 24px 0;">
+          <p style="font-size:15px;color:#333333;line-height:1.85;margin:0 0 24px 0;">
             You will receive exclusive first-wave access to our platform and updates on our frontier research. We are engineering with precision — quality over velocity.
           </p>
-          <div style="padding:20px 22px;background-color:#0f0f0f;border-left:3px solid #333333;margin:8px 0 0 0;">
-            <p style="margin:0;font-size:13px;color:#888888;line-height:1.7;font-style:italic;">
+          <div style="padding:20px 22px;background-color:#f9f9f9;border-left:3px solid #cccccc;margin:8px 0 0 0;">
+            <p style="margin:0;font-size:13px;color:#666666;line-height:1.7;font-style:italic;">
               "Clarity In Complexity, Redefining Reality." — Sophisticates
             </p>
           </div>`,
-        footer: `<a href="https://sophisticatesai.com" style="display:inline-block;padding:14px 32px;background-color:#ffffff;color:#000000;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;font-weight:600;border-radius:2px;">EXPLORE THE PLATFORM</a>`
-    });
+    footer: `<a href="https://sophisticatesai.com" style="display:inline-block;padding:14px 32px;background-color:#0a0a0a;color:#ffffff;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;font-weight:600;border-radius:2px;">EXPLORE THE PLATFORM</a>`
+  });
 
-    try {
-        await Promise.all([
-            transporter.sendMail({
-                from: `Sophisticates Early Access <${process.env.EMAIL_USER}>`,
-                to: process.env.ADMIN_EMAIL,
-                subject: `[Waitlist] New Early Access Request — ${email}`,
-                html: adminHtml
-            }),
-            transporter.sendMail({
-                from: `Sophisticates <${process.env.EMAIL_USER}>`,
-                to: email,
-                subject: `Early Access Confirmed — Sophisticates`,
-                html: userHtml
-            })
-        ]);
-        res.json({ status: 'success', message: 'Waitlist updated' });
-    } catch (error) {
-        console.error('Waitlist error:', error);
-        res.status(500).json({ status: 'error', message: 'Failed to join waitlist' });
-    }
+  try {
+    await Promise.all([
+      transporter.sendMail({
+        from: `Sophisticates Early Access <${process.env.EMAIL_USER}>`,
+        to: process.env.ADMIN_EMAIL,
+        subject: `[Waitlist] New Early Access Request — ${email}`,
+        html: adminHtml
+      }),
+      transporter.sendMail({
+        from: `Sophisticates <${process.env.EMAIL_USER}>`,
+        to: email,
+        subject: `Early Access Confirmed — Sophisticates`,
+        html: userHtml
+      })
+    ]);
+    res.json({ status: 'success', message: 'Waitlist updated' });
+  } catch (error) {
+    console.error('Waitlist error:', error);
+    res.status(500).json({ status: 'error', message: 'Failed to join waitlist' });
+  }
 });
 
 // ─── AI Chatbot (OpenRouter with fallback) ────────────────────────────────────
 app.post('/api/chat', async (req, res) => {
-    const { message, history } = req.body;
-    if (!message) {
-        return res.status(400).json({ status: 'error', message: 'Message is required' });
+  const { message, history } = req.body;
+  if (!message) {
+    return res.status(400).json({ status: 'error', message: 'Message is required' });
+  }
+
+  const messages = [
+    { role: 'system', content: SYSTEM_PROMPT },
+    ...(history || []).map(msg => ({
+      role: msg.role === 'assistant' ? 'assistant' : 'user',
+      content: msg.content
+    })),
+    { role: 'user', content: message }
+  ];
+
+  let lastError = null;
+  for (const model of AI_MODELS) {
+    try {
+      const completion = await openai.chat.completions.create({
+        model,
+        messages,
+        max_tokens: 200
+      });
+      const reply = completion.choices[0]?.message?.content || 'No response generated.';
+      console.log(`✦ Chat served by: ${model}`);
+      return res.json({ status: 'success', reply });
+    } catch (err) {
+      const status = err?.status || 500;
+      console.warn(`Model ${model} failed (${status}), trying next...`);
+      lastError = err;
+      // Only try next model for rate-limit / unavailable errors
+      if (status !== 429 && status !== 503 && status !== 404) break;
     }
+  }
 
-    const messages = [
-        { role: 'system', content: SYSTEM_PROMPT },
-        ...(history || []).map(msg => ({
-            role: msg.role === 'assistant' ? 'assistant' : 'user',
-            content: msg.content
-        })),
-        { role: 'user', content: message }
-    ];
-
-    let lastError = null;
-    for (const model of AI_MODELS) {
-        try {
-            const completion = await openai.chat.completions.create({
-                model,
-                messages,
-                max_tokens: 200
-            });
-            const reply = completion.choices[0]?.message?.content || 'No response generated.';
-            console.log(`✦ Chat served by: ${model}`);
-            return res.json({ status: 'success', reply });
-        } catch (err) {
-            const status = err?.status || 500;
-            console.warn(`Model ${model} failed (${status}), trying next...`);
-            lastError = err;
-            // Only try next model for rate-limit / unavailable errors
-            if (status !== 429 && status !== 503 && status !== 404) break;
-        }
-    }
-
-    console.error('All models failed:', lastError?.message || lastError);
-    res.status(500).json({ status: 'error', message: 'AI protocol temporarily unavailable. Please try again in a moment.' });
+  console.error('All models failed:', lastError?.message || lastError);
+  res.status(500).json({ status: 'error', message: 'AI protocol temporarily unavailable. Please try again in a moment.' });
 });
 
 // ─── Production Static File Serving ──────────────────────────────────────────
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../dist')));
-    app.use((req, res) => {
-        if (path.extname(req.path)) {
-            return res.status(404).send('Not Found');
-        }
-        res.sendFile(path.join(__dirname, '../dist/index.html'));
-    });
+  app.use(express.static(path.join(__dirname, '../dist')));
+  app.use((req, res) => {
+    if (path.extname(req.path)) {
+      return res.status(404).send('Not Found');
+    }
+    res.sendFile(path.join(__dirname, '../dist/index.html'));
+  });
 }
 
 app.listen(PORT, () => {
-    console.log(`✦ Sophisticates server running on port ${PORT}`);
+  console.log(`✦ Sophisticates server running on port ${PORT}`);
 });

@@ -12,6 +12,7 @@ import Roadmap from './components/Roadmap';
 import Values from './components/Values';
 import Personality from './components/Personality';
 import FAQ from './components/FAQ';
+import Newsletter from './components/Newsletter';
 import Contact from './components/Contact';
 
 function Home() {
@@ -35,18 +36,19 @@ function Home() {
     return (
         <main className="smooth-scroll-wrapper">
             <Hero />
-            <About />
-            <Vision />
-            <Purpose />
             <ValueProposition />
             <WhoWeServe />
-            <Infrastructure />
             <Products />
+            <Infrastructure />
             <UseCases />
+            <Vision />
+            <Purpose />
+            <About />
             <Roadmap />
             <Values />
             <Personality />
             <FAQ />
+            <Newsletter />
             <Contact />
         </main>
     );
