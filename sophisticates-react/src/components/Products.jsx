@@ -27,7 +27,7 @@ const Products = () => {
                     </h2>
 
                     <div style={{ position: 'relative', marginTop: 'clamp(40px, 8vw, 60px)' }}>
-                        <img src="/memopt-visual.png" alt="Memopt Architecture" style={{ width: '100%', maxWidth: '100%', height: 'auto', opacity: 0.8, filter: 'grayscale(100%)' }} />
+                        <img src="/memopt-visual.webp" alt="Memopt Architecture" loading="lazy" decoding="async" style={{ width: '100%', maxWidth: '100%', height: 'auto', opacity: 0.8, filter: 'grayscale(100%)' }} />
                         <div style={{ position: 'absolute', bottom: -20, left: 0, fontSize: 'clamp(0.5rem, 1vw, 0.6rem)', fontFamily: 'monospace', color: 'var(--text-muted)', letterSpacing: '0.1em' }}>
                             CORE_KERNEL_TRAFFIC_OPTIMIZER_VIRTUAL
                         </div>

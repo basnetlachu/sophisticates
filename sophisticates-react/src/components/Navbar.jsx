@@ -131,7 +131,7 @@ const Navbar = () => {
                         }}
                     >
                         <motion.img
-                            src="/sophisticates.png"
+                            src="/sophisticates.webp"
                             alt="Sophisticates"
                             className="flexible-logo"
                             animate={{ rotate: 360 }}

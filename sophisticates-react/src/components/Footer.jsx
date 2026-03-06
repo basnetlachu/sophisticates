@@ -43,7 +43,7 @@ const Footer = () => {
                 <div style={{ maxWidth: '400px', width: '100%' }}>
                     <Link to="/" onClick={() => window.scrollTo(0, 0)}>
                         <motion.img
-                            src="/sophisticates.png"
+                            src="/sophisticates.webp"
                             alt="Sophisticates"
                             className="flexible-logo"
                             animate={{ rotate: 360 }}

@@ -85,7 +85,7 @@ const Purpose = () => {
                             style={{
                                 width: '100%',
                                 aspectRatio: '3/4',
-                                backgroundImage: 'url(/purpose_bg.png)',
+                                backgroundImage: 'url(/purpose_bg.webp)',
                                 backgroundSize: 'cover',
                                 backgroundPosition: 'center',
                                 filter: 'grayscale(100%) contrast(1.15)',

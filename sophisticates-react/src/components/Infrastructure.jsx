@@ -73,7 +73,7 @@ const Infrastructure = () => {
                             style={{
                                 width: '100%',
                                 aspectRatio: '1/1',
-                                backgroundImage: 'url(/infra_bg.png)',
+                                backgroundImage: 'url(/infra_bg.webp)',
                                 backgroundSize: 'cover',
                                 backgroundPosition: 'center',
                                 filter: 'grayscale(100%) contrast(1.15)',

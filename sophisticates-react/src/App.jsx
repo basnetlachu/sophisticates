@@ -100,7 +100,7 @@ const ChatWidget = () => {
             overflow: 'hidden', padding: 0, flexShrink: 0
           }}
         >
-          <img src="/chat-icon.png" alt="AI Protocol"
+          <img src="/chat-icon.webp" alt="AI Protocol"
             style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', transform: 'scale(1.2)' }} />
         </motion.button>
       </motion.div>

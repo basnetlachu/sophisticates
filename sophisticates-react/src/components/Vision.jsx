@@ -28,7 +28,7 @@ const Vision = () => {
                             style={{
                                 width: '100%',
                                 aspectRatio: '4/5',
-                                backgroundImage: 'url(/vision_bg.png)',
+                                backgroundImage: 'url(/vision_bg.webp)',
                                 backgroundSize: 'cover',
                                 backgroundPosition: 'center',
                                 filter: 'grayscale(100%) contrast(1.1)',
