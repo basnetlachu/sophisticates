@@ -25,6 +25,12 @@ body.light-mode {
   --nav-bg: rgba(255, 255, 255, 0.8);
 }
 
+/* SEO Anti-Bot-Black-Screen Fix */
+body.is-bot [style*="opacity: 0"] {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
 /* Logo Visibility - Force High Contrast */
 .flexible-logo {
   display: block;

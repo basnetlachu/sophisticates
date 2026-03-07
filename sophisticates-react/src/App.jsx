@@ -208,6 +208,17 @@ function App() {
   // Scroll to top on route change
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    // BATCH FIX: Googlebot / Crawler Detection for SEO
+    // Googlebot takes static snapshots quickly and doesn't scroll, 
+    // which leaves Framer Motion elements stuck at opacity: 0 and y: 50
+    // This adds a global class so we can force them visible instantly for bots
+    if (typeof window !== 'undefined') {
+      const isBot = /bot|googlebot|crawler|spider|robot|crawling/i.test(navigator.userAgent);
+      if (isBot) {
+        document.body.classList.add('is-bot');
+      }
+    }
   }, [pathname]);
 
   return (
