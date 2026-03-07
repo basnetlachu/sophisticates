@@ -3,14 +3,14 @@ import { motion } from 'framer-motion';
 
 const ValueProposition = () => {
     return (
-        <section className="section-padding" style={{ background: 'var(--bg-color)' }}>
+        <section className="section-padding" style={{ background: 'var(--bg-color)', borderTop: '1px solid var(--border-color)' }}>
             <div className="max-w-container">
                 <div style={{ textAlign: 'center', marginBottom: '80px' }}>
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        style={{ fontSize: '1rem', letterSpacing: '0.2em', color: 'var(--text-main)', opacity: 0.8, textTransform: 'uppercase' }}
+                        style={{ fontSize: 'clamp(0.85rem, 1.5vw, 1rem)', letterSpacing: '0.2em', color: 'var(--text-main)', opacity: 0.7, textTransform: 'uppercase' }}
                     >
              // Value Proposition
                     </motion.h2>

@@ -81,17 +81,17 @@ const Products = () => {
                         </motion.a>
 
                         <motion.button
-                            whileHover={{ scale: 1.05, opacity: 0.8 }}
+                            whileHover={{ scale: 1.05, backgroundColor: 'var(--text-main)', color: 'var(--bg-color)' }}
+                            whileTap={{ scale: 0.95 }}
                             style={{
                                 padding: 'clamp(12px, 2vw, 16px) clamp(24px, 4vw, 32px)',
-                                border: 'none',
+                                border: '1px solid var(--text-main)',
                                 background: 'transparent',
                                 color: 'var(--text-main)',
                                 fontSize: 'clamp(0.7rem, 1.2vw, 0.8rem)',
                                 textTransform: 'uppercase',
                                 letterSpacing: '2px',
                                 cursor: 'none',
-                                borderBottom: '1px solid var(--border-color)'
                             }}
                             onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
                         >

@@ -6,7 +6,7 @@ const About = () => {
     const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
 
     return (
-        <section id="about" ref={ref} className="section-padding" style={{ background: 'var(--bg-color)', position: 'relative' }}>
+        <section id="about" ref={ref} className="section-padding" style={{ background: 'var(--bg-color)', borderTop: '1px solid var(--border-color)', position: 'relative' }}>
             <div className="max-w-container">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}

@@ -23,16 +23,16 @@ const Values = () => {
     ];
 
     return (
-        <section id="values" className="section-padding" style={{ background: 'var(--bg-color)' }}>
+        <section id="values" className="section-padding" style={{ background: 'var(--bg-color)', borderTop: '1px solid var(--border-color)' }}>
             <div className="max-w-container">
                 <h2 style={{
                     fontFamily: 'Syne, sans-serif',
-                    fontSize: '1rem',
+                    fontSize: 'clamp(0.85rem, 1.5vw, 1rem)',
                     textTransform: 'uppercase',
                     letterSpacing: '0.2em',
                     marginBottom: '60px',
                     color: 'var(--text-main)',
-                    opacity: 0.8
+                    opacity: 0.7
                 }}>// Core Values</h2>
 
                 <div style={{ display: 'flex', flexDirection: 'column' }}>

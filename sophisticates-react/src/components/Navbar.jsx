@@ -56,10 +56,10 @@ const Navbar = () => {
 
     const handleRequestAccess = () => {
         setIsMenuOpen(false);
-        handleNavClick('hero');
+        handleNavClick('newsletter');
         setTimeout(() => {
-            const input = document.getElementById('early-access-email');
-            const form = document.getElementById('early-access-form');
+            const input = document.getElementById('newsletter-email');
+            const form = document.getElementById('newsletter-form');
             if (input && form) {
                 input.focus();
                 form.classList.add('pulse-highlight');

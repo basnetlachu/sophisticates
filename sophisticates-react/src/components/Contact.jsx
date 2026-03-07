@@ -79,7 +79,7 @@ const Contact = () => {
         setFormState('submitting');
 
         try {
-            const response = await fetch('http://localhost:3001/api/contact', {
+            const response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -224,7 +224,7 @@ const Contact = () => {
                                             setCountryDropdownOpen(true);
                                             if (formData.country) setFormData(prev => ({ ...prev, country: '' }));
                                         }}
-                                        style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '1px solid var(--border-color)', padding: '10px 0', color: (formData.country || countryDropdownOpen) ? 'var(--text-main)' : 'rgba(255,255,255,0.3)', outline: 'none', fontSize: 'clamp(1rem, 2vw, 1.1rem)', cursor: 'text' }}
+                                        style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '1px solid var(--border-color)', padding: '10px 0', color: (formData.country || countryDropdownOpen) ? 'var(--text-main)' : 'var(--text-muted)', outline: 'none', fontSize: 'clamp(1rem, 2vw, 1.1rem)', cursor: 'text' }}
                                         onFocus={(e) => { e.target.style.borderColor = 'var(--text-main)'; setCountryDropdownOpen(true); }}
                                     />
 
@@ -236,7 +236,7 @@ const Contact = () => {
                                                 exit={{ opacity: 0, y: -5 }}
                                                 style={{
                                                     position: 'absolute', top: '100%', left: 0, right: 0,
-                                                    background: '#0a0a0a', border: '1px solid var(--border-color)',
+                                                    background: 'var(--bg-color)', border: '1px solid var(--border-color)',
                                                     maxHeight: '220px', overflowY: 'auto', zIndex: 10,
                                                     marginTop: '5px', boxShadow: '0 10px 30px rgba(0,0,0,0.8)'
                                                 }}
