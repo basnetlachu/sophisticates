@@ -72,7 +72,7 @@ const Navbar = () => {
         const handleResize = () => {
             if (window.innerWidth > 1100) {
                 setIsMenuOpen(false);
-                document.body.style.overflow = 'unset';
+                document.body.style.overflow = '';
             }
         };
         window.addEventListener('resize', handleResize);
@@ -83,7 +83,7 @@ const Navbar = () => {
         if (isMenuOpen) {
             document.body.style.overflow = 'hidden';
         } else {
-            document.body.style.overflow = 'unset';
+            document.body.style.overflow = '';
         }
     }, [isMenuOpen]);
 
