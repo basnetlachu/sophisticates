@@ -1,79 +1,200 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 
 const UseCases = () => {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
+    const isInView = useInView(ref, { once: true, margin: "-20% 0px" });
+
+    const [isDesktop, setIsDesktop] = useState(true);
+    useEffect(() => {
+        const checkSize = () => setIsDesktop(window.innerWidth >= 1024);
+        checkSize();
+        window.addEventListener('resize', checkSize);
+        return () => window.removeEventListener('resize', checkSize);
+    }, []);
 
     const benefits = [
         {
             stat: "3.8x",
-            label: "Maximum Throughput Increase",
-            desc: "By aligning computation blocks with effective memory bandwidth."
+            label: "Throughput",
+            desc: "Critical alignment of computation blocks with effective memory bandwidth."
         },
         {
             stat: "Zero",
-            label: "Manual Tuning Required",
-            desc: "Algorithmic identification of bottlenecks across large-scale clusters."
+            label: "Manual Tuning",
+            desc: "Automatic algorithmic identification of architectural bottlenecks at scale."
         },
         {
             stat: "85%",
-            label: "Energy Optimization",
-            desc: "Reducing redundant data motion significantly lowers the power floor of deep learning inference."
+            label: "Energy Floor",
+            desc: "Reducing redundant data motion lowers the power requirement of inference."
         }
     ];
 
     return (
-        <section id="use-cases" ref={ref} className="section-padding" style={{ background: 'var(--bg-color)', borderTop: '1px solid var(--border-color)' }}>
+        <section id="use-cases" ref={ref} className="section-padding" style={{
+            background: 'var(--bg-color)',
+            position: 'relative',
+            paddingBottom: 'clamp(100px, 15vh, 180px)'
+        }}>
             <div className="max-w-container">
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 'clamp(40px, 10vw, 100px)' }} className="grid-stack-mobile">
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: isDesktop ? '1fr 1.8fr' : '1fr',
+                    gap: 'clamp(60px, 10vw, 140px)',
+                    alignItems: 'start'
+                }}>
 
                     {/* Header */}
-                    <div>
+                    <motion.div
+                        initial={{ opacity: 0, x: -30 }}
+                        animate={isInView ? { opacity: 1, x: 0 } : {}}
+                        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                        <div className="section-label-wrapper">
+                            <div className="section-label-line" />
+                            <span className="section-label">Impact</span>
+                        </div>
+
                         <h2 style={{
-                            fontFamily: 'Syne, sans-serif',
-                            fontSize: '1rem',
-                            letterSpacing: '0.2em',
-                            textTransform: 'uppercase',
+                            fontSize: 'clamp(1.9rem, 3vw, 2.4rem)',
                             color: 'var(--text-main)',
-                            marginBottom: '40px',
-                            opacity: 0.7
+                            lineHeight: '0.95',
+                            fontFamily: 'var(--font-display)',
+                            letterSpacing: '-0.05em',
+                            fontWeight: 400,
+                            margin: 0
                         }}>
-                // Benefits & Impact
+                            Structural <span className="text-accent" style={{ color: 'var(--text-dim)' }}>Efficiency</span> as a Metric.
                         </h2>
-                        <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
-                            We measure breakthrough not in incremental speed, but in structural efficiency. Our stack addresses the fundamental physical constraints of modern hardware.
+                        <p style={{ marginTop: '32px', fontSize: 'clamp(0.9rem, 1.2vw, 1.15rem)', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 300, lineHeight: 1.6, maxWidth: '400px' }}>
+                            Our stack addresses the fundamental physical constraints of modern hardware infrastructure by optimizing at the atomic level of instructions.
                         </p>
-                    </div>
+                    </motion.div>
 
                     {/* Stats Grid */}
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '24px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: isDesktop ? 'repeat(3, 1fr)' : '1fr', gap: '24px' }}>
                         {benefits.map((statItem, i) => (
                             <motion.div
                                 key={i}
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                                transition={{ delay: i * 0.2 }}
-                                style={{ padding: 'clamp(24px, 4vw, 40px)', border: '1px solid var(--border-color)', background: 'rgba(255,255,255,0.02)' }}
-                                onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--text-main)'}
-                                onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--border-color)'}
+                                className="glass-panel hover-target"
+                                initial={{ opacity: 0, y: 50 }}
+                                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                                transition={{ delay: 0.2 + (i * 0.15), duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                                style={{
+                                    padding: 'clamp(32px, 4vw, 48px)',
+                                    position: 'relative',
+                                    overflow: 'hidden',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    minHeight: '320px',
+                                    borderRadius: '2px',
+                                    border: '1px solid var(--border-color)'
+                                }}
                             >
-                                <span style={{ fontSize: 'clamp(2.5rem, 5vw, 3rem)', fontFamily: 'Syne, sans-serif', color: 'var(--text-main)', display: 'block', marginBottom: '10px' }}>{statItem.stat}</span>
-                                <span style={{ fontSize: '0.9rem', color: 'var(--text-main)', fontWeight: 600, display: 'block', marginBottom: '16px', letterSpacing: '1px', textTransform: 'uppercase' }}>{statItem.label}</span>
-                                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>{statItem.desc}</p>
+                                <span style={{
+                                    fontSize: 'clamp(2.6rem, 3vw, 3.3rem)',
+                                    fontFamily: 'var(--font-display)',
+                                    color: 'var(--text-main)',
+                                    display: 'block',
+                                    marginBottom: '16px',
+                                    lineHeight: 1,
+                                    letterSpacing: '-0.06em',
+                                    fontWeight: 400
+                                }}>
+                                    {statItem.stat}
+                                </span>
+                                <span style={{
+                                    fontSize: '0.65rem',
+                                    color: 'var(--text-dim)',
+                                    fontFamily: 'monospace',
+                                    display: 'block',
+                                    marginBottom: '24px',
+                                    letterSpacing: '0.25em',
+                                    textTransform: 'uppercase',
+                                    fontWeight: 600
+                                }}>
+                                    {statItem.label}
+                                </span>
+                                <p style={{
+                                    fontSize: '1rem',
+                                    color: 'var(--text-muted)',
+                                    margin: 0,
+                                    fontFamily: 'var(--font-body)',
+                                    lineHeight: '1.5',
+                                    fontWeight: 300,
+                                    marginTop: 'auto'
+                                }}>
+                                    {statItem.desc}
+                                </p>
+
+                                {/* Decorative indicator */}
+                                <div style={{
+                                    position: 'absolute', top: '24px', right: '24px',
+                                    width: '12px', height: '12px',
+                                    border: '1px solid var(--text-main)', opacity: 0.1
+                                }} />
                             </motion.div>
                         ))}
                     </div>
                 </div>
 
-                <div style={{ marginTop: 'clamp(60px, 10vw, 100px)', padding: 'clamp(30px, 6vw, 60px)', border: '1px solid var(--border-color)', textAlign: 'center' }}>
-                    <h3 style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', color: 'var(--text-main)', marginBottom: '30px' }}>Scaling Intelligence Safely</h3>
-                    <div style={{ maxWidth: '700px', margin: '0 auto' }}>
-                        <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)' }}>
-                            We don't just optimize for speed; we optimize for trust. Every layer of the Sophisticates stack includes telemetry for safety and ethical alignment, ensuring that as systems become more powerful, they remain intelligible to their creators.
+                {/* Call to Action Banner */}
+                <motion.div
+                    initial={{ opacity: 0, y: 80 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+                    viewport={{ once: true, margin: "-10% 0px" }}
+                    style={{
+                        marginTop: 'clamp(80px, 12vh, 120px)',
+                        padding: 'clamp(48px, 8vw, 80px)',
+                        textAlign: 'center',
+                        position: 'relative',
+                        overflow: 'hidden',
+                        borderRadius: '2px',
+                        border: '1px solid var(--border-color)',
+                        background: 'var(--grid-line)'
+                    }}
+                >
+                    <div className="mesh-gradient-bg" style={{ opacity: 0.05 }} />
+                    <h3 style={{
+                        fontSize: 'clamp(1.9rem, 3vw, 2.7rem)',
+                        color: 'var(--text-main)',
+                        marginBottom: '32px',
+                        fontFamily: 'var(--font-display)',
+                        letterSpacing: '-0.04em',
+                        fontWeight: 400,
+                        position: 'relative',
+                        zIndex: 1,
+                        lineHeight: 0.95
+                    }}>
+                        Scaling Intelligence <span className="text-accent" style={{ color: 'var(--text-dim)' }}>Safely</span>
+                    </h3>
+                    <div style={{ maxWidth: '800px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+                        <p style={{ fontSize: 'clamp(1.2rem, 1.5vw, 1.4rem)', color: 'var(--text-muted)', lineHeight: '1.7', fontFamily: 'var(--font-body)', fontWeight: 300 }}>
+                            We don't just optimize for speed; <span style={{ color: 'var(--text-main)' }}>we optimize for sovereignty.</span> Every layer of the Sophisticates stack contains specialized telemetry for safety and ethical alignment.
                         </p>
                     </div>
-                </div>
+
+                    {/* Background Visual Detail */}
+                    <div style={{
+                        position: 'absolute', top: '50%', left: '50%',
+                        width: '150%', height: '150%',
+                        background: 'radial-gradient(circle, var(--grid-line) 0%, transparent 60%)',
+                        transform: 'translate(-50%, -50%)',
+                        pointerEvents: 'none'
+                    }} />
+                </motion.div>
+            </div>
+
+            {/* Sector Decal */}
+            <div style={{
+                position: 'absolute', top: '50%', right: '-4%',
+                fontSize: '15rem', fontFamily: 'var(--font-display)',
+                color: 'var(--text-main)', opacity: 0.012, pointerEvents: 'none',
+                lineHeight: 1, fontWeight: 600, transform: 'rotate(90deg)'
+            }}>
+                METRICS
             </div>
         </section>
     );

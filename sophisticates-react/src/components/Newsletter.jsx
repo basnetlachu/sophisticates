@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 
 const Newsletter = () => {
     const [email, setEmail] = useState('');
     const [status, setStatus] = useState('idle');
+    const ref = React.useRef(null);
+    const isInView = useInView(ref, { once: true, margin: "-20% 0px" });
 
     const handleEarlyAccess = async (e) => {
         e.preventDefault();
@@ -32,63 +34,98 @@ const Newsletter = () => {
     };
 
     return (
-        <section id="newsletter" className="section-padding" style={{ background: 'var(--bg-color)', borderTop: '1px solid var(--border-color)', textAlign: 'center' }}>
-            <div className="max-w-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                <h2 style={{
-                    fontFamily: 'Syne, sans-serif',
-                    fontSize: 'clamp(2rem, 5vw, 3rem)',
-                    color: 'var(--text-main)',
-                    marginBottom: '10px',
-                    letterSpacing: '-0.02em',
-                }}>
-                    STAY AHEAD OF THE CURVE
-                </h2>
-                <p style={{ fontSize: 'clamp(1rem, 2vw, 1.2rem)', color: 'var(--text-muted)', marginBottom: 'clamp(30px, 5vh, 40px)', maxWidth: '600px' }}>
-                    Join the waitlist for exclusive first-wave access to our platform and updates on our frontier research.
-                </p>
+        <section id="newsletter" ref={ref} className="section-padding" style={{
+            background: 'var(--bg-color)',
+            position: 'relative',
+            overflow: 'hidden',
+            paddingTop: 'clamp(120px, 20vh, 200px)',
+            paddingBottom: 'clamp(120px, 20vh, 200px)'
+        }}>
+            <div className="mesh-gradient-bg" style={{ opacity: 0.05, top: 'auto', bottom: '-50%' }} />
 
-                <div style={{ width: '100%', maxWidth: '500px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div className="max-w-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 1 }}>
+
+                <motion.div
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+                    style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}
+                >
+                    <div className="section-label-wrapper" style={{ justifyContent: 'center' }}>
+                        <div className="section-label-line" />
+                        <span className="section-label">Priority Terminal</span>
+                        <div className="section-label-line" />
+                    </div>
+
+                    <h2 style={{
+                        fontFamily: 'var(--font-display)',
+                        fontSize: 'clamp(3rem, 6vw, 5.4rem)',
+                        color: 'var(--text-main)',
+                        marginBottom: '40px',
+                        letterSpacing: '-0.07em',
+                        lineHeight: '0.85',
+                        fontWeight: 400
+                    }}>
+                        Stay <span className="text-accent" style={{ color: 'var(--text-dim)' }}>Frontier.</span>
+                    </h2>
+                    <p style={{
+                        fontSize: 'clamp(1.1rem, 1.5vw, 1.3rem)',
+                        color: 'var(--text-muted)',
+                        marginBottom: 'clamp(60px, 10vh, 100px)',
+                        maxWidth: '640px',
+                        fontFamily: 'var(--font-body)',
+                        fontWeight: 300,
+                        lineHeight: 1.6
+                    }}>
+                        Request priority placement for first-wave integration. Gain exclusive visibility into our frontier research and infrastructure releases.
+                    </p>
+                </motion.div>
+
+                <div style={{ width: '100%', maxWidth: '720px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <AnimatePresence mode="wait">
                         {status === 'success' ? (
                             <motion.div
                                 key="success"
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.95 }}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                                className="glass-panel"
                                 style={{
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    gap: '10px',
-                                    color: 'var(--text-main)',
-                                    border: '1px solid var(--text-main)',
-                                    padding: 'clamp(14px, 2vh, 18px) clamp(20px, 4vw, 30px)',
-                                    fontFamily: 'Space Grotesk, sans-serif',
+                                    gap: '20px',
+                                    padding: '32px 64px',
+                                    fontFamily: 'var(--font-body)',
                                     textTransform: 'uppercase',
-                                    letterSpacing: '0.1em',
-                                    fontSize: 'clamp(0.85rem, 1.5vw, 1rem)',
+                                    letterSpacing: '0.3em',
+                                    fontSize: '0.85rem',
                                     width: '100%',
-                                    backgroundColor: 'var(--bg-color)'
+                                    borderColor: 'var(--border-color)',
+                                    fontWeight: 500,
+                                    borderRadius: '2px'
                                 }}
                             >
-                                <span style={{ fontSize: '1.2rem' }}>✓</span> ACCESS REQUEST RECEIVED
+                                <span style={{ fontSize: '1.2rem', color: 'var(--text-main)' }}>✓</span> <span>Access_Granted</span>
                             </motion.div>
                         ) : (
                             <motion.form
                                 id="newsletter-form"
                                 key="form"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                                exit={{ opacity: 0, y: -30 }}
+                                transition={{ delay: 0.2, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                                 onSubmit={handleEarlyAccess}
                                 style={{
                                     display: 'flex',
+                                    flexWrap: 'wrap',
                                     width: '100%',
                                     position: 'relative',
-                                    border: '1px solid var(--border-color)',
-                                    background: 'var(--bg-color)',
-                                    overflow: 'hidden',
-                                    transition: 'border-color 0.3s ease'
+                                    borderBottom: '1px solid var(--border-color)',
+                                    background: 'transparent',
+                                    transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                                    gap: '0'
                                 }}
                                 onFocus={(e) => e.currentTarget.style.borderColor = 'var(--text-main)'}
                                 onBlur={(e) => e.currentTarget.style.borderColor = 'var(--border-color)'}
@@ -97,26 +134,28 @@ const Newsletter = () => {
                                     id="newsletter-email"
                                     type="email"
                                     required
-                                    placeholder="ENTER EMAIL FOR EARLY ACCESS"
+                                    placeholder="email@company.com"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     disabled={status === 'submitting'}
+                                    className="hover-target"
                                     style={{
-                                        flex: 1,
-                                        padding: 'clamp(15px, 2vh, 20px) clamp(15px, 3vw, 20px)',
-                                        paddingRight: 'clamp(90px, 25vw, 140px)',
+                                        flex: '1 1 200px',
+                                        minWidth: 0,
+                                        padding: 'clamp(20px, 4vh, 32px) 0',
+                                        paddingRight: 'clamp(100px, 15vw, 180px)',
                                         backgroundColor: 'transparent',
                                         border: 'none',
                                         color: 'var(--text-main)',
                                         outline: 'none',
-                                        fontSize: 'clamp(0.75rem, 2.5vw, 1rem)',
-                                        fontFamily: 'Space Grotesk, sans-serif',
+                                        fontSize: 'clamp(0.95rem, 2vw, 1.4rem)',
+                                        fontFamily: 'var(--font-body)',
                                         letterSpacing: '0.1em',
-                                        textOverflow: 'ellipsis'
+                                        fontWeight: 300
                                     }}
                                 />
                                 <motion.button
-                                    whileHover={{ backgroundColor: 'var(--text-main)', color: 'var(--bg-color)' }}
+                                    whileHover={{ x: 10 }}
                                     whileTap={{ scale: 0.98 }}
                                     type="submit"
                                     disabled={status === 'submitting'}
@@ -125,26 +164,42 @@ const Newsletter = () => {
                                         right: '0',
                                         top: '0',
                                         bottom: '0',
-                                        width: 'clamp(80px, 20vw, 130px)',
                                         background: 'transparent',
                                         border: 'none',
-                                        borderLeft: '1px solid var(--border-color)',
                                         color: 'var(--text-main)',
-                                        fontSize: 'clamp(0.65rem, 2vw, 0.9rem)',
-                                        fontFamily: 'Space Grotesk, sans-serif',
+                                        fontSize: 'clamp(0.7rem, 1vw, 0.85rem)',
+                                        fontFamily: 'var(--font-body)',
                                         textTransform: 'uppercase',
-                                        letterSpacing: '0.1em',
+                                        letterSpacing: '0.3em',
                                         cursor: status === 'submitting' ? 'not-allowed' : 'pointer',
-                                        fontWeight: 'bold',
-                                        transition: 'background-color 0.3s ease, color 0.3s ease'
+                                        fontWeight: 500,
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '12px',
+                                        opacity: 0.5,
+                                        transition: 'opacity 0.4s',
+                                        whiteSpace: 'nowrap',
+                                        padding: '0'
                                     }}
+                                    onMouseEnter={e => e.currentTarget.style.opacity = 1}
+                                    onMouseLeave={e => e.currentTarget.style.opacity = 0.5}
                                 >
-                                    {status === 'submitting' ? '...' : (status === 'error' ? 'ERROR' : 'JOIN NOW')}
+                                    {status === 'submitting' ? '...' : (status === 'error' ? 'Error' : 'Subscribe →')}
                                 </motion.button>
                             </motion.form>
                         )}
                     </AnimatePresence>
                 </div>
+            </div>
+
+            {/* Aesthetic Detail */}
+            <div style={{
+                position: 'absolute', top: '20%', right: '-10%',
+                fontSize: '25rem', fontFamily: 'var(--font-display)',
+                color: 'var(--text-main)', opacity: 0.012, pointerEvents: 'none',
+                lineHeight: 1, fontWeight: 700, transform: 'rotate(15deg)'
+            }}>
+                NODE
             </div>
         </section>
     );

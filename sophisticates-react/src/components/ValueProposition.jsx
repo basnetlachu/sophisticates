@@ -1,73 +1,139 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 
 const ValueProposition = () => {
+    const [isDesktop, setIsDesktop] = useState(true);
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
+
+    useEffect(() => {
+        const checkSize = () => setIsDesktop(window.innerWidth >= 1024);
+        checkSize();
+        window.addEventListener('resize', checkSize);
+        return () => window.removeEventListener('resize', checkSize);
+    }, []);
+
     return (
-        <section className="section-padding" style={{ background: 'var(--bg-color)', borderTop: '1px solid var(--border-color)' }}>
+        <section id="values" ref={ref} className="section-padding" style={{ position: 'relative', overflow: 'hidden', paddingBottom: 'clamp(120px, 20vh, 200px)' }}>
             <div className="max-w-container">
-                <div style={{ textAlign: 'center', marginBottom: '80px' }}>
+                <div style={{ marginBottom: 'clamp(80px, 12vh, 120px)', maxWidth: '900px' }}>
+                    <div className="section-label-wrapper">
+                        <div className="section-label-line" />
+                        <motion.span
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={isInView ? { opacity: 1, x: 0 } : {}}
+                            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                            className="section-label"
+                        >
+                            Philosophy
+                        </motion.span>
+                    </div>
                     <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        style={{ fontSize: 'clamp(0.85rem, 1.5vw, 1rem)', letterSpacing: '0.2em', color: 'var(--text-main)', opacity: 0.7, textTransform: 'uppercase' }}
+                        initial={{ opacity: 0, y: 40 }}
+                        animate={isInView ? { opacity: 1, y: 0 } : {}}
+                        transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+                        style={{ fontSize: 'clamp(2.3rem, 4.2vw, 3.6rem)', fontWeight: 400, fontFamily: 'var(--font-display)', lineHeight: 0.95, letterSpacing: '-0.05em', margin: 0 }}
                     >
-             // Value Proposition
+                        Foundation of <span className="text-accent" style={{ color: 'var(--text-dim)' }}>Rigor</span>
                     </motion.h2>
                 </div>
 
                 <div style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(clamp(280px, 45vw, 350px), 1fr))', // Responsive grid
-                    gap: '1px',
-                    background: 'var(--border-color)', // Gap color
-                    border: '1px solid var(--border-color)',
+                    gridTemplateColumns: isDesktop ? 'repeat(12, 1fr)' : '1fr',
+                    gap: '24px',
                 }}>
                     {items.map((item, i) => (
-                        <BentoBox key={i} item={item} index={i} />
+                        <BentoBox key={i} item={item} index={i} isDesktop={isDesktop} isInView={isInView} />
                     ))}
                 </div>
             </div>
+
         </section>
     );
 };
 
-const BentoBox = ({ item, index }) => {
-    const [isHovered, setIsHovered] = useState(false);
+const BentoBox = ({ item, index, isDesktop, isInView }) => {
+    // Provide asymmetric grid spanning for desktop
+    const getGridColumn = () => {
+        if (!isDesktop) return 'span 1';
+        return item.span ? `span ${item.span}` : 'span 6';
+    };
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1, duration: 0.6 }}
-            viewport={{ once: true }}
-            onHoverStart={() => setIsHovered(true)}
-            onHoverEnd={() => setIsHovered(false)}
+            className="glass-panel hover-target"
+            initial={{ opacity: 0, y: 60 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.2 + (index * 0.1), duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             style={{
-                background: isHovered ? 'var(--accent)' : 'var(--bg-color)',
-                color: isHovered ? 'var(--bg-color)' : 'var(--text-main)',
-                padding: 'clamp(24px, 5vw, 50px)',
+                gridColumn: getGridColumn(),
+                padding: 'clamp(32px, 5vw, 48px)',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                minHeight: '320px',
+                minHeight: '380px',
                 position: 'relative',
                 overflow: 'hidden',
-                transition: 'background 0.3s ease, color 0.3s ease'
+                borderRadius: '2px',
+                border: '1px solid var(--border-color)'
             }}
         >
-            <div>
-                <h3 style={{ fontFamily: 'Syne, sans-serif', color: 'inherit', fontSize: '1.8rem', marginBottom: '16px', lineHeight: 1.1, transition: 'color 0.3s' }}>
-                    {item.title}
-                </h3>
-                <p style={{ fontSize: '0.95rem', color: isHovered ? 'var(--bg-color)' : 'var(--text-muted)', lineHeight: '1.6', transition: 'color 0.3s' }}>{item.desc}</p>
+            <div style={{ zIndex: 2, display: 'flex', flexDirection: 'column', height: '100%', position: 'relative' }}>
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-start',
+                    marginBottom: '40px'
+                }}>
+                    <div style={{
+                        fontSize: '0.7rem',
+                        fontFamily: 'var(--font-body)',
+                        color: 'var(--text-dim)',
+                        letterSpacing: '0.4em'
+                    }}>0{index + 1}</div>
+
+                    {item.visual && (
+                        <div style={{ opacity: 0.2, fontSize: '1.2rem' }}>
+                            {item.visual}
+                        </div>
+                    )}
+                </div>
+
+                <div style={{ marginTop: 'auto' }}>
+                    <h3 style={{
+                        fontFamily: 'var(--font-display)',
+                        color: 'var(--text-main)',
+                        fontSize: 'clamp(2.1rem, 3.2vw, 2.8rem)',
+                        marginBottom: '24px',
+                        lineHeight: 1,
+                        letterSpacing: '-0.04em',
+                        fontWeight: 400
+                    }}>
+                        {item.title}
+                    </h3>
+                    <p style={{
+                        fontSize: 'clamp(1.1rem, 1.3vw, 1.25rem)',
+                        color: 'var(--text-muted)',
+                        lineHeight: '1.7',
+                        maxWidth: '90%',
+                        fontFamily: 'var(--font-body)',
+                        fontWeight: 300
+                    }}>
+                        {item.desc}
+                    </p>
+                </div>
             </div>
 
-            {item.visual && (
-                <div style={{ marginTop: '40px', color: isHovered ? 'var(--bg-color)' : 'var(--text-main)', transition: 'color 0.3s' }}>
-                    {React.cloneElement(item.visual, { isHovered })}
-                </div>
-            )}
+            {/* Technical Detail */}
+            <div style={{
+                position: 'absolute',
+                top: 0, right: 0,
+                width: '100%', height: '100%',
+                opacity: 0.05,
+                pointerEvents: 'none',
+                background: 'radial-gradient(circle at 100% 0%, var(--grid-line) 0%, transparent 20%)'
+            }} />
         </motion.div>
     );
 };
@@ -75,29 +141,33 @@ const BentoBox = ({ item, index }) => {
 const items = [
     {
         title: "The Simplest Path",
-        desc: "We reduce complexity into the minimal set of variables that actually matter.",
-        visual: <div style={{ fontSize: '3rem', opacity: 0.4, textAlign: 'right' }}>↗</div>
+        desc: "We reduce complexity into the minimal set of variables that actually matter, ensuring clarity in every architectural decision.",
+        span: 7,
+        visual: <div style={{ fontFamily: 'var(--font-body)' }}>↗</div>
     },
     {
         title: "Actionable Intelligence",
-        desc: "We turn research-grade ideas into decisions and things that operate in reality.",
+        desc: "We turn research-grade ideas into decisions and things that operate in reality, bridging the gap between theory and execution.",
+        span: 5,
         visual: (
-            <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-end', height: '40px', opacity: 0.8 }}>
-                <motion.div initial={{ height: 0 }} whileInView={{ height: '40%' }} transition={{ delay: 0.5, duration: 1 }} style={{ width: '8px', background: 'currentColor' }} />
-                <motion.div initial={{ height: 0 }} whileInView={{ height: '90%' }} transition={{ delay: 0.7, duration: 1 }} style={{ width: '8px', background: 'currentColor' }} />
-                <motion.div initial={{ height: 0 }} whileInView={{ height: '60%' }} transition={{ delay: 0.9, duration: 1 }} style={{ width: '8px', background: 'currentColor' }} />
+            <div style={{ display: 'flex', gap: '4px', alignItems: 'flex-end', height: '16px' }}>
+                <div style={{ width: '2px', height: '40%', background: 'var(--text-main)' }} />
+                <div style={{ width: '2px', height: '70%', background: 'var(--text-main)' }} />
+                <div style={{ width: '2px', height: '100%', background: 'var(--text-main)' }} />
             </div>
         )
     },
     {
         title: "Resilient Systems",
-        desc: "We build architectures that endure: stable under stress, adaptive under change.",
-        visual: null
+        desc: "We build architectures that endure: stable under extreme stress, and infinitely adaptive under shifting computational loads.",
+        span: 5,
+        visual: <div style={{ fontFamily: 'var(--font-body)' }}>○</div>
     },
     {
         title: "Enduring Breakthroughs",
-        desc: "We pursue breakthroughs that survive contact with the real world.",
-        visual: null
+        desc: "We pursue breakthroughs that survive contact with the real world, ensuring long-term technical sovereignty for our partners.",
+        span: 7,
+        visual: <div style={{ fontFamily: 'var(--font-body)' }}>+</div>
     }
 ];
 

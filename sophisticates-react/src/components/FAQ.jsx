@@ -1,24 +1,34 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 
 const FAQ = () => {
     const [activeIndex, setActiveIndex] = useState(null);
+    const ref = React.useRef(null);
+    const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
+
+    const [isDesktop, setIsDesktop] = useState(true);
+    useEffect(() => {
+        const checkSize = () => setIsDesktop(window.innerWidth >= 1024);
+        checkSize();
+        window.addEventListener('resize', checkSize);
+        return () => window.removeEventListener('resize', checkSize);
+    }, []);
 
     const faqs = [
         {
-            question: "What specific enterprise solutions do you offer?",
+            question: "Technical integration scope?",
             answer: "We engineer customized, high-precision technical solutions tailored to systemic complexities in your architecture. Our focus spans from deep analytical modeling to deploying resilient, scalable frameworks suitable for the hardest frontiers."
         },
         {
-            question: "How does the partnership engagement model work?",
+            question: "Partnership model?",
             answer: "We operate on a mutual alignment principle. After initial transmission and review, we conduct a deep-dive analysis of your technical landscape. Engagements are structured as collaborative research and development partnerships rather than traditional vendor-client dynamics."
         },
         {
-            question: "Who is the ideal candidate for Sophisticates?",
+            question: "Ideal engagement profile?",
             answer: "We partner with organizations and visionary leaders who face unprecedented, highly complex technical challenges that standard off-the-shelf solutions cannot resolve. We require a commitment to precision and innovation."
         },
         {
-            question: "When will the Early Access program formally launch?",
+            question: "Early Access timeline?",
             answer: "Our core frameworks are currently undergoing rigorous closed-environment testing. Priority access will be granted in selective waves. Submitting an early access request puts you directly into the evaluation queue."
         }
     ];
@@ -28,116 +38,155 @@ const FAQ = () => {
     };
 
     return (
-        <section id="faq" className="section-padding" style={{
+        <section id="faq" ref={ref} className="section-padding" style={{
             background: 'var(--bg-color)',
-            borderTop: '1px solid var(--border-color)',
-            position: 'relative'
+            position: 'relative',
+            overflow: 'hidden'
         }}>
-            {/* Grid Background Subtlety */}
-            <div style={{
-                position: 'absolute', inset: 0,
-                backgroundImage: 'linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px)',
-                backgroundSize: '120px 120px',
-                maskImage: 'radial-gradient(circle at center, black 10%, transparent 60%)',
-                WebkitMaskImage: 'radial-gradient(circle at center, black 10%, transparent 60%)',
-                opacity: 0.5,
-                pointerEvents: 'none'
-            }} />
+            <div className="max-w-container" style={{ position: 'relative', zIndex: 1 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: isDesktop ? '1fr 1.5fr' : '1fr', gap: '80px' }}>
 
-            <div className="max-w-container">
-                <div style={{ textAlign: 'center', marginBottom: 'clamp(40px, 8vw, 80px)' }}>
-                    <h2 style={{
-                        fontFamily: 'Syne, sans-serif',
-                        fontSize: 'clamp(0.85rem, 1.5vw, 1rem)',
-                        letterSpacing: '0.2em',
-                        textTransform: 'uppercase',
-                        color: 'var(--text-muted)',
-                        marginBottom: '1rem'
-                    }}>
-                        // Knowledge Base
-                    </h2>
-                    <h3 style={{
-                        fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-                        fontFamily: 'Syne, sans-serif',
-                        color: 'var(--text-main)',
-                        letterSpacing: '-0.02em',
-                        lineHeight: '1.2'
-                    }}>
-                        Inquiries & Clarifications
-                    </h3>
-                </div>
-
-                <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-                    {faqs.map((faq, index) => (
-                        <div
-                            key={index}
-                            style={{
-                                borderBottom: '1px solid var(--border-color)',
-                                overflow: 'hidden'
-                            }}
+                    {/* Sticky Sidebar */}
+                    <div style={{ position: isDesktop ? 'sticky' : 'relative', top: '150px', height: 'fit-content' }}>
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                            viewport={{ once: true }}
                         >
-                            <button
-                                onClick={() => toggleAccordion(index)}
+                            <div className="section-label-wrapper">
+                                <div className="section-label-line" />
+                                <span className="section-label">Knowledge Base</span>
+                            </div>
+
+                            <h2 style={{
+                                fontSize: 'clamp(1.9rem, 3vw, 2.7rem)',
+                                fontFamily: 'var(--font-display)',
+                                color: 'var(--text-main)',
+                                letterSpacing: '-0.04em',
+                                lineHeight: '0.95',
+                                fontWeight: 400,
+                                marginBottom: '40px'
+                            }}>
+                                Inquiries & <br /><span className="text-accent">Clarifications</span>
+                            </h2>
+                            <p style={{ color: 'var(--text-muted)', fontSize: 'clamp(0.9rem, 1.2vw, 1.1rem)', maxWidth: '340px', fontFamily: 'var(--font-body)', fontWeight: 300, lineHeight: 1.6 }}>
+                                Essential information regarding the Sophisticates protocol and partnership framework.
+                            </p>
+                        </motion.div>
+                    </div>
+
+                    {/* FAQ Items */}
+                    <div>
+                        {faqs.map((faq, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: index * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                                viewport={{ once: true }}
                                 style={{
-                                    width: '100%',
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    padding: 'clamp(20px, 4vw, 30px) 0',
-                                    background: 'transparent',
-                                    border: 'none',
-                                    color: 'var(--text-main)',
-                                    textAlign: 'left',
-                                    cursor: 'pointer',
-                                    fontFamily: 'Space Grotesk, sans-serif',
-                                    fontSize: 'clamp(1rem, 2vw, 1.25rem)'
+                                    borderBottom: '1px solid var(--border-color)',
                                 }}
                             >
-                                <span style={{ paddingRight: '20px' }}>{faq.question}</span>
-                                <motion.span
-                                    animate={{ rotate: activeIndex === index ? 45 : 0 }}
-                                    transition={{ duration: 0.3, ease: 'backOut' }}
+                                <button
+                                    onClick={() => toggleAccordion(index)}
+                                    className="hover-target"
                                     style={{
-                                        display: 'flex',
-                                        justifyContent: 'center',
+                                        width: '100%',
+                                        display: 'grid',
+                                        gridTemplateColumns: 'minmax(40px, 60px) 1fr 40px',
                                         alignItems: 'center',
-                                        width: '24px',
-                                        height: '24px',
-                                        fontSize: '1.5rem',
-                                        flexShrink: 0
+                                        padding: 'clamp(32px, 5vw, 48px) 0',
+                                        background: 'transparent',
+                                        border: 'none',
+                                        color: 'var(--text-main)',
+                                        textAlign: 'left',
+                                        cursor: 'pointer',
+                                        fontSize: 'clamp(1.2rem, 2vw, 1.8rem)',
+                                        fontFamily: 'var(--font-display)',
+                                        letterSpacing: '-0.01em',
+                                        fontWeight: 400,
+                                        transition: 'all 0.3s ease'
                                     }}
                                 >
-                                    +
-                                </motion.span>
-                            </button>
-
-                            <AnimatePresence>
-                                {activeIndex === index && (
+                                    <span style={{
+                                        fontFamily: 'monospace',
+                                        fontSize: '0.8rem',
+                                        color: 'var(--text-dim)',
+                                        opacity: activeIndex === index ? 1 : 0.4
+                                    }}>
+                                        0{index + 1}
+                                    </span>
+                                    <span style={{
+                                        paddingRight: '20px',
+                                        color: activeIndex === index ? 'var(--text-main)' : 'var(--text-muted)',
+                                        transition: 'color 0.4s var(--ease-out-expo)'
+                                    }}>
+                                        {faq.question}
+                                    </span>
                                     <motion.div
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{ height: 'auto', opacity: 1 }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                                        animate={{ rotate: activeIndex === index ? 135 : 0 }}
+                                        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                                        style={{
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            fontSize: '1.5rem',
+                                            color: activeIndex === index ? 'var(--text-main)' : 'var(--text-dim)'
+                                        }}
                                     >
-                                        <div style={{
-                                            paddingBottom: 'clamp(20px, 4vw, 30px)',
-                                            color: 'var(--text-muted)',
-                                            fontFamily: 'Space Grotesk, sans-serif',
-                                            fontSize: 'clamp(0.9rem, 1.5vw, 1.1rem)',
-                                            lineHeight: '1.6',
-                                            maxWidth: '90%'
-                                        }}>
-                                            {faq.answer}
-                                        </div>
+                                        +
                                     </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
-                    ))}
+                                </button>
+
+                                <AnimatePresence initial={false}>
+                                    {activeIndex === index && (
+                                        <motion.div
+                                            initial={{ height: 0, opacity: 0 }}
+                                            animate={{ height: 'auto', opacity: 1 }}
+                                            exit={{ height: 0, opacity: 0 }}
+                                            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                                        >
+                                            <div style={{
+                                                padding: '0 0 clamp(32px, 6vw, 56px) clamp(40px, 6vw, 60px)',
+                                                color: 'var(--text-muted)',
+                                                fontFamily: 'var(--font-body)',
+                                                fontSize: 'clamp(0.9rem, 1.2vw, 1.1rem)',
+                                                lineHeight: '1.7',
+                                                fontWeight: 300,
+                                                maxWidth: '600px'
+                                            }}>
+                                                {faq.answer}
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </motion.div>
+                        ))}
+                    </div>
+
                 </div>
+            </div>
+
+            {/* Background branding detail */}
+            <div style={{
+                position: 'absolute',
+                bottom: 0,
+                right: '5%',
+                fontSize: '15vw',
+                fontFamily: 'var(--font-display)',
+                color: 'var(--text-main)',
+                opacity: 0.015,
+                fontWeight: 900,
+                pointerEvents: 'none',
+                zIndex: 0
+            }}>
+                FAQ
             </div>
         </section>
     );
 };
 
 export default FAQ;
+

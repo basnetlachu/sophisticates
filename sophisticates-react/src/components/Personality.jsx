@@ -1,74 +1,119 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, useInView } from 'framer-motion';
 
 const Personality = () => {
-    const [hoveredIndex, setHoveredIndex] = useState(null);
+    const ref = React.useRef(null);
+    const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
 
     const personality = [
-        { index: '01', title: 'Visionary yet Grounded', desc: 'We think beyond the horizon and prove it step by step.' },
-        { index: '02', title: 'Boldly Innovative', desc: 'We take big swings with rigorous methods, measurable outcomes, and zero shortcuts.' },
-        { index: '03', title: 'Precisely Intelligent', desc: 'We explain complex ideas cleanly, build systems that withstand scrutiny, and communicate truthfully.' },
-        { index: '04', title: 'Human-Centered', desc: 'We design for people and the real world, with safety, ethics, and long-term impact built in.' }
+        { index: '01', title: 'Visionary Yet Grounded', desc: 'We think beyond the horizon and prove it step by step.', size: 'large' },
+        { index: '02', title: 'Boldly Innovative', desc: 'Big swings with rigorous methods and zero shortcuts.', size: 'small' },
+        { index: '03', title: 'Precisely Intelligent', desc: 'Clean models for complex ideas.', size: 'small' },
+        { index: '04', title: 'Human Centered', desc: 'Safety and ethics as a hard instruction.', size: 'medium' }
     ];
 
     return (
-        <section className="section-padding" style={{ background: 'var(--bg-color)', borderTop: '1px solid var(--border-color)' }}>
+        <section ref={ref} className="section-padding" style={{ background: 'var(--bg-color-secondary)', position: 'relative', overflow: 'hidden' }}>
             <div className="max-w-container">
-                <h2 style={{
-                    fontFamily: 'Syne, sans-serif',
-                    fontSize: 'clamp(0.85rem, 1.5vw, 1rem)',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.2em',
-                    marginBottom: '60px',
-                    color: 'var(--text-main)',
-                    opacity: 0.7
-                }}>// Brand Personality</h2>
+                <div style={{ marginBottom: '80px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '40px' }}>
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                        viewport={{ once: true }}
+                    >
+                        <div className="section-label-wrapper">
+                            <div className="section-label-line" />
+                            <span className="section-label">Identity</span>
+                        </div>
+                        <h2 style={{ fontSize: 'clamp(2.3rem, 4.2vw, 3.6rem)', lineHeight: '0.95', maxWidth: '600px' }}>
+                            Character of the <span className="text-accent">Protocol</span>.
+                        </h2>
+                    </motion.div>
 
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        transition={{ delay: 0.5, duration: 1 }}
+                        viewport={{ once: true }}
+                        style={{ maxWidth: '400px', fontSize: '1.1rem', color: 'var(--text-muted)', marginBottom: '10px' }}
+                    >
+                        Our personality is a mirror of our methodology: precise, ambitious, and relentlessly focused on the core.
+                    </motion.p>
+                </div>
+
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(12, 1fr)',
+                    gap: '24px',
+                    gridAutoRows: 'minmax(200px, auto)'
+                }} className="personality-grid">
                     {personality.map((item, i) => (
                         <motion.div
                             key={i}
-                            onMouseEnter={() => setHoveredIndex(i)}
-                            onMouseLeave={() => setHoveredIndex(null)}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ delay: i * 0.1 }}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: i * 0.1, duration: 1, ease: [0.16, 1, 0.3, 1] }}
                             viewport={{ once: true }}
+                            className="glass-panel"
                             style={{
-                                borderTop: '1px solid var(--border-color)',
-                                padding: '40px 0',
-                                display: 'grid',
-                                gridTemplateColumns: 'minmax(50px, 80px) 1.5fr 3fr',
-                                gap: '24px',
-                                alignItems: 'baseline',
-                                transition: 'all 0.4s ease',
-                                opacity: hoveredIndex !== null && hoveredIndex !== i ? 0.3 : 1,
+                                gridColumn: item.size === 'large' ? 'span 8' : item.size === 'medium' ? 'span 6' : 'span 4',
+                                padding: 'clamp(32px, 5vw, 48px)',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'space-between',
+                                minHeight: '300px',
+                                border: '1px solid var(--border-color)'
                             }}
-                            className="grid-stack-mobile"
                         >
-                            <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '0.9rem', color: 'var(--text-muted)' }}>{item.index}</span>
-                            <h3
-                                style={{
-                                    fontFamily: 'Syne, sans-serif',
-                                    fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
-                                    margin: 0,
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                                <span style={{ fontFamily: 'monospace', fontSize: '0.75rem', color: 'var(--text-dim)', letterSpacing: '0.2em' }}>[{item.index}]</span>
+                                <div style={{ width: '8px', height: '8px', border: '1px solid var(--text-dim)', borderRadius: '1px' }} />
+                            </div>
+
+                            <div>
+                                <h3 style={{
+                                    fontFamily: 'var(--font-display)',
+                                    fontSize: item.size === 'large' ? 'clamp(1.9rem, 3vw, 2.4rem)' : 'clamp(1.8rem, 3vw, 2.5rem)',
                                     color: 'var(--text-main)',
-                                    transform: hoveredIndex === i ? 'translateX(10px)' : 'translateX(0)',
-                                    transition: 'transform 0.3s ease'
-                                }}
-                            >
-                                {item.title}
-                            </h3>
-                            <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)', maxWidth: '600px', lineHeight: '1.6' }}>
-                                {item.desc}
-                            </p>
+                                    marginBottom: '24px',
+                                    lineHeight: 1,
+                                    letterSpacing: '-0.02em',
+                                    fontWeight: 400
+                                }}>
+                                    {item.title}
+                                </h3>
+                                <p style={{
+                                    fontSize: 'clamp(1rem, 1.2vw, 1.2rem)',
+                                    color: 'var(--text-muted)',
+                                    lineHeight: '1.5',
+                                    fontFamily: 'var(--font-body)',
+                                    fontWeight: 300,
+                                    margin: 0,
+                                    maxWidth: '400px'
+                                }}>
+                                    {item.desc}
+                                </p>
+                            </div>
                         </motion.div>
                     ))}
-                    <div style={{ borderTop: '1px solid var(--border-color)' }} />
                 </div>
             </div>
+
+            {/* Background Texture */}
+            <div style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                backgroundImage: 'radial-gradient(circle at 70% 30%, var(--grid-line) 0%, transparent 60%)',
+                pointerEvents: 'none',
+                zIndex: 0
+            }} />
         </section>
     );
 };
 
 export default Personality;
+

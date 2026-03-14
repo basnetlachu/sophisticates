@@ -1,105 +1,136 @@
-import React, { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 
 const Products = () => {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
+    const isInView = useInView(ref, { once: true, margin: "-20% 0px" });
+    const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+
+    // Advanced parallax depth
+    const imageY = useTransform(scrollYProgress, [0, 1], [-100, 100]);
+    const titleX = useTransform(scrollYProgress, [0, 1], [0, -50]);
+
+    const [isDesktop, setIsDesktop] = useState(true);
+    useEffect(() => {
+        const checkSize = () => setIsDesktop(window.innerWidth >= 1024);
+        checkSize();
+        window.addEventListener('resize', checkSize);
+        return () => window.removeEventListener('resize', checkSize);
+    }, []);
 
     return (
-        <section id="products" ref={ref} style={{ background: 'var(--bg-color)', borderTop: '1px solid var(--border-color)', display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 0 }} className="grid-stack-mobile">
-
-            {/* Left Column: Visual/Title */}
-            <div style={{ padding: 'clamp(40px, 8vw, 100px) var(--container-padding)', borderRight: '1px solid var(--border-color)' }} className="mobile-no-border">
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={isInView ? { opacity: 1 } : {}}
-                    transition={{ duration: 1 }}
-                >
-                    <h2 style={{
-                        fontFamily: 'Syne, sans-serif',
-                        fontSize: 'clamp(0.85rem, 1.5vw, 1rem)',
-                        letterSpacing: '0.2em',
-                        textTransform: 'uppercase',
-                        color: 'var(--text-main)',
-                        marginBottom: 'clamp(30px, 5vw, 40px)'
-                    }}>
-                        // 02. Products
-                    </h2>
-
-                    <div style={{ position: 'relative', marginTop: 'clamp(40px, 8vw, 60px)' }}>
-                        <img src="/memopt-visual.webp" alt="Memopt Architecture" loading="lazy" decoding="async" style={{ width: '100%', maxWidth: '100%', height: 'auto', opacity: 0.8, filter: 'grayscale(100%)' }} />
-                        <div style={{ position: 'absolute', bottom: -20, left: 0, fontSize: 'clamp(0.5rem, 1vw, 0.6rem)', fontFamily: 'monospace', color: 'var(--text-muted)', letterSpacing: '0.1em' }}>
-                            CORE_KERNEL_TRAFFIC_OPTIMIZER_VIRTUAL
+        <section id="products" ref={ref} style={{
+            padding: 'clamp(120px, 20vh, 200px) 0',
+            background: 'var(--bg-color)',
+            position: 'relative',
+            overflow: 'hidden'
+        }}>
+            <div className="max-w-container">
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: isDesktop ? '1fr 1.2fr' : '1fr',
+                    gap: 'clamp(80px, 12vw, 160px)',
+                    alignItems: 'start'
+                }}>
+                    {/* Visual Side */}
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.98 }}
+                        animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                        transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+                        style={{ position: 'relative', height: '100%', paddingTop: isDesktop ? '15vh' : '0' }}
+                    >
+                        <div className="glass-panel" style={{
+                            padding: 'clamp(32px, 5vw, 48px)',
+                            overflow: 'hidden',
+                            position: 'relative',
+                            borderRadius: '4px',
+                            border: '1px solid var(--border-color)'
+                        }}>
+                            <motion.img
+                                src="/memopt-visual.webp"
+                                alt="Memopt Architecture"
+                                className="hover-target"
+                                style={{
+                                    width: '100%',
+                                    height: 'auto',
+                                    display: 'block',
+                                    y: imageY,
+                                    filter: 'grayscale(100%) contrast(1.1) brightness(0.6)',
+                                    scale: 1.3
+                                }}
+                            />
+                            {/* Inner abstract glow */}
+                            <div style={{
+                                position: 'absolute', inset: 0,
+                                background: 'radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.4) 110%)',
+                                zIndex: 1, pointerEvents: 'none'
+                            }} />
                         </div>
-                    </div>
-                </motion.div>
+
+                    </motion.div>
+
+                    {/* Content Side */}
+                    <motion.div
+                        initial={{ opacity: 0, x: 30 }}
+                        animate={isInView ? { opacity: 1, x: 0 } : {}}
+                        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+                    >
+                        <div className="section-label-wrapper">
+                            <div className="section-label-line" />
+                            <span className="section-label">Primary Infrastructure</span>
+                        </div>
+
+                        <motion.h3 style={{
+                            fontSize: 'clamp(1.5rem, 2.8vw, 2.4rem)',
+                            fontFamily: 'var(--font-display)',
+                            color: 'var(--text-main)',
+                            margin: '0 0 10px -5px',
+                            lineHeight: 0.8,
+                            letterSpacing: '-0.06em',
+                            x: titleX
+                        }}>
+                            MEMOPT
+                        </motion.h3>
+
+                        <p style={{
+                            fontFamily: 'var(--font-accent)',
+                            fontStyle: 'italic',
+                            fontSize: 'clamp(1.4rem, 2.5vw, 2.5rem)',
+                            color: 'var(--text-muted)',
+                            marginBottom: '60px',
+                            marginTop: 10,
+                            letterSpacing: '-0.02em'
+                        }}>
+                            Intelligent Memory Orchestration
+                        </p>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '40px', marginBottom: '60px' }}>
+                            <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '32px' }}>
+                                <h4 style={{ fontSize: '0.7rem', fontFamily: 'var(--font-body)', color: 'var(--text-dim)', textTransform: 'uppercase', marginBottom: '20px', letterSpacing: '0.2em' }}>The Pipeline</h4>
+                                <p style={{ fontSize: 'clamp(1rem, 1.25vw, 1.3rem)', fontFamily: 'var(--font-body)', color: 'var(--text-muted)', lineHeight: '1.6', margin: 0, fontWeight: 300 }}>
+                                    Automated multi-stage orchestration that <span style={{ color: 'var(--text-main)', fontWeight: 400 }}>profiles</span> architectural traffic, <span style={{ color: 'var(--text-main)', fontWeight: 400 }}>attributes</span> deep bottlenecks, and <span style={{ color: 'var(--text-main)', fontWeight: 400 }}>optimizes</span> execution sequences in real-time.
+                                </p>
+                            </div>
+                            <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '32px' }}>
+                                <h4 style={{ fontSize: '0.7rem', fontFamily: 'var(--font-body)', color: 'var(--text-dim)', textTransform: 'uppercase', marginBottom: '20px', letterSpacing: '0.2em' }}>The Unlock</h4>
+                                <p style={{ fontSize: 'clamp(0.9rem, 1.2vw, 1.15rem)', fontFamily: 'var(--font-body)', color: 'var(--text-muted)', lineHeight: '1.7', margin: 0, fontWeight: 300 }}>
+                                    A significant efficiency protocol via total elimination of cache thrashing and redundant data movement, delivering raw performance at scale.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+                            <button className="btn-premium hover-target" onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}>
+                                Priority Access
+                            </button>
+                            <a href="https://memopt.com" target="_blank" rel="noopener noreferrer" className="btn-outline hover-target">
+                                Specification
+                            </a>
+                        </div>
+                    </motion.div>
+                </div>
             </div>
 
-            {/* Right Column: Detailed Info */}
-            <div style={{ padding: 'clamp(40px, 8vw, 100px) var(--container-padding)' }}>
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.8 }}
-                >
-                    <span style={{ fontSize: 'clamp(0.65rem, 1.2vw, 0.75rem)', fontFamily: 'monospace', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.2em' }}>
-                        Memory Management Layer
-                    </span>
-                    <h3 style={{ fontSize: 'clamp(2rem, 6vw, 5rem)', fontFamily: 'Syne, sans-serif', color: 'var(--text-main)', marginTop: '10px', marginBottom: 'clamp(30px, 5vw, 40px)' }}>
-                        MEMOPT
-                    </h3>
-
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(24px, 4vw, 32px)' }}>
-                        <div style={{ borderLeft: '2px solid var(--text-main)', paddingLeft: 'clamp(16px, 3vw, 24px)' }}>
-                            <h4 style={{ fontSize: 'clamp(0.8rem, 1.5vw, 0.9rem)', color: 'var(--text-main)', textTransform: 'uppercase', marginBottom: '8px' }}>Mechanism</h4>
-                            <p style={{ fontSize: 'clamp(0.9rem, 1.5vw, 1rem)', color: 'var(--text-muted)', lineHeight: '1.6' }}>Automated 3-step pipeline: Profiles traffic, Attributes bottlenecks, and Optimizes execution sequences.</p>
-                        </div>
-                        <div style={{ borderLeft: '2px solid var(--text-muted)', paddingLeft: 'clamp(16px, 3vw, 24px)' }}>
-                            <h4 style={{ fontSize: 'clamp(0.8rem, 1.5vw, 0.9rem)', color: 'var(--text-main)', textTransform: 'uppercase', marginBottom: '8px' }}>Outcome</h4>
-                            <p style={{ fontSize: 'clamp(0.9rem, 1.5vw, 1rem)', color: 'var(--text-muted)', lineHeight: '1.6' }}>Significant speedup (1.1x - 3.8x) by eliminating cache thrashing and redundant data fetches.</p>
-                        </div>
-                    </div>
-
-                    <div style={{ marginTop: 'clamp(40px, 6vw, 50px)', display: 'flex', gap: 'clamp(15px, 3vw, 20px)', alignItems: 'center', flexWrap: 'wrap' }}>
-                        <motion.a
-                            href="https://memopt.com"
-                            whileHover={{ scale: 1.05, backgroundColor: 'var(--text-main)', color: 'var(--bg-color)' }}
-                            whileTap={{ scale: 0.95 }}
-                            style={{
-                                display: 'inline-block',
-                                border: '1px solid var(--text-main)',
-                                padding: 'clamp(12px, 2vw, 16px) clamp(24px, 4vw, 32px)',
-                                fontSize: 'clamp(0.7rem, 1.2vw, 0.8rem)',
-                                letterSpacing: '2px',
-                                textTransform: 'uppercase',
-                                background: 'transparent',
-                                color: 'var(--text-main)',
-                                cursor: 'none'
-                            }}
-                        >
-                            Access Architecture
-                        </motion.a>
-
-                        <motion.button
-                            whileHover={{ scale: 1.05, backgroundColor: 'var(--text-main)', color: 'var(--bg-color)' }}
-                            whileTap={{ scale: 0.95 }}
-                            style={{
-                                padding: 'clamp(12px, 2vw, 16px) clamp(24px, 4vw, 32px)',
-                                border: '1px solid var(--text-main)',
-                                background: 'transparent',
-                                color: 'var(--text-main)',
-                                fontSize: 'clamp(0.7rem, 1.2vw, 0.8rem)',
-                                textTransform: 'uppercase',
-                                letterSpacing: '2px',
-                                cursor: 'none',
-                            }}
-                            onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
-                        >
-                            Contact Sales
-                        </motion.button>
-                    </div>
-                </motion.div>
-            </div>
         </section>
     );
 };

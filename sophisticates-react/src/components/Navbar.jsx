@@ -65,10 +65,9 @@ const Navbar = () => {
                 form.classList.add('pulse-highlight');
                 setTimeout(() => form.classList.remove('pulse-highlight'), 1200);
             }
-        }, 800); // Wait for the scroll to finish
+        }, 800);
     };
 
-    // Close menu when resizing to desktop
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth > 1100) {
@@ -80,7 +79,6 @@ const Navbar = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // Prevent scroll when menu is open
     useEffect(() => {
         if (isMenuOpen) {
             document.body.style.overflow = 'hidden';
@@ -94,7 +92,7 @@ const Navbar = () => {
             <motion.header
                 initial={{ y: -100 }}
                 animate={{ y: 0 }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                 style={{
                     position: 'fixed',
                     top: 0,
@@ -102,9 +100,9 @@ const Navbar = () => {
                     width: '100%',
                     zIndex: 2000,
                     background: 'var(--nav-bg)',
-                    backdropFilter: 'blur(10px)',
+                    backdropFilter: 'blur(20px) saturate(180%)',
                     borderBottom: '1px solid var(--border-color)',
-                    height: 'clamp(64px, 10vh, 80px)',
+                    height: 'clamp(64px, 10vh, 90px)',
                     display: 'flex',
                     alignItems: 'center'
                 }}
@@ -117,7 +115,7 @@ const Navbar = () => {
                 }}>
                     <Link
                         to="/"
-                        className="logo"
+                        className="hover-target"
                         onClick={handleLogoClick}
                         style={{
                             cursor: 'pointer',
@@ -135,13 +133,12 @@ const Navbar = () => {
                             alt="Sophisticates"
                             className="flexible-logo"
                             animate={{ rotate: 360 }}
-                            transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                            whileHover={{ scale: 1.15 }}
-                            whileTap={{ scale: 0.95 }}
+                            transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+                            whileHover={{ scale: 1.1 }}
                             style={{
-                                height: 'clamp(28px, 8vw, 40px)',
+                                height: 'clamp(32px, 8vw, 44px)',
                                 width: 'auto',
-                                maxWidth: '140px',
+                                maxWidth: '160px',
                                 objectFit: 'contain',
                                 transformOrigin: 'center'
                             }}
@@ -149,65 +146,61 @@ const Navbar = () => {
                     </Link>
 
                     {/* Right Side Actions */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(8px, 2vw, 16px)', flexShrink: 0 }}>
-
-                        {/* Theme Toggle */}
-                        <motion.button
-                            onClick={toggleTheme}
-                            whileTap={{ scale: 0.9 }}
-                            style={{
-                                padding: 0,
-                                cursor: 'pointer',
-                                border: '1px solid var(--border-color)',
-                                borderRadius: '50%',
-                                width: '32px',
-                                height: '32px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                color: 'var(--text-main)',
-                                fontSize: '0.9rem',
-                                background: 'transparent',
-                                flexShrink: 0
-                            }}
-                        >
-                            {isDarkMode ? '☼' : '☾'}
-                        </motion.button>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(12px, 2vw, 32px)', flexShrink: 0 }}>
 
                         {/* Desktop Navigation Links */}
-                        <nav className="desktop-only" style={{ display: 'flex', gap: 'clamp(10px, 1.8vw, 24px)', alignItems: 'center', flexShrink: 1 }}>
+                        <nav className="desktop-only" style={{ display: 'flex', gap: 'clamp(16px, 2.2vw, 32px)', alignItems: 'center', flexShrink: 1 }}>
                             {menuItems.map((item) => (
                                 <NavLink key={item.name} item={item.name} id={item.id} onClick={() => handleNavClick(item.id)} />
                             ))}
                         </nav>
 
-                        {/* Desktop Request Access Button */}
-                        <motion.button
-                            className="desktop-only"
-                            whileHover={{ scale: 1.05, backgroundColor: 'var(--text-main)', color: 'var(--bg-color)' }}
-                            whileTap={{ scale: 0.95 }}
-                            style={{
-                                padding: '8px 16px',
-                                backgroundColor: 'transparent',
-                                border: '1px solid var(--text-main)',
-                                color: 'var(--text-main)',
-                                borderRadius: '2px',
-                                fontSize: '0.7rem',
-                                fontFamily: 'Space Grotesk, sans-serif',
-                                textTransform: 'uppercase',
-                                letterSpacing: '0.1em',
-                                cursor: 'pointer',
-                                flexShrink: 0,
-                                whiteSpace: 'nowrap'
-                            }}
-                            onClick={handleRequestAccess}
-                        >
-                            Request Access
-                        </motion.button>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                            {/* Theme Toggle */}
+                            <motion.button
+                                onClick={toggleTheme}
+                                whileTap={{ scale: 0.9 }}
+                                className="hover-target"
+                                style={{
+                                    padding: 0,
+                                    cursor: 'pointer',
+                                    border: '1px solid var(--border-color)',
+                                    borderRadius: '50%',
+                                    width: '38px',
+                                    height: '38px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    color: 'var(--text-main)',
+                                    fontSize: '0.9rem',
+                                    background: 'transparent',
+                                    flexShrink: 0,
+                                    transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+                                }}
+                                onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--grid-line)'; e.currentTarget.style.borderColor = 'var(--text-dim)'; }}
+                                onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'var(--border-color)'; }}
+                            >
+                                {isDarkMode ? '☼' : '☾'}
+                            </motion.button>
+
+                            {/* Desktop Request Access Button */}
+                            <motion.button
+                                className="desktop-only hover-target btn-premium"
+                                style={{
+                                    padding: '12px 28px',
+                                    fontSize: '0.75rem',
+                                    flexShrink: 0,
+                                    borderRadius: '2px'
+                                }}
+                                onClick={handleRequestAccess}
+                            >
+                                Request Access
+                            </motion.button>
+                        </div>
 
                         {/* Mobile Menu Trigger */}
                         <div
-                            className="mobile-only"
+                            className="mobile-only hover-target"
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
                             style={{
                                 display: 'flex',
@@ -255,7 +248,7 @@ const Navbar = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3 }}
+                        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                         style={{
                             position: 'fixed',
                             inset: 0,
@@ -266,7 +259,7 @@ const Navbar = () => {
                             alignItems: 'center',
                             justifyContent: 'center',
                             padding: '80px 40px 40px',
-                            gap: '40px'
+                            gap: '60px'
                         }}
                     >
                         <nav style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '32px' }}>
@@ -276,16 +269,17 @@ const Navbar = () => {
                                     href={`#${item.id}`}
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: i * 0.05 + 0.1 }}
+                                    transition={{ delay: i * 0.05 + 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                                     onClick={(e) => { e.preventDefault(); handleNavClick(item.id); }}
+                                    className="hover-target"
                                     style={{
-                                        fontSize: '1.8rem',
-                                        fontFamily: 'Syne, sans-serif',
+                                        fontSize: 'clamp(1.7rem, 6.4vw, 2.4rem)',
+                                        fontFamily: 'var(--font-display)',
                                         color: 'var(--text-main)',
                                         textDecoration: 'none',
                                         textTransform: 'uppercase',
                                         letterSpacing: '0.1em',
-                                        fontWeight: 600
+                                        fontWeight: 400
                                     }}
                                 >
                                     {item.name}
@@ -296,27 +290,19 @@ const Navbar = () => {
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.5 }}
-                            style={{ width: '100%', maxWidth: '300px', marginTop: '20px' }}
+                            transition={{ delay: 0.5, duration: 1 }}
+                            style={{ width: '100%', maxWidth: '300px' }}
                         >
                             <motion.button
-                                whileTap={{ scale: 0.95 }}
+                                className="btn-premium hover-target"
                                 style={{
                                     width: '100%',
-                                    padding: '16px',
-                                    backgroundColor: 'var(--text-main)',
-                                    color: 'var(--bg-color)',
-                                    border: 'none',
-                                    borderRadius: '4px',
-                                    fontSize: '0.9rem',
-                                    fontFamily: 'Space Grotesk, sans-serif',
-                                    textTransform: 'uppercase',
-                                    letterSpacing: '0.15em',
-                                    fontWeight: 700
+                                    padding: '20px',
+                                    fontSize: '0.85rem'
                                 }}
                                 onClick={handleRequestAccess}
                             >
-                                Request Early Access
+                                Request Access
                             </motion.button>
                         </motion.div>
 
@@ -324,13 +310,13 @@ const Navbar = () => {
                         <div style={{
                             position: 'absolute',
                             bottom: '40px',
-                            fontFamily: 'monospace',
-                            fontSize: '0.6rem',
-                            opacity: 0.3,
+                            fontFamily: 'var(--font-body)',
+                            fontSize: '0.65rem',
+                            opacity: 0.2,
                             color: 'var(--text-main)',
-                            letterSpacing: '0.5em'
+                            letterSpacing: '0.6em'
                         }}>
-                            SOPHISTICATES_V1.1
+                            SOPHISTICATES
                         </div>
                     </motion.div>
                 )}
@@ -344,30 +330,32 @@ const NavLink = ({ item, id, onClick }) => {
     return (
         <a
             href={`#${id}`}
-            style={{ textDecoration: 'none', position: 'relative', display: 'flex', alignItems: 'center' }}
+            className="hover-target"
+            style={{ textDecoration: 'none', position: 'relative', display: 'flex', alignItems: 'center', overflow: 'hidden', padding: '10px 0' }}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             onClick={(e) => { e.preventDefault(); onClick(); }}
         >
             <span style={{
-                fontFamily: 'Syne, sans-serif',
+                fontFamily: 'var(--font-body)',
                 fontSize: '0.75rem',
-                fontWeight: 500,
+                fontWeight: 400,
                 textTransform: 'uppercase',
                 color: 'var(--text-main)',
-                letterSpacing: '0.05em',
-                opacity: isHovered ? 1 : 0.7,
-                transition: 'opacity 0.3s'
+                letterSpacing: '0.2em',
+                opacity: isHovered ? 1 : 0.4,
+                transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                transform: isHovered ? 'translateY(0)' : 'translateY(0)'
             }}>{item}</span>
 
             <span style={{
                 position: 'absolute',
-                bottom: -4,
+                bottom: 6,
                 left: 0,
                 width: isHovered ? '100%' : '0%',
                 height: '1px',
-                backgroundColor: 'var(--text-main)',
-                transition: 'width 0.3s ease'
+                backgroundColor: 'var(--text-muted)',
+                transition: 'width 0.6s cubic-bezier(0.16, 1, 0.3, 1)'
             }} />
         </a>
     );

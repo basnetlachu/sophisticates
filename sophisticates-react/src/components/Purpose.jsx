@@ -1,100 +1,175 @@
-import React, { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 
 const Purpose = () => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
+    const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+    const imageY = useTransform(scrollYProgress, [0, 1], [-60, 60]);
+
+    const [isDesktop, setIsDesktop] = useState(true);
+    useEffect(() => {
+        const checkSize = () => setIsDesktop(window.innerWidth >= 1024);
+        checkSize();
+        window.addEventListener('resize', checkSize);
+        return () => window.removeEventListener('resize', checkSize);
+    }, []);
 
     return (
         <section id="purpose" ref={ref} className="section-padding" style={{
-            borderTop: '1px solid var(--border-color)',
             background: 'var(--bg-color)',
+            position: 'relative',
+            overflow: 'hidden'
         }}>
-            <div className="max-w-container">
+            {/* Background branding element */}
+            <div style={{
+                position: 'absolute',
+                top: '10%',
+                right: '-5%',
+                fontSize: '20vw',
+                fontFamily: 'var(--font-display)',
+                color: 'var(--text-main)',
+                opacity: 0.015,
+                fontWeight: 800,
+                letterSpacing: '-0.05em',
+                pointerEvents: 'none',
+                userSelect: 'none',
+                zIndex: 0
+            }}>
+                MISSION
+            </div>
+
+            <div className="max-w-container" style={{ position: 'relative', zIndex: 1 }}>
                 <div style={{
                     display: 'grid',
-                    gridTemplateColumns: '1.3fr minmax(300px, 1fr)',
-                    gap: 'clamp(40px, 8vw, 100px)',
-                    alignItems: 'center'
-                }} className="grid-stack-tablet">
+                    gridTemplateColumns: isDesktop ? '1.2fr 0.8fr' : '1fr',
+                    gap: 'clamp(60px, 10vw, 160px)',
+                    alignItems: 'flex-start'
+                }}>
 
                     {/* Content Section */}
-                    <div>
-                        <motion.h2
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={isInView ? { opacity: 1, y: 0 } : {}}
-                            transition={{ duration: 0.8 }}
-                            style={{
-                                fontFamily: 'Syne, sans-serif',
-                                fontSize: '1rem',
-                                letterSpacing: '0.2em',
-                                textTransform: 'uppercase',
-                                color: 'var(--text-main)',
-                                marginBottom: '40px'
-                            }}
-                        >
-                            // 02. Purpose
-                        </motion.h2>
-
-                        <motion.p
+                    <div style={{ paddingTop: isDesktop ? '100px' : '0' }}>
+                        <motion.div
                             initial={{ opacity: 0, y: 30 }}
-                            animate={isInView ? { opacity: 1, y: 0 } : {}}
-                            transition={{ duration: 0.8, delay: 0.2 }}
-                            style={{
-                                fontFamily: 'Space Grotesk, sans-serif',
-                                fontSize: 'clamp(1.5rem, 3.5vw, 2.5rem)',
-                                lineHeight: '1.3',
-                                fontWeight: 300,
-                                color: 'var(--text-main)',
-                                maxWidth: '1000px'
-                            }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                            viewport={{ once: true }}
                         >
-                            To solve problems that don’t yield to incremental progress.
-                            <br /><br />
-                            <span style={{ color: 'var(--text-muted)' }}>We deliver breakthroughs that are</span> <strong style={{ fontWeight: 500 }}>measurable, safe, energy-aware, and scalable.</strong>
-                        </motion.p>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '40px' }}>
+                                <div style={{ width: '40px', height: '1px', background: 'var(--text-main)' }} />
+                                <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-body)', color: 'var(--text-main)', textTransform: 'uppercase', letterSpacing: '0.25em', fontWeight: 600 }}>
+                                    Core Intent
+                                </span>
+                            </div>
 
-                        <div style={{ marginTop: '50px', display: 'flex', gap: '40px', flexWrap: 'wrap' }} className="flex-col-mobile">
-                            {[
-                                { label: 'Energy Aware', value: 'Optimized' },
-                                { label: 'Scalability', value: 'Unlimited' },
-                                { label: 'Safety', value: 'Intrinsic' }
-                            ].map((statItem, i) => (
-                                <motion.div
-                                    key={i}
-                                    initial={{ opacity: 0 }}
-                                    animate={isInView ? { opacity: 1 } : {}}
-                                    transition={{ delay: 0.5 + (i * 0.1) }}
-                                    style={{ borderLeft: '1px solid var(--border-color)', paddingLeft: '20px' }}
-                                    className="mobile-no-border"
-                                >
-                                    <div style={{ fontFamily: 'monospace', fontSize: '0.6rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.2em', marginBottom: '8px' }}>{statItem.label}</div>
-                                    <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.2rem', color: 'var(--text-main)' }}>{statItem.value}</div>
-                                </motion.div>
-                            ))}
-                        </div>
+                            <motion.h2
+                                className="text-gradient"
+                                style={{
+                                    fontSize: 'clamp(1.9rem, 3vw, 2.5rem)',
+                                    lineHeight: '0.95',
+                                    marginBottom: '40px',
+                                    maxWidth: '850px'
+                                }}
+                            >
+                                Solving problems that don't yield to <span className="text-accent">incremental</span> progress.
+                            </motion.h2>
+
+                            <p style={{
+                                fontSize: 'clamp(1.1rem, 1.4vw, 1.45rem)',
+                                lineHeight: '1.4',
+                                color: 'var(--text-muted)',
+                                maxWidth: '750px',
+                                marginBottom: '60px',
+                                fontWeight: 300
+                            }}>
+                                We deliver breakthroughs that are <span style={{ color: 'var(--text-main)' }}>measurable, safe, energy-aware, and scalable.</span>
+                            </p>
+
+                            <div style={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                                gap: '60px'
+                            }}>
+                                {[
+                                    { label: 'Energy Aware', value: 'Optimized Control', detail: 'Minimizing thermodynamic overhead in computation.' },
+                                    { label: 'Scalability', value: 'Global Infrastructure', detail: 'Architectures designed for planetary-scale deployment.' },
+                                    { label: 'Safety', value: 'Intrinsic Security', detail: 'Provable guarantees in every instruction set.' }
+                                ].map((statItem, i) => (
+                                    <motion.div
+                                        key={i}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.2 + (i * 0.1), duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                                        viewport={{ once: true }}
+                                        style={{ borderLeft: '1px solid var(--border-color)', paddingLeft: '32px' }}
+                                    >
+                                        <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem', color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: '16px', fontWeight: 600 }}>[{statItem.label}]</div>
+                                        <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.75rem', color: 'var(--text-main)', fontWeight: 400, letterSpacing: '-0.02em', marginBottom: '12px' }}>{statItem.value}</div>
+                                        <div style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: '1.5', maxWidth: '240px' }}>{statItem.detail}</div>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </motion.div>
                     </div>
 
-                    {/* Structural Image Insert */}
-                    <div style={{ position: 'relative' }}>
+                    {/* Visual Segment */}
+                    <div style={{ position: 'relative', width: '100%' }}>
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                            transition={{ duration: 1.2, ease: "easeOut" }}
-                            whileHover={{ scale: 1.02 }}
+                            initial={{ opacity: 0, scale: 0.98 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+                            viewport={{ once: true }}
+                            className="glass-panel"
                             style={{
-                                width: '100%',
-                                aspectRatio: '3/4',
-                                backgroundImage: 'url(/purpose_bg.webp)',
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center',
-                                filter: 'grayscale(100%) contrast(1.15)',
-                                border: '1px solid var(--border-color)',
-                                transition: 'transform 0.6s ease'
+                                position: 'relative',
+                                overflow: 'hidden',
+                                borderRadius: '2px',
+                                boxShadow: '0 40px 100px rgba(0,0,0,0.6)'
                             }}
-                        />
-                        <div style={{ marginTop: '16px', fontFamily: 'monospace', fontSize: '0.6rem', color: 'var(--text-muted)', letterSpacing: '0.2em', textTransform: 'uppercase', textAlign: 'right' }}>
-                            Fig. 2 — Structural Purpose
+                        >
+                            <motion.div
+                                style={{
+                                    width: '100%',
+                                    aspectRatio: '4/5',
+                                    backgroundImage: 'url(/purpose_bg.webp)',
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    filter: 'grayscale(100%) brightness(0.8) contrast(1.2)',
+                                    y: imageY,
+                                    scale: 1.2
+                                }}
+                            />
+                            {/* Technical Overlay */}
+                            <div style={{
+                                position: 'absolute',
+                                left: '20px',
+                                bottom: '20px',
+                                padding: '12px 16px',
+                                background: 'rgba(0,0,0,0.4)',
+                                backdropFilter: 'blur(10px)',
+                                borderLeft: '2px solid var(--text-main)',
+                                color: 'var(--text-main)',
+                                fontFamily: 'monospace',
+                                fontSize: '0.65rem',
+                                letterSpacing: '0.1em',
+                                textTransform: 'uppercase'
+                            }}>
+                                System Objective: Breakthrough Verification // 002
+                            </div>
+                        </motion.div>
+
+                        <div style={{
+                            marginTop: '32px',
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'baseline'
+                        }}>
+                            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem', color: 'var(--text-dim)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                                Ref: 2024.P-01
+                            </div>
+                            <div style={{ fontFamily: 'var(--font-accent)', fontStyle: 'italic', fontSize: '1rem', color: 'var(--text-muted)' }}>
+                                "The physics of progress"
+                            </div>
                         </div>
                     </div>
 
@@ -105,3 +180,4 @@ const Purpose = () => {
 };
 
 export default Purpose;
+

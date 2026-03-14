@@ -1,77 +1,129 @@
-import React, { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 
 const Vision = () => {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
+    const isInView = useInView(ref, { once: true, margin: "-20% 0px" });
+    const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+
+    // Deeper parallax for cinematic feel
+    const imageY = useTransform(scrollYProgress, [0, 1], [-80, 80]);
+    const textY = useTransform(scrollYProgress, [0, 1], [0, -40]);
+
+    const [isDesktop, setIsDesktop] = useState(true);
+    useEffect(() => {
+        const checkSize = () => setIsDesktop(window.innerWidth >= 1024);
+        checkSize();
+        window.addEventListener('resize', checkSize);
+        return () => window.removeEventListener('resize', checkSize);
+    }, []);
 
     return (
         <section id="vision" ref={ref} className="section-padding" style={{
             background: 'var(--bg-color)',
-            borderTop: '1px solid var(--border-color)',
+            position: 'relative',
+            overflow: 'hidden',
+            paddingBottom: 'clamp(100px, 15vh, 200px)'
         }}>
             <div className="max-w-container">
                 <div style={{
                     display: 'grid',
-                    gridTemplateColumns: 'minmax(300px, 1fr) 1.2fr',
+                    gridTemplateColumns: isDesktop ? '1.5fr 1fr' : '1fr',
                     gap: 'clamp(40px, 8vw, 100px)',
-                    alignItems: 'center'
-                }} className="grid-stack-tablet">
+                    alignItems: 'start'
+                }}>
 
-                    {/* Visual Container */}
-                    <div style={{ position: 'relative' }}>
+                    {/* Visual Container - Asymmetric Placement */}
+                    <div style={{ position: 'relative', paddingTop: isDesktop ? '10vh' : '0' }}>
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
+                            initial={{ opacity: 0, scale: 0.98 }}
                             animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                            transition={{ duration: 1.2, ease: "easeOut" }}
-                            whileHover={{ scale: 1.02 }}
-                            style={{
-                                width: '100%',
-                                aspectRatio: '4/5',
-                                backgroundImage: 'url(/vision_bg.webp)',
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center',
-                                filter: 'grayscale(100%) contrast(1.1)',
-                                border: '1px solid var(--border-color)',
-                                transition: 'transform 0.6s ease'
-                            }}
-                        />
-                        <div style={{ marginTop: '16px', fontFamily: 'monospace', fontSize: '0.6rem', color: 'var(--text-muted)', letterSpacing: '0.2em', textTransform: 'uppercase' }}>
-                            Fig. 1 — Visionary Matrix
+                            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+                            style={{ position: 'relative', overflow: 'hidden', borderRadius: '2px' }}
+                            className="glass-panel"
+                        >
+                            <motion.div
+                                style={{
+                                    width: '100%',
+                                    aspectRatio: '1/1',
+                                    backgroundImage: 'url(/vision_bg.webp)',
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    filter: 'grayscale(100%) contrast(1.1) brightness(0.7)',
+                                    y: imageY,
+                                    scale: 1.2
+                                }}
+                            />
+                            {/* Overlay Glow */}
+                            <div style={{
+                                position: 'absolute',
+                                top: 0, left: 0, right: 0, bottom: 0,
+                                background: 'radial-gradient(circle at 30% 30%, var(--grid-line), transparent 60%)',
+                                pointerEvents: 'none'
+                            }} />
+                        </motion.div>
+
+                        {/* Image Caption */}
+                        <div style={{
+                            display: 'flex',
+                            marginTop: '24px',
+                            fontFamily: 'var(--font-body)',
+                            fontSize: '0.8rem',
+                            color: 'var(--text-dim)'
+                        }}>
+                            <span>Fig. 1 — Visionary Matrix</span>
                         </div>
                     </div>
 
                     {/* Content Container */}
                     <motion.div
+                        style={{ y: textY, display: 'flex', flexDirection: 'column', gap: '48px' }}
                         initial={{ opacity: 0, x: 20 }}
                         animate={isInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ duration: 0.8 }}
+                        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
                     >
-                        <h2 style={{
-                            fontFamily: 'Syne, sans-serif',
-                            fontSize: '1rem',
-                            letterSpacing: '0.2em',
-                            textTransform: 'uppercase',
-                            color: 'var(--text-main)',
-                            marginBottom: '40px'
-                        }}>
-                            // 01. Vision
-                        </h2>
-                        <p style={{
-                            fontFamily: 'Space Grotesk, sans-serif',
-                            fontSize: 'clamp(1.5rem, 3vw, 2.5rem)',
-                            lineHeight: '1.3',
-                            fontWeight: 300,
-                            color: 'var(--text-main)',
-                        }}>
-                            To build the frontier infrastructure for intelligence and physical systems that make <strong style={{ fontWeight: 500 }}>complexity navigable</strong>.
-                            <br /><br />
-                            We convert theoretical constraints in <strong style={{ fontWeight: 500 }}>AI, Quantum Computing, Physics, and Robotics</strong> into practical breakthroughs for humanity.
-                        </p>
+                        <div>
+                            <div className="section-label-wrapper">
+                                <div className="section-label-line" />
+                                <span className="section-label">The Vision</span>
+                            </div>
+
+                            <p style={{
+                                fontFamily: 'var(--font-display)',
+                                fontSize: 'clamp(1.7rem, 2.4vw, 2.5rem)',
+                                lineHeight: '0.95',
+                                fontWeight: 500,
+                                letterSpacing: '-0.05em',
+                                color: 'var(--text-main)',
+                                margin: 0,
+                                marginBottom: '32px'
+                            }}>
+                                To build the <span className="text-accent" style={{ color: 'var(--text-dim)' }}>frontier</span> infrastructure for intelligence and physical systems.
+                            </p>
+
+                            <div style={{ maxWidth: '450px' }}>
+                                <p style={{
+                                        fontSize: 'clamp(0.9rem, 1.2vw, 1.15rem)',
+                                        color: 'var(--text-muted)',
+                                        lineHeight: '1.7',
+                                        fontFamily: 'var(--font-body)',
+                                        fontWeight: 300,
+                                        letterSpacing: '-0.01em'
+                                    }}>
+                                    We convert theoretical constraints in <span style={{ color: 'var(--text-main)', fontWeight: 400 }}>AI, Quantum, Physics, and Robotics</span> into practical breakthroughs for humanity.
+                                    <br /><br />
+                                    Our methodology is rooted in the convergence of software abstraction and physical hardware resilience.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Decorative Detail */}
+                        <div style={{ width: '100%', height: '1px', background: 'var(--border-color)', opacity: 0.5 }} />
                     </motion.div>
 
                 </div>
             </div>
+
         </section>
     );
 };
