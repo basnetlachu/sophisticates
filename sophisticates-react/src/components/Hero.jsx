@@ -67,9 +67,9 @@ const Hero = () => {
                             animate={{ y: '0%' }}
                             transition={{ duration: 0.7, ease: EXPO, delay: 0.1 }}
                             style={{
-                                fontSize: 'clamp(3rem, 7vw, 6rem)',
-                                lineHeight: 0.95,
-                                letterSpacing: '-0.04em',
+                                fontSize: 'clamp(2.4rem, 7vw, 6rem)',
+                                lineHeight: 1.05,
+                                letterSpacing: '-0.03em',
                                 textAlign: 'left',
                                 color: 'var(--text-main)',
                                 fontWeight: 400,
@@ -88,13 +88,13 @@ const Hero = () => {
                             animate={{ y: '0%' }}
                             transition={{ duration: 0.7, ease: EXPO, delay: 0.2 }}
                             style={{
-                                fontSize: 'clamp(2rem, 4vw, 3.5rem)',
-                                lineHeight: 1.05,
+                                fontSize: 'clamp(1.7rem, 4.5vw, 3.5rem)',
+                                lineHeight: 1.1,
                                 letterSpacing: '-0.02em',
                                 textAlign: 'left',
                                 color: 'var(--text-muted)',
                                 fontWeight: 300,
-                                margin: 0,
+                                margin: '4px 0 0 0',
                                 fontFamily: 'var(--font-display)',
                             }}
                         >

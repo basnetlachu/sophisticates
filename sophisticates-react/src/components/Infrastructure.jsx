@@ -1,14 +1,16 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { useMobile } from '../hooks/useMobile';
 
 const Infrastructure = () => {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-20% 0px" });
+    const isMobile = useMobile();
+    const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
     const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
 
-    // Parallax dynamics
-    const imageY = useTransform(scrollYProgress, [0, 1], [-60, 60]);
-    const textY = useTransform(scrollYProgress, [0, 1], [0, 20]);
+    // Parallax — disabled on mobile
+    const imageY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [-60, 60]);
+    const textY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, 20]);
 
     const [isDesktop, setIsDesktop] = useState(true);
     useEffect(() => {
@@ -23,17 +25,17 @@ const Infrastructure = () => {
             background: 'var(--bg-color)',
             position: 'relative',
             overflow: 'hidden',
-            paddingTop: 'clamp(120px, 15vh, 180px)'
+            paddingTop: 'clamp(80px, 12vh, 140px)'
         }}>
             <div className="max-w-container">
                 <div className="infra-grid">
 
                     {/* Content Container */}
                     <motion.div
-                        initial={{ opacity: 0, x: -30 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
+                        initial={isMobile ? {} : { opacity: 0, x: -30 }}
+                        animate={(!isMobile && isInView) ? { opacity: 1, x: 0 } : {}}
                         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                        style={{ y: textY, zIndex: 2 }}
+                        style={{ y: isMobile ? 0 : textY, zIndex: 2 }}
                     >
                         <div className="section-label-wrapper">
                             <div className="section-label-line" />
@@ -80,8 +82,8 @@ const Infrastructure = () => {
                     {/* Visual Container */}
                     <div style={{ position: 'relative' }}>
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.98 }}
-                            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                            initial={isMobile ? {} : { opacity: 0, scale: 0.98 }}
+                            animate={(!isMobile && isInView) ? { opacity: 1, scale: 1 } : {}}
                             transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
                             style={{ position: 'relative', overflow: 'hidden', borderRadius: '2px' }}
                             className="glass-panel"

@@ -18,12 +18,13 @@ const openai = new OpenAI({
   }
 });
 
-// Ordered fallback list — tries each until one succeeds
+// Ordered fallback list — fastest/most reliable free models first
 const AI_MODELS = [
-  'liquid/lfm-2.5-1.2b-instruct:free',
   'google/gemma-3-4b-it:free',
-  'arcee-ai/trinity-mini:free',
   'meta-llama/llama-3.2-3b-instruct:free',
+  'microsoft/phi-3-mini-128k-instruct:free',
+  'liquid/lfm-2.5-1.2b-instruct:free',
+  'arcee-ai/trinity-mini:free',
 ];
 
 const SYSTEM_PROMPT = `You are SOPH.AI — the official AI assistant embedded on the Sophisticates website (sophisticatesai.com).
@@ -282,44 +283,59 @@ app.post('/api/early-access', async (req, res) => {
   }
 });
 
-// ─── AI Chatbot (OpenRouter with fallback) ────────────────────────────────────
+// ─── AI Chatbot (OpenRouter with fallback + timeout) ─────────────────────────
 app.post('/api/chat', async (req, res) => {
   const { message, history } = req.body;
   if (!message) {
     return res.status(400).json({ status: 'error', message: 'Message is required' });
   }
 
+  // Limit history to last 6 messages to keep tokens low and responses fast
+  const recentHistory = (history || []).slice(-6);
+
   const messages = [
     { role: 'system', content: SYSTEM_PROMPT },
-    ...(history || []).map(msg => ({
+    ...recentHistory.map(msg => ({
       role: msg.role === 'assistant' ? 'assistant' : 'user',
       content: msg.content
     })),
     { role: 'user', content: message }
   ];
 
+  const MODEL_TIMEOUT_MS = 12000; // 12s per model attempt
+
   let lastError = null;
   for (const model of AI_MODELS) {
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), MODEL_TIMEOUT_MS);
+
       const completion = await openai.chat.completions.create({
         model,
         messages,
-        max_tokens: 200
-      });
+        max_tokens: 160,
+        temperature: 0.7,
+      }, { signal: controller.signal });
+
+      clearTimeout(timeoutId);
       const reply = completion.choices[0]?.message?.content || 'No response generated.';
       console.log(`✦ Chat served by: ${model}`);
       return res.json({ status: 'success', reply });
     } catch (err) {
       const status = err?.status || 500;
-      console.warn(`Model ${model} failed (${status}), trying next...`);
+      const isAborted = err?.name === 'AbortError' || err?.code === 'ERR_CANCELED';
+      if (isAborted) {
+        console.warn(`Model ${model} timed out, trying next...`);
+      } else {
+        console.warn(`Model ${model} failed (${status}), trying next...`);
+      }
       lastError = err;
-      // Only try next model for rate-limit / unavailable errors
-      if (status !== 429 && status !== 503 && status !== 404) break;
+      // Always try next model for any error
     }
   }
 
   console.error('All models failed:', lastError?.message || lastError);
-  res.status(500).json({ status: 'error', message: 'AI protocol temporarily unavailable. Please try again in a moment.' });
+  res.status(500).json({ status: 'error', message: 'AI temporarily unavailable. Please try again or email hello@sophisticatesai.com.' });
 });
 
 // ─── Production Static File Serving ──────────────────────────────────────────

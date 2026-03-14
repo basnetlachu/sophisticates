@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { useMobile } from '../hooks/useMobile';
 
 const ValueProposition = () => {
     const [isDesktop, setIsDesktop] = useState(true);
+    const isMobile = useMobile();
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
 
@@ -20,8 +22,8 @@ const ValueProposition = () => {
                     <div className="section-label-wrapper">
                         <div className="section-label-line" />
                         <motion.span
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={isInView ? { opacity: 1, x: 0 } : {}}
+                            initial={isMobile ? {} : { opacity: 0, x: -20 }}
+                            animate={(!isMobile && isInView) ? { opacity: 1, x: 0 } : {}}
                             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                             className="section-label"
                         >
@@ -29,8 +31,8 @@ const ValueProposition = () => {
                         </motion.span>
                     </div>
                     <motion.h2
-                        initial={{ opacity: 0, y: 40 }}
-                        animate={isInView ? { opacity: 1, y: 0 } : {}}
+                        initial={isMobile ? {} : { opacity: 0, y: 40 }}
+                        animate={(!isMobile && isInView) ? { opacity: 1, y: 0 } : {}}
                         transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
                         style={{ fontSize: 'clamp(2.3rem, 4.2vw, 3.6rem)', fontWeight: 400, fontFamily: 'var(--font-display)', lineHeight: 0.95, letterSpacing: '-0.05em', margin: 0 }}
                     >
@@ -40,7 +42,7 @@ const ValueProposition = () => {
 
                 <div className="value-prop-grid">
                     {items.map((item, i) => (
-                        <BentoBox key={i} item={item} index={i} isDesktop={isDesktop} isInView={isInView} />
+                        <BentoBox key={i} item={item} index={i} isDesktop={isDesktop} isInView={isInView} isMobile={isMobile} />
                     ))}
                 </div>
             </div>
@@ -49,7 +51,7 @@ const ValueProposition = () => {
     );
 };
 
-const BentoBox = ({ item, index, isDesktop, isInView }) => {
+const BentoBox = ({ item, index, isDesktop, isInView, isMobile }) => {
     // Provide asymmetric grid spanning for desktop
     const getGridColumn = () => {
         if (!isDesktop) return 'span 1';
@@ -59,8 +61,8 @@ const BentoBox = ({ item, index, isDesktop, isInView }) => {
     return (
         <motion.div
             className="glass-panel hover-target"
-            initial={{ opacity: 0, y: 60 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            initial={isMobile ? {} : { opacity: 0, y: 60 }}
+            animate={(!isMobile && isInView) ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.2 + (index * 0.1), duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             style={{
                 gridColumn: getGridColumn(),

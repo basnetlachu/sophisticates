@@ -1,14 +1,16 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { useMobile } from '../hooks/useMobile';
 
 const Products = () => {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-20% 0px" });
+    const isMobile = useMobile();
+    const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
     const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
 
-    // Advanced parallax depth — disabled on mobile to prevent overflow
-    const imageY = useTransform(scrollYProgress, [0, 1], [-100, 100]);
-    const titleX = useTransform(scrollYProgress, [0, 1], [0, -50]);
+    // Parallax — disabled on mobile
+    const imageY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [-100, 100]);
+    const titleX = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, -50]);
 
     const [isDesktop, setIsDesktop] = useState(true);
     useEffect(() => {
@@ -20,7 +22,7 @@ const Products = () => {
 
     return (
         <section id="products" ref={ref} style={{
-            padding: 'clamp(120px, 20vh, 200px) 0',
+            padding: 'clamp(80px, 14vh, 160px) 0',
             background: 'var(--bg-color)',
             position: 'relative',
             overflow: 'hidden'
@@ -29,8 +31,8 @@ const Products = () => {
                 <div className="products-grid">
                     {/* Visual Side */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.98 }}
-                        animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                        initial={isMobile ? {} : { opacity: 0, scale: 0.98 }}
+                        animate={(!isMobile && isInView) ? { opacity: 1, scale: 1 } : {}}
                         transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
                         style={{ position: 'relative', height: '100%', paddingTop: isDesktop ? '15vh' : '0' }}
                     >
@@ -66,8 +68,8 @@ const Products = () => {
 
                     {/* Content Side */}
                     <motion.div
-                        initial={{ opacity: 0, x: 30 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
+                        initial={isMobile ? {} : { opacity: 0, x: 30 }}
+                        animate={(!isMobile && isInView) ? { opacity: 1, x: 0 } : {}}
                         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
                     >
                         <div className="section-label-wrapper">

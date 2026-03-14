@@ -1,14 +1,16 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { useMobile } from '../hooks/useMobile';
 
 const Vision = () => {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-20% 0px" });
+    const isMobile = useMobile();
+    const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
     const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
 
-    // Deeper parallax for cinematic feel
-    const imageY = useTransform(scrollYProgress, [0, 1], [-80, 80]);
-    const textY = useTransform(scrollYProgress, [0, 1], [0, -40]);
+    // Parallax — disabled on mobile to prevent jank
+    const imageY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [-80, 80]);
+    const textY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, -40]);
 
     const [isDesktop, setIsDesktop] = useState(true);
     useEffect(() => {
@@ -31,8 +33,8 @@ const Vision = () => {
                     {/* Visual Container - Asymmetric Placement */}
                     <div style={{ position: 'relative', paddingTop: isDesktop ? '10vh' : '0' }}>
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.98 }}
-                            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                            initial={isMobile ? {} : { opacity: 0, scale: 0.98 }}
+                            animate={(!isMobile && isInView) ? { opacity: 1, scale: 1 } : {}}
                             transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
                             style={{ position: 'relative', overflow: 'hidden', borderRadius: '2px' }}
                             className="glass-panel"
@@ -72,9 +74,9 @@ const Vision = () => {
 
                     {/* Content Container */}
                     <motion.div
-                        style={{ y: textY, display: 'flex', flexDirection: 'column', gap: '48px' }}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
+                        style={{ y: isMobile ? 0 : textY, display: 'flex', flexDirection: 'column', gap: '48px' }}
+                        initial={isMobile ? {} : { opacity: 0, x: 20 }}
+                        animate={(!isMobile && isInView) ? { opacity: 1, x: 0 } : {}}
                         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
                     >
                         <div>

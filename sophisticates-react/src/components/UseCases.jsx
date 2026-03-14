@@ -1,9 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { useMobile } from '../hooks/useMobile';
 
 const UseCases = () => {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-20% 0px" });
+    const isMobile = useMobile();
+    const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
 
     const [isDesktop, setIsDesktop] = useState(true);
     useEffect(() => {
@@ -42,8 +44,8 @@ const UseCases = () => {
 
                     {/* Header */}
                     <motion.div
-                        initial={{ opacity: 0, x: -30 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
+                        initial={isMobile ? {} : { opacity: 0, x: -30 }}
+                        animate={(!isMobile && isInView) ? { opacity: 1, x: 0 } : {}}
                         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                     >
                         <div className="section-label-wrapper">
@@ -73,8 +75,8 @@ const UseCases = () => {
                             <motion.div
                                 key={i}
                                 className="glass-panel hover-target"
-                                initial={{ opacity: 0, y: 50 }}
-                                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                                initial={isMobile ? {} : { opacity: 0, y: 50 }}
+                                animate={(!isMobile && isInView) ? { opacity: 1, y: 0 } : {}}
                                 transition={{ delay: 0.2 + (i * 0.15), duration: 1, ease: [0.16, 1, 0.3, 1] }}
                                 style={{
                                     padding: 'clamp(32px, 4vw, 48px)',
@@ -136,8 +138,8 @@ const UseCases = () => {
 
                 {/* Call to Action Banner */}
                 <motion.div
-                    initial={{ opacity: 0, y: 80 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={isMobile ? {} : { opacity: 0, y: 80 }}
+                    whileInView={isMobile ? {} : { opacity: 1, y: 0 }}
                     transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
                     viewport={{ once: true, margin: "-10% 0px" }}
                     style={{

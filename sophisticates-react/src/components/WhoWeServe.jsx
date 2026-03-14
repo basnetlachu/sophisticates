@@ -1,8 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { useMobile } from '../hooks/useMobile';
 
 const WhoWeServe = () => {
     const ref = useRef(null);
+    const isMobile = useMobile();
     const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
 
     const [isDesktop, setIsDesktop] = useState(true);
@@ -40,8 +42,8 @@ const WhoWeServe = () => {
         <section id="who-we-serve" ref={ref} className="section-padding" style={{ background: 'var(--bg-color)', position: 'relative', overflow: 'hidden' }}>
             <div className="max-w-container">
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    initial={isMobile ? {} : { opacity: 0, y: 30 }}
+                    animate={(!isMobile && isInView) ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                     style={{ marginBottom: 'clamp(60px, 12vh, 100px)', display: 'flex', flexDirection: 'column', gap: '32px' }}
                 >
@@ -69,8 +71,8 @@ const WhoWeServe = () => {
                         <motion.div
                             key={i}
                             className="glass-panel hover-target"
-                            initial={{ opacity: 0, y: 50 }}
-                            animate={isInView ? { opacity: 1, y: 0 } : {}}
+                            initial={isMobile ? {} : { opacity: 0, y: 50 }}
+                            animate={(!isMobile && isInView) ? { opacity: 1, y: 0 } : {}}
                             transition={{ delay: 0.2 + (i * 0.1), duration: 1, ease: [0.16, 1, 0.3, 1] }}
                             style={{
                                 padding: 'clamp(32px, 5vw, 48px)',

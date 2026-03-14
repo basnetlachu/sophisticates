@@ -1,30 +1,24 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { useMobile } from '../hooks/useMobile';
 
 const About = () => {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-20% 0px" });
-
-    const [isDesktop, setIsDesktop] = useState(true);
-    useEffect(() => {
-        const checkSize = () => setIsDesktop(window.innerWidth >= 1024);
-        checkSize();
-        window.addEventListener('resize', checkSize);
-        return () => window.removeEventListener('resize', checkSize);
-    }, []);
+    const isMobile = useMobile();
+    const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
 
     return (
         <section id="about" ref={ref} className="section-padding" style={{
             background: 'var(--bg-color)',
             position: 'relative',
-            paddingTop: 'clamp(120px, 20vh, 200px)',
-            paddingBottom: 'clamp(120px, 20vh, 200px)',
+            paddingTop: 'clamp(80px, 14vh, 160px)',
+            paddingBottom: 'clamp(80px, 14vh, 160px)',
             overflow: 'hidden'
         }}>
             <div className="max-w-container">
                 <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    initial={isMobile ? {} : { opacity: 0, y: 50 }}
+                    animate={(!isMobile && isInView) ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
                     style={{ maxWidth: '1400px', margin: '0 auto' }}
                 >
@@ -40,7 +34,7 @@ const About = () => {
                         fontWeight: 400,
                         color: 'var(--text-main)',
                         marginBottom: 'clamp(80px, 15vh, 160px)',
-                        textAlign: isDesktop ? 'left' : 'center',
+                        textAlign: (!isMobile) ? 'left' : 'center',
                         letterSpacing: '-0.06em',
                         maxWidth: '1200px',
                         margin: '0 auto 120px 0'
