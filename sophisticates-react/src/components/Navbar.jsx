@@ -90,9 +90,9 @@ const Navbar = () => {
     return (
         <>
             <motion.header
-                initial={{ y: -100 }}
-                animate={{ y: 0 }}
-                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                initial={{ y: -80, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                 style={{
                     position: 'fixed',
                     top: 0,
@@ -128,19 +128,17 @@ const Navbar = () => {
                             color: 'inherit'
                         }}
                     >
-                        <motion.img
+                        <img
                             src="/sophisticates.webp"
                             alt="Sophisticates"
                             className="flexible-logo"
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-                            whileHover={{ scale: 1.1 }}
                             style={{
-                                height: 'clamp(32px, 8vw, 44px)',
+                                height: 'clamp(28px, 6vw, 42px)',
                                 width: 'auto',
                                 maxWidth: '160px',
                                 objectFit: 'contain',
-                                transformOrigin: 'center'
+                                display: 'block',
+                                transition: 'opacity 0.3s ease',
                             }}
                         />
                     </Link>

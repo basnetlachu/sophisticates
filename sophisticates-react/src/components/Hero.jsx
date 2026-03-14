@@ -1,34 +1,15 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
+// Sharp expo easing — same feel as Linear, Vercel, Framer
+const EXPO = [0.16, 1, 0.3, 1];
+
 const Hero = () => {
     const ref = useRef(null);
-    const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+    const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
 
-    // Parallax dynamics for extreme depth
-    const yText1 = useTransform(scrollYProgress, [0, 1], [0, 250]);
-    const yText2 = useTransform(scrollYProgress, [0, 1], [0, 150]);
-    const yText3 = useTransform(scrollYProgress, [0, 1], [0, 400]);
-    const opacityFade = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-    const scaleDown = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
-
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: { staggerChildren: 0.2, delayChildren: 0.1 }
-        }
-    };
-
-    const itemVariants = {
-        hidden: { y: 60, opacity: 0, scale: 0.95 },
-        visible: {
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            transition: { type: "spring", stiffness: 50, damping: 20, mass: 1.5 }
-        }
-    };
+    const opacityFade = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+    const yShift     = useTransform(scrollYProgress, [0, 1],   [0, 60]);
 
     return (
         <section id="hero" ref={ref} style={{
@@ -40,34 +21,34 @@ const Hero = () => {
             position: 'relative',
             background: 'var(--bg-color)',
             paddingTop: 'clamp(80px, 15vh, 160px)',
-            paddingBottom: 'clamp(40px, 8vh, 80px)'
+            paddingBottom: 'clamp(40px, 8vh, 80px)',
         }}>
-            {/* Structural Tech Background */}
+            {/* Backgrounds */}
             <div className="bg-grid" />
-
-            {/* Ambient Background Experience */}
             <div className="mesh-gradient-bg" />
             <div className="mesh-blob" style={{ top: '-10%', right: '5%', width: '50vw', height: '50vw', opacity: 0.8 }} />
             <div className="mesh-blob" style={{ bottom: '10%', left: '-15%', animationDelay: '-7s', width: '60vw', height: '60vw', opacity: 0.6 }} />
 
             <motion.div
                 style={{
+                    y: yShift,
+                    opacity: opacityFade,
                     zIndex: 10,
                     display: 'flex',
                     flexDirection: 'column',
-                    opacity: opacityFade,
-                    scale: scaleDown,
                     width: '100%',
                     maxWidth: '1600px',
                     margin: '0 auto',
-                    padding: '0 clamp(20px, 5vw, 60px)'
+                    padding: '0 clamp(20px, 5vw, 60px)',
                 }}
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
             >
-                {/* Advanced Micro-Header */}
-                <motion.div variants={itemVariants} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'clamp(40px, 8vh, 80px)' }}>
+                {/* Micro-header label */}
+                <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, ease: EXPO, delay: 0.05 }}
+                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'clamp(40px, 8vh, 80px)' }}
+                >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
                         <div style={{ width: '40px', height: '1px', background: 'var(--text-main)' }} />
                         <span style={{ fontSize: '0.65rem', fontFamily: 'var(--font-body)', textTransform: 'uppercase', letterSpacing: '0.3em', color: 'var(--text-main)', fontWeight: 500 }}>
@@ -76,58 +57,94 @@ const Hero = () => {
                     </div>
                 </motion.div>
 
-                {/* Main Typography Layout */}
-                <div style={{ position: 'relative', width: '100%', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    <motion.div variants={itemVariants} style={{ y: yText1 }}>
-                        <h1 style={{
-                            fontSize: 'clamp(3rem, 7vw, 6rem)',
-                            lineHeight: 0.95,
-                            letterSpacing: '-0.04em',
-                            textAlign: 'left',
-                            color: 'var(--text-main)',
-                            fontWeight: 400,
-                            margin: 0,
-                            fontFamily: 'var(--font-display)'
-                        }}>
-                            Clarity in <span style={{ color: 'var(--text-dim)' }}>Complexity.</span>
-                        </h1>
-                    </motion.div>
+                {/* ── Main headline — each line clip-reveals upward ── */}
+                <div style={{ position: 'relative', width: '100%', display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: 'clamp(40px, 10vh, 100px)' }}>
 
-                    <motion.div variants={itemVariants} style={{ y: yText2 }}>
-                        <h2 style={{
-                            fontSize: 'clamp(2rem, 4vw, 3.5rem)',
-                            lineHeight: 1.1,
-                            letterSpacing: '-0.02em',
-                            textAlign: 'left',
-                            color: 'var(--text-muted)',
-                            fontWeight: 300,
-                            margin: 0,
-                            fontFamily: 'var(--font-display)',
-                            marginTop: '10px'
-                        }}>
-                           Redefining Reality.
-                        </h2>
-                    </motion.div>
+                    {/* Line 1 */}
+                    <div style={{ overflow: 'hidden' }}>
+                        <motion.h1
+                            initial={{ y: '105%' }}
+                            animate={{ y: '0%' }}
+                            transition={{ duration: 0.7, ease: EXPO, delay: 0.1 }}
+                            style={{
+                                fontSize: 'clamp(3rem, 7vw, 6rem)',
+                                lineHeight: 0.95,
+                                letterSpacing: '-0.04em',
+                                textAlign: 'left',
+                                color: 'var(--text-main)',
+                                fontWeight: 400,
+                                margin: 0,
+                                fontFamily: 'var(--font-display)',
+                            }}
+                        >
+                            Clarity in <span style={{ color: 'var(--text-dim)' }}>Complexity.</span>
+                        </motion.h1>
+                    </div>
+
+                    {/* Line 2 */}
+                    <div style={{ overflow: 'hidden' }}>
+                        <motion.h2
+                            initial={{ y: '105%' }}
+                            animate={{ y: '0%' }}
+                            transition={{ duration: 0.7, ease: EXPO, delay: 0.2 }}
+                            style={{
+                                fontSize: 'clamp(2rem, 4vw, 3.5rem)',
+                                lineHeight: 1.05,
+                                letterSpacing: '-0.02em',
+                                textAlign: 'left',
+                                color: 'var(--text-muted)',
+                                fontWeight: 300,
+                                margin: 0,
+                                fontFamily: 'var(--font-display)',
+                            }}
+                        >
+                            Redefining Reality.
+                        </motion.h2>
+                    </div>
+
+                    {/* Accent underline — draws from left */}
+                    <motion.div
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ duration: 0.75, ease: EXPO, delay: 0.35 }}
+                        style={{
+                            height: '1px',
+                            background: 'linear-gradient(90deg, var(--text-main), transparent)',
+                            marginTop: 'clamp(16px, 2.5vh, 28px)',
+                            transformOrigin: 'left',
+                            maxWidth: '560px',
+                        }}
+                    />
                 </div>
 
-                <motion.div variants={itemVariants} style={{ marginTop: 'clamp(40px, 12vh, 120px)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: 'clamp(24px, 4vw, 40px)', alignItems: 'flex-end' }}>
-
-                    {/* Left detailed text */}
+                {/* Bottom action row — original layout */}
+                <motion.div
+                    initial={{ opacity: 0, y: 24 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.55, ease: EXPO, delay: 0.38 }}
+                    style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
+                        gap: 'clamp(24px, 4vw, 40px)',
+                        alignItems: 'flex-end',
+                    }}
+                >
+                    {/* Left — description */}
                     <div style={{ maxWidth: '400px' }}>
-                        <p style={{ fontSize: 'clamp(0.95rem, 1.2vw, 1.15rem)', color: 'var(--text-muted)', lineHeight: '1.7', fontFamily: 'var(--font-body)', fontWeight: 300 }}>
+                        <p style={{ fontSize: 'clamp(0.95rem, 1.2vw, 1.15rem)', color: 'var(--text-muted)', lineHeight: '1.7', fontFamily: 'var(--font-body)', fontWeight: 300, margin: 0 }}>
                             We build the foundational infrastructure for intelligence and physical systems with scientific rigor.
                             <br /><br />
                             <span style={{ color: 'var(--text-main)', fontWeight: 400 }}>Beyond incremental progress.</span>
                         </p>
                     </div>
 
-                    {/* Right action block */}
+                    {/* Right — CTA */}
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '20px', justifySelf: 'start', width: '100%' }}>
                         <button
                             className="btn-premium hover-target"
                             onClick={() => {
                                 const el = document.getElementById('newsletter');
-                                if (el) { el.scrollIntoView({ behavior: 'smooth' }); }
+                                if (el) el.scrollIntoView({ behavior: 'smooth' });
                             }}
                             style={{ padding: 'clamp(14px, 2vh, 20px) clamp(24px, 4vw, 40px)', fontSize: 'clamp(0.8rem, 1vw, 1rem)', letterSpacing: '0.1em', textTransform: 'uppercase', width: 'min(100%, 320px)' }}
                         >
@@ -137,28 +154,41 @@ const Hero = () => {
                 </motion.div>
             </motion.div>
 
-            {/* Scrolling indicator */}
+            {/* Premium Scroll Indicator — outer div: scroll-fade, inner: entry fade */}
             <motion.div
-                style={{
-                    position: 'absolute',
-                    bottom: '40px',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: '15px',
-                    opacity: 0.3,
-                }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.4 }}
-                transition={{ delay: 2, duration: 1.5 }}
+                className="scroll-indicator"
+                style={{ opacity: opacityFade }}
             >
                 <motion.div
-                    animate={{ y: [0, 15, 0] }}
-                    transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
-                    style={{ width: '1px', height: '60px', background: 'var(--text-main)' }}
-                />
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1.2, duration: 1 }}
+                    style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+                >
+                    <div style={{ position: 'relative', width: '1px', height: '80px' }}>
+                        {/* Track */}
+                        <div style={{ position: 'absolute', inset: 0, background: 'rgba(255,255,255,0.1)' }} />
+                        {/* Beam fill */}
+                        <motion.div
+                            animate={{ scaleY: [0, 1, 0] }}
+                            transition={{ repeat: Infinity, duration: 2, ease: [0.4, 0, 0.6, 1], repeatDelay: 0.3 }}
+                            style={{ position: 'absolute', top: 0, left: 0, width: '1px', height: '100%', background: 'var(--text-main)', transformOrigin: 'top' }}
+                        />
+                        {/* Dot */}
+                        <motion.div
+                            animate={{ y: [0, 72, 0] }}
+                            transition={{ repeat: Infinity, duration: 2, ease: [0.4, 0, 0.6, 1], repeatDelay: 0.3 }}
+                            style={{ position: 'absolute', left: '-3px', width: '7px', height: '7px', borderRadius: '50%', background: 'var(--text-main)', boxShadow: '0 0 8px rgba(255,255,255,0.5)' }}
+                        />
+                    </div>
+                    <motion.span
+                        animate={{ opacity: [0.2, 0.6, 0.2] }}
+                        transition={{ repeat: Infinity, duration: 2.5, ease: 'easeInOut' }}
+                        style={{ fontSize: '0.55rem', fontFamily: 'var(--font-body)', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--text-dim)', marginTop: '10px' }}
+                    >
+                        Scroll
+                    </motion.span>
+                </motion.div>
             </motion.div>
         </section>
     );

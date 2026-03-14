@@ -64,11 +64,7 @@ const WhoWeServe = () => {
                     </h2>
                 </motion.div>
 
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: isDesktop ? 'repeat(2, 1fr)' : '1fr',
-                    gap: '24px'
-                }}>
+                <div className="whoweserve-grid">
                     {audiences.map((item, i) => (
                         <motion.div
                             key={i}

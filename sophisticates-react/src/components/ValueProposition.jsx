@@ -38,11 +38,7 @@ const ValueProposition = () => {
                     </motion.h2>
                 </div>
 
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: isDesktop ? 'repeat(12, 1fr)' : '1fr',
-                    gap: '24px',
-                }}>
+                <div className="value-prop-grid">
                     {items.map((item, i) => (
                         <BentoBox key={i} item={item} index={i} isDesktop={isDesktop} isInView={isInView} />
                     ))}

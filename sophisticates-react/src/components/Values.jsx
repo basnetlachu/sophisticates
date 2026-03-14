@@ -62,12 +62,10 @@ const Values = () => {
                                 borderTop: '1px solid var(--border-color)',
                                 padding: 'clamp(40px, 6vw, 80px) 0',
                                 position: 'relative',
-                                display: 'grid',
-                                gridTemplateColumns: isDesktop ? '100px 1.5fr 3fr' : '1fr',
-                                gap: 'clamp(32px, 5vw, 100px)',
                                 transition: 'opacity 0.6s var(--ease-out-expo)',
                                 opacity: hoveredIndex !== null && hoveredIndex !== i ? 0.3 : 1,
                             }}
+                            className="values-row"
                         >
                             {/* Index & Tag */}
                             <div style={{ display: 'flex', flexDirection: isDesktop ? 'column' : 'row', gap: '20px', alignItems: 'flex-start' }}>

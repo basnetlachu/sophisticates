@@ -26,12 +26,7 @@ const Vision = () => {
             paddingBottom: 'clamp(100px, 15vh, 200px)'
         }}>
             <div className="max-w-container">
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: isDesktop ? '1.5fr 1fr' : '1fr',
-                    gap: 'clamp(40px, 8vw, 100px)',
-                    alignItems: 'start'
-                }}>
+                <div className="vision-grid">
 
                     {/* Visual Container - Asymmetric Placement */}
                     <div style={{ position: 'relative', paddingTop: isDesktop ? '10vh' : '0' }}>

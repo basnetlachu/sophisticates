@@ -120,12 +120,7 @@ const Contact = () => {
             paddingBottom: 'clamp(120px, 20vh, 200px)'
         }}>
             <div className="max-w-container">
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: isDesktop ? '1fr 1.3fr' : '1fr',
-                    gap: 'clamp(80px, 12vw, 160px)',
-                    alignItems: 'start'
-                }}>
+                <div className="contact-grid">
 
                     {/* Left: Info */}
                     <motion.div

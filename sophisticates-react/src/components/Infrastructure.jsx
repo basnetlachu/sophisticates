@@ -26,12 +26,7 @@ const Infrastructure = () => {
             paddingTop: 'clamp(120px, 15vh, 180px)'
         }}>
             <div className="max-w-container">
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: isDesktop ? '1fr 1.1fr' : '1fr',
-                    gap: 'clamp(60px, 10vw, 140px)',
-                    alignItems: 'center'
-                }}>
+                <div className="infra-grid">
 
                     {/* Content Container */}
                     <motion.div

@@ -6,7 +6,7 @@ const Products = () => {
     const isInView = useInView(ref, { once: true, margin: "-20% 0px" });
     const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
 
-    // Advanced parallax depth
+    // Advanced parallax depth — disabled on mobile to prevent overflow
     const imageY = useTransform(scrollYProgress, [0, 1], [-100, 100]);
     const titleX = useTransform(scrollYProgress, [0, 1], [0, -50]);
 
@@ -26,12 +26,7 @@ const Products = () => {
             overflow: 'hidden'
         }}>
             <div className="max-w-container">
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: isDesktop ? '1fr 1.2fr' : '1fr',
-                    gap: 'clamp(80px, 12vw, 160px)',
-                    alignItems: 'start'
-                }}>
+                <div className="products-grid">
                     {/* Visual Side */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.98 }}
@@ -81,13 +76,15 @@ const Products = () => {
                         </div>
 
                         <motion.h3 style={{
-                            fontSize: 'clamp(1.5rem, 2.8vw, 2.4rem)',
+                            fontSize: 'clamp(2.8rem, 7vw, 7rem)',
                             fontFamily: 'var(--font-display)',
                             color: 'var(--text-main)',
-                            margin: '0 0 10px -5px',
-                            lineHeight: 0.8,
+                            margin: '0 0 10px 0',
+                            lineHeight: 0.85,
                             letterSpacing: '-0.06em',
-                            x: titleX
+                            x: isDesktop ? titleX : 0,
+                            overflow: 'hidden',
+                            maxWidth: '100%'
                         }}>
                             MEMOPT
                         </motion.h3>

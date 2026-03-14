@@ -44,10 +44,10 @@ const FAQ = () => {
             overflow: 'hidden'
         }}>
             <div className="max-w-container" style={{ position: 'relative', zIndex: 1 }}>
-                <div style={{ display: 'grid', gridTemplateColumns: isDesktop ? '1fr 1.5fr' : '1fr', gap: '80px' }}>
+                <div className="faq-grid">
 
                     {/* Sticky Sidebar */}
-                    <div style={{ position: isDesktop ? 'sticky' : 'relative', top: '150px', height: 'fit-content' }}>
+                    <div className="faq-sticky">
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}

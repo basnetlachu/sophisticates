@@ -47,10 +47,10 @@ const Roadmap = () => {
     return (
         <section id="roadmap" ref={ref} className="section-padding" style={{ background: 'var(--bg-color)', position: 'relative', overflow: 'hidden' }}>
             <div className="max-w-container">
-                <div style={{ display: 'grid', gridTemplateColumns: isDesktop ? '0.8fr 1.2fr' : '1fr', gap: 'clamp(60px, 12vw, 200px)' }}>
+                <div className="roadmap-grid">
 
                     {/* Left Sticky Header Area (Desktop) */}
-                    <div style={{ position: isDesktop ? 'sticky' : 'relative', top: '150px', height: 'fit-content' }}>
+                    <div className="roadmap-sticky">
                         <motion.div
                             initial={{ opacity: 0, x: -30 }}
                             whileInView={{ opacity: 1, x: 0 }}

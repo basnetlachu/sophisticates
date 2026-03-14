@@ -38,12 +38,7 @@ const UseCases = () => {
             paddingBottom: 'clamp(100px, 15vh, 180px)'
         }}>
             <div className="max-w-container">
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: isDesktop ? '1fr 1.8fr' : '1fr',
-                    gap: 'clamp(60px, 10vw, 140px)',
-                    alignItems: 'start'
-                }}>
+                <div className="usecases-grid">
 
                     {/* Header */}
                     <motion.div
@@ -73,7 +68,7 @@ const UseCases = () => {
                     </motion.div>
 
                     {/* Stats Grid */}
-                    <div style={{ display: 'grid', gridTemplateColumns: isDesktop ? 'repeat(3, 1fr)' : '1fr', gap: '24px' }}>
+                    <div className="usecases-stats-grid">
                         {benefits.map((statItem, i) => (
                             <motion.div
                                 key={i}

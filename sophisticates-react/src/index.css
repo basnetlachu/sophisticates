@@ -314,6 +314,32 @@ body.light-mode .text-gradient {
 }
 .btn-outline:hover { background: var(--border-color); }
 
+/* Scroll Indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: clamp(20px, 4vh, 48px);
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  z-index: 10;
+  pointer-events: none;
+  width: 100%;
+}
+
+/* Hide on very short screens (landscape phones) */
+@media (max-height: 500px) {
+  .scroll-indicator { display: none; }
+}
+
+/* Hide on tiny width phones where it might overlap content */
+@media (max-width: 320px) {
+  .scroll-indicator { display: none; }
+}
+
 /* ══════════════════════════════════════════════════
    SECTION LABEL — Standardised pattern used site-wide
    Usage:
@@ -360,6 +386,239 @@ body.light-mode .text-gradient {
     grid-template-columns: 1fr !important;
   }
 }
+
+/* ══════════════════════════════════════════════════
+   SECTION-SPECIFIC RESPONSIVE LAYOUT OVERRIDES
+   Pure CSS — overrides JS isDesktop inline styles
+   ensuring correct layout on every device.
+══════════════════════════════════════════════════ */
+
+/* — Roadmap — */
+.roadmap-grid {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: clamp(40px, 8vw, 120px);
+}
+.roadmap-sticky {
+  position: sticky;
+  top: 120px;
+  height: fit-content;
+}
+
+@media (max-width: 1024px) {
+  .roadmap-grid {
+    grid-template-columns: 1fr !important;
+    gap: 48px !important;
+  }
+  .roadmap-sticky {
+    position: relative !important;
+    top: auto !important;
+  }
+}
+
+/* — FAQ — */
+.faq-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: clamp(40px, 6vw, 80px);
+}
+.faq-sticky {
+  position: sticky;
+  top: 120px;
+  height: fit-content;
+}
+
+@media (max-width: 1024px) {
+  .faq-grid {
+    grid-template-columns: 1fr !important;
+    gap: 48px !important;
+  }
+  .faq-sticky {
+    position: relative !important;
+    top: auto !important;
+  }
+}
+
+/* — Products — */
+.products-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: clamp(48px, 8vw, 120px);
+  align-items: start;
+}
+@media (max-width: 1024px) {
+  .products-grid {
+    grid-template-columns: 1fr !important;
+    gap: 48px !important;
+  }
+}
+
+/* — Vision — */
+.vision-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: clamp(40px, 6vw, 100px);
+  align-items: start;
+}
+@media (max-width: 1024px) {
+  .vision-grid {
+    grid-template-columns: 1fr !important;
+    gap: 48px !important;
+  }
+}
+
+/* — Infrastructure — */
+.infra-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: clamp(40px, 6vw, 100px);
+  align-items: center;
+}
+@media (max-width: 1024px) {
+  .infra-grid {
+    grid-template-columns: 1fr !important;
+    gap: 48px !important;
+  }
+}
+
+/* — UseCases — */
+.usecases-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.8fr;
+  gap: clamp(40px, 6vw, 100px);
+  align-items: start;
+}
+.usecases-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+@media (max-width: 1024px) {
+  .usecases-grid {
+    grid-template-columns: 1fr !important;
+    gap: 48px !important;
+  }
+  .usecases-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+@media (max-width: 600px) {
+  .usecases-stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .usecases-stats-grid > div {
+    min-height: 200px !important;
+  }
+}
+
+/* — WhoWeServe cards — */
+.whoweserve-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+@media (max-width: 768px) {
+  .whoweserve-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .whoweserve-grid > div {
+    min-height: 220px !important;
+  }
+}
+
+/* — Values rows — */
+.values-row {
+  display: grid;
+  grid-template-columns: 100px 1.5fr 3fr;
+  gap: clamp(24px, 4vw, 80px);
+}
+@media (max-width: 1024px) {
+  .values-row {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+}
+
+/* — About — */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 6vw, 80px);
+  align-items: center;
+}
+@media (max-width: 1024px) {
+  .about-grid {
+    grid-template-columns: 1fr !important;
+    gap: 48px !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  .about-col-right {
+    border-left: none !important;
+    padding-left: 0 !important;
+    border-top: 1px solid var(--border-color);
+    padding-top: 40px;
+  }
+}
+
+/* — ValueProposition bento — */
+.value-prop-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+}
+@media (max-width: 1024px) {
+  .value-prop-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .value-prop-grid > * {
+    grid-column: span 1 !important;
+    min-height: 280px !important;
+  }
+}
+@media (max-width: 600px) {
+  .value-prop-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .value-prop-grid > * {
+    min-height: 220px !important;
+  }
+}
+
+/* — Contact — */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: clamp(40px, 6vw, 80px);
+}
+@media (max-width: 1024px) {
+  .contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 48px !important;
+  }
+}
+
+/* Prevent ANY horizontal overflow across all sections */
+section {
+  overflow-x: hidden;
+}
+
+/* Ensure no inline grid overflow */
+@media (max-width: 768px) {
+  [style*="gridTemplateColumns"] {
+    /* Fallback: catch any missed inline grid that needs stacking */
+    min-width: 0;
+  }
+
+  /* Force card min-heights down on mobile */
+  .glass-panel[style*="minHeight: '340px'"],
+  .glass-panel[style*="minHeight: '380px'"],
+  .glass-panel[style*="minHeight: '320px'"] {
+    min-height: 180px !important;
+  }
+}
+
 
 /* Desktop / Mobile Utility */
 .desktop-only { display: flex !important; }
