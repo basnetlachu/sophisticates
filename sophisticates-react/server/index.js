@@ -8,11 +8,17 @@ import OpenAI from 'openai';
 
 dotenv.config();
 
-// ─── NVIDIA NIM — Kimi K2.5 ───────────────────────────────────────────────────
-const nvidia = new OpenAI({
-  apiKey: process.env.NVIDIA_API_KEY,
-  baseURL: 'https://integrate.api.nvidia.com/v1',
-});
+// ─── NVIDIA NIM — Kimi K2 Instruct ────────────────────────────────────────────
+const nvidia = process.env.NVIDIA_API_KEY
+  ? new OpenAI({
+      apiKey: process.env.NVIDIA_API_KEY,
+      baseURL: 'https://integrate.api.nvidia.com/v1',
+    })
+  : null;
+
+if (!nvidia) {
+  console.warn('⚠ NVIDIA_API_KEY is not set — /api/chat will return 503 until configured.');
+}
 
 const SYSTEM_PROMPT = `You are SOPH.AI — the official AI assistant embedded on the Sophisticates website (sophisticatesai.com).
 
@@ -270,11 +276,15 @@ app.post('/api/early-access', async (req, res) => {
   }
 });
 
-// ─── AI Chatbot (Kimi K2.5 via NVIDIA NIM) ───────────────────────────────────
+// ─── AI Chatbot (Kimi K2 Instruct via NVIDIA NIM) ────────────────────────────
 app.post('/api/chat', async (req, res) => {
   const { message, history } = req.body;
   if (!message) {
     return res.status(400).json({ status: 'error', message: 'Message is required' });
+  }
+
+  if (!nvidia) {
+    return res.status(503).json({ status: 'error', message: 'AI service not configured. Please contact hello@sophisticatesai.com.' });
   }
 
   const recentHistory = (history || []).slice(-6);
@@ -289,11 +299,11 @@ app.post('/api/chat', async (req, res) => {
   ];
 
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 30000); // 30s — Kimi K2.5 is a large model
+  const timeoutId = setTimeout(() => controller.abort(), 30000);
 
   try {
     const completion = await nvidia.chat.completions.create({
-      model: 'moonshotai/kimi-k2.5',
+      model: 'moonshotai/kimi-k2-instruct',
       messages,
       max_tokens: 200,
       temperature: 0.7,
@@ -303,12 +313,12 @@ app.post('/api/chat', async (req, res) => {
     const reply = completion.choices[0]?.message?.content;
     if (!reply) throw new Error('Empty response');
 
-    console.log('✦ Chat served by: moonshotai/kimi-k2.5');
+    console.log('✦ Chat served by: moonshotai/kimi-k2-instruct');
     return res.json({ status: 'success', reply });
   } catch (err) {
     clearTimeout(timeoutId);
     const isAborted = err?.name === 'AbortError' || err?.code === 'ERR_CANCELED';
-    console.error(`Kimi K2.5 ${isAborted ? 'timed out' : `failed: ${err?.status || err?.message}`}`);
+    console.error(`Kimi K2 Instruct ${isAborted ? 'timed out' : `failed: ${err?.status || err?.message}`}`);
     res.status(500).json({ status: 'error', message: 'AI temporarily unavailable. Please try again or email hello@sophisticatesai.com.' });
   }
 });
