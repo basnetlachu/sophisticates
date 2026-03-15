@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { useMobile } from '../hooks/useMobile';
 
 const Personality = () => {
     const ref = React.useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
+    const isMobile = useMobile();
 
     const personality = [
         { index: '01', title: 'Visionary Yet Grounded', desc: 'We think beyond the horizon and prove it step by step.', size: 'large' },
@@ -17,8 +19,8 @@ const Personality = () => {
             <div className="max-w-container">
                 <div style={{ marginBottom: '80px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '40px' }}>
                     <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
+                        initial={isMobile ? {} : { opacity: 0, y: 30 }}
+                        whileInView={isMobile ? {} : { opacity: 1, y: 0 }}
                         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                         viewport={{ once: true }}
                     >
@@ -32,8 +34,8 @@ const Personality = () => {
                     </motion.div>
 
                     <motion.p
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
+                        initial={isMobile ? {} : { opacity: 0 }}
+                        whileInView={isMobile ? {} : { opacity: 1 }}
                         transition={{ delay: 0.5, duration: 1 }}
                         viewport={{ once: true }}
                         style={{ maxWidth: '400px', fontSize: '1.1rem', color: 'var(--text-muted)', marginBottom: '10px' }}
@@ -51,8 +53,8 @@ const Personality = () => {
                     {personality.map((item, i) => (
                         <motion.div
                             key={i}
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
+                            initial={isMobile ? {} : { opacity: 0, scale: 0.95 }}
+                            whileInView={isMobile ? {} : { opacity: 1, scale: 1 }}
                             transition={{ delay: i * 0.1, duration: 1, ease: [0.16, 1, 0.3, 1] }}
                             viewport={{ once: true }}
                             className="glass-panel"

@@ -1,19 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useMobile } from '../hooks/useMobile';
 
 const ValueProposition = () => {
-    const [isDesktop, setIsDesktop] = useState(true);
     const isMobile = useMobile();
+    const isDesktop = !isMobile;
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
-
-    useEffect(() => {
-        const checkSize = () => setIsDesktop(window.innerWidth >= 1024);
-        checkSize();
-        window.addEventListener('resize', checkSize);
-        return () => window.removeEventListener('resize', checkSize);
-    }, []);
 
     return (
         <section id="values" ref={ref} className="section-padding" style={{ position: 'relative', overflow: 'hidden', paddingBottom: 'clamp(120px, 20vh, 200px)' }}>

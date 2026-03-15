@@ -12,13 +12,7 @@ const Vision = () => {
     const imageY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [-80, 80]);
     const textY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, -40]);
 
-    const [isDesktop, setIsDesktop] = useState(true);
-    useEffect(() => {
-        const checkSize = () => setIsDesktop(window.innerWidth >= 1024);
-        checkSize();
-        window.addEventListener('resize', checkSize);
-        return () => window.removeEventListener('resize', checkSize);
-    }, []);
+    const isDesktop = !isMobile;
 
     return (
         <section id="vision" ref={ref} className="section-padding" style={{

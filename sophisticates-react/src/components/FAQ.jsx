@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useInView } from 'framer-motion';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { useMobile } from '../hooks/useMobile';
 
 const FAQ = () => {
     const [activeIndex, setActiveIndex] = useState(null);
     const ref = React.useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
 
-    const [isDesktop, setIsDesktop] = useState(true);
-    useEffect(() => {
-        const checkSize = () => setIsDesktop(window.innerWidth >= 1024);
-        checkSize();
-        window.addEventListener('resize', checkSize);
-        return () => window.removeEventListener('resize', checkSize);
-    }, []);
+    const isMobile = useMobile();
 
     const faqs = [
         {
@@ -49,8 +44,8 @@ const FAQ = () => {
                     {/* Sticky Sidebar */}
                     <div className="faq-sticky">
                         <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            initial={isMobile ? {} : { opacity: 0, x: -30 }}
+                            whileInView={isMobile ? {} : { opacity: 1, x: 0 }}
                             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                             viewport={{ once: true }}
                         >
@@ -78,19 +73,19 @@ const FAQ = () => {
 
                     {/* FAQ Items */}
                     <div>
-                        {faqs.map((faq, index) => (
+                        {faqs.map((faq, i) => (
                             <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: index * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                                key={i}
+                                initial={isMobile ? {} : { opacity: 0, y: 20 }}
+                                whileInView={isMobile ? {} : { opacity: 1, y: 0 }}
+                                transition={{ delay: i * 0.05, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                                 viewport={{ once: true }}
                                 style={{
                                     borderBottom: '1px solid var(--border-color)',
                                 }}
                             >
                                 <button
-                                    onClick={() => toggleAccordion(index)}
+                                    onClick={() => toggleAccordion(i)}
                                     className="hover-target"
                                     style={{
                                         width: '100%',
@@ -114,26 +109,26 @@ const FAQ = () => {
                                         fontFamily: 'monospace',
                                         fontSize: '0.8rem',
                                         color: 'var(--text-dim)',
-                                        opacity: activeIndex === index ? 1 : 0.4
+                                        opacity: activeIndex === i ? 1 : 0.4
                                     }}>
-                                        0{index + 1}
+                                        0{i + 1}
                                     </span>
                                     <span style={{
                                         paddingRight: '20px',
-                                        color: activeIndex === index ? 'var(--text-main)' : 'var(--text-muted)',
+                                        color: activeIndex === i ? 'var(--text-main)' : 'var(--text-muted)',
                                         transition: 'color 0.4s var(--ease-out-expo)'
                                     }}>
                                         {faq.question}
                                     </span>
                                     <motion.div
-                                        animate={{ rotate: activeIndex === index ? 135 : 0 }}
+                                        animate={{ rotate: activeIndex === i ? 135 : 0 }}
                                         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                                         style={{
                                             display: 'flex',
                                             justifyContent: 'center',
                                             alignItems: 'center',
                                             fontSize: '1.5rem',
-                                            color: activeIndex === index ? 'var(--text-main)' : 'var(--text-dim)'
+                                            color: activeIndex === i ? 'var(--text-main)' : 'var(--text-dim)'
                                         }}
                                     >
                                         +
@@ -141,7 +136,7 @@ const FAQ = () => {
                                 </button>
 
                                 <AnimatePresence initial={false}>
-                                    {activeIndex === index && (
+                                    {activeIndex === i && (
                                         <motion.div
                                             initial={{ height: 0, opacity: 0 }}
                                             animate={{ height: 'auto', opacity: 1 }}

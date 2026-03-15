@@ -8,24 +8,11 @@ import OpenAI from 'openai';
 
 dotenv.config();
 
-// ─── OpenRouter AI Setup ──────────────────────────────────────────────────────
-const openai = new OpenAI({
-  apiKey: process.env.OPENROUTER_API_KEY,
-  baseURL: 'https://openrouter.ai/api/v1',
-  defaultHeaders: {
-    'HTTP-Referer': 'https://sophisticatesai.com',
-    'X-Title': 'Sophisticates AI'
-  }
+// ─── NVIDIA NIM — Kimi K2.5 ───────────────────────────────────────────────────
+const nvidia = new OpenAI({
+  apiKey: process.env.NVIDIA_API_KEY,
+  baseURL: 'https://integrate.api.nvidia.com/v1',
 });
-
-// Ordered fallback list — fastest/most reliable free models first
-const AI_MODELS = [
-  'google/gemma-3-4b-it:free',
-  'meta-llama/llama-3.2-3b-instruct:free',
-  'microsoft/phi-3-mini-128k-instruct:free',
-  'liquid/lfm-2.5-1.2b-instruct:free',
-  'arcee-ai/trinity-mini:free',
-];
 
 const SYSTEM_PROMPT = `You are SOPH.AI — the official AI assistant embedded on the Sophisticates website (sophisticatesai.com).
 
@@ -152,7 +139,7 @@ const transporter = nodemailer.createTransport({
 });
 
 // ─── Health Check ─────────────────────────────────────────────────────────────
-app.get('/api/health', (req, res) => {
+app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', message: 'Sophisticates Backend Operational' });
 });
 
@@ -283,14 +270,13 @@ app.post('/api/early-access', async (req, res) => {
   }
 });
 
-// ─── AI Chatbot (OpenRouter with fallback + timeout) ─────────────────────────
+// ─── AI Chatbot (Kimi K2.5 via NVIDIA NIM) ───────────────────────────────────
 app.post('/api/chat', async (req, res) => {
   const { message, history } = req.body;
   if (!message) {
     return res.status(400).json({ status: 'error', message: 'Message is required' });
   }
 
-  // Limit history to last 6 messages to keep tokens low and responses fast
   const recentHistory = (history || []).slice(-6);
 
   const messages = [
@@ -302,40 +288,29 @@ app.post('/api/chat', async (req, res) => {
     { role: 'user', content: message }
   ];
 
-  const MODEL_TIMEOUT_MS = 12000; // 12s per model attempt
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 30000); // 30s — Kimi K2.5 is a large model
 
-  let lastError = null;
-  for (const model of AI_MODELS) {
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), MODEL_TIMEOUT_MS);
+  try {
+    const completion = await nvidia.chat.completions.create({
+      model: 'moonshotai/kimi-k2.5',
+      messages,
+      max_tokens: 200,
+      temperature: 0.7,
+    }, { signal: controller.signal });
 
-      const completion = await openai.chat.completions.create({
-        model,
-        messages,
-        max_tokens: 160,
-        temperature: 0.7,
-      }, { signal: controller.signal });
+    clearTimeout(timeoutId);
+    const reply = completion.choices[0]?.message?.content;
+    if (!reply) throw new Error('Empty response');
 
-      clearTimeout(timeoutId);
-      const reply = completion.choices[0]?.message?.content || 'No response generated.';
-      console.log(`✦ Chat served by: ${model}`);
-      return res.json({ status: 'success', reply });
-    } catch (err) {
-      const status = err?.status || 500;
-      const isAborted = err?.name === 'AbortError' || err?.code === 'ERR_CANCELED';
-      if (isAborted) {
-        console.warn(`Model ${model} timed out, trying next...`);
-      } else {
-        console.warn(`Model ${model} failed (${status}), trying next...`);
-      }
-      lastError = err;
-      // Always try next model for any error
-    }
+    console.log('✦ Chat served by: moonshotai/kimi-k2.5');
+    return res.json({ status: 'success', reply });
+  } catch (err) {
+    clearTimeout(timeoutId);
+    const isAborted = err?.name === 'AbortError' || err?.code === 'ERR_CANCELED';
+    console.error(`Kimi K2.5 ${isAborted ? 'timed out' : `failed: ${err?.status || err?.message}`}`);
+    res.status(500).json({ status: 'error', message: 'AI temporarily unavailable. Please try again or email hello@sophisticatesai.com.' });
   }
-
-  console.error('All models failed:', lastError?.message || lastError);
-  res.status(500).json({ status: 'error', message: 'AI temporarily unavailable. Please try again or email hello@sophisticatesai.com.' });
 });
 
 // ─── Production Static File Serving ──────────────────────────────────────────

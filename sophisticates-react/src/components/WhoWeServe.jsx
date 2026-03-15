@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useMobile } from '../hooks/useMobile';
 
@@ -6,14 +6,6 @@ const WhoWeServe = () => {
     const ref = useRef(null);
     const isMobile = useMobile();
     const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
-
-    const [isDesktop, setIsDesktop] = useState(true);
-    useEffect(() => {
-        const checkSize = () => setIsDesktop(window.innerWidth >= 1024);
-        checkSize();
-        window.addEventListener('resize', checkSize);
-        return () => window.removeEventListener('resize', checkSize);
-    }, []);
 
     const audiences = [
         {
@@ -76,10 +68,11 @@ const WhoWeServe = () => {
                             transition={{ delay: 0.2 + (i * 0.1), duration: 1, ease: [0.16, 1, 0.3, 1] }}
                             style={{
                                 padding: 'clamp(32px, 5vw, 48px)',
-                                minHeight: '340px',
+                                minHeight: isMobile ? 'auto' : '340px',
                                 display: 'flex',
                                 flexDirection: 'column',
-                                justifyContent: 'flex-end',
+                                justifyContent: isMobile ? 'flex-start' : 'flex-end',
+                                gap: isMobile ? '24px' : '0',
                                 position: 'relative',
                                 borderRadius: '2px',
                                 border: '1px solid var(--border-color)',
@@ -91,13 +84,14 @@ const WhoWeServe = () => {
                                 <div style={{ width: '20px', height: '20px', borderTop: '1px solid var(--text-main)', borderRight: '1px solid var(--text-main)' }} />
                             </div>
 
-                            <div style={{ position: 'absolute', top: 'clamp(32px, 5vw, 48px)', left: 'clamp(32px, 5vw, 48px)' }}>
+                            {/* Tag — absolute on desktop, normal flow on mobile */}
+                            <div style={isMobile ? {} : { position: 'absolute', top: 'clamp(32px, 5vw, 48px)', left: 'clamp(32px, 5vw, 48px)' }}>
                                 <span style={{
                                     fontFamily: 'var(--font-display)',
-                                    fontSize: '1rem',
-                                    color: 'var(--text-main)',
+                                    fontSize: '0.85rem',
+                                    color: 'var(--text-dim)',
                                     textTransform: 'uppercase',
-                                    letterSpacing: '0.1em',
+                                    letterSpacing: '0.15em',
                                     fontWeight: 500
                                 }}>
                                     {item.tag}
@@ -106,18 +100,18 @@ const WhoWeServe = () => {
 
                             <div style={{ zIndex: 1, position: 'relative' }}>
                                 <h3 style={{
-                                    fontSize: 'clamp(1.7rem, 2.8vw, 2.2rem)',
+                                    fontSize: 'clamp(1.5rem, 2.8vw, 2.2rem)',
                                     color: 'var(--text-main)',
-                                    marginBottom: '20px',
+                                    marginBottom: '16px',
                                     letterSpacing: '-0.04em',
                                     fontFamily: 'var(--font-display)',
-                                    lineHeight: 1,
+                                    lineHeight: 1.1,
                                     fontWeight: 400
                                 }}>
                                     {item.title}
                                 </h3>
                                 <p style={{
-                                    fontSize: 'clamp(0.9rem, 1.2vw, 1.15rem)',
+                                    fontSize: 'clamp(0.9rem, 1.2vw, 1.1rem)',
                                     color: 'var(--text-muted)',
                                     lineHeight: '1.7',
                                     fontFamily: 'var(--font-body)',

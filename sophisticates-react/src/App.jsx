@@ -31,12 +31,17 @@ const ChatWidget = () => {
     setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
     setIsLoading(true);
 
+    const fetchController = new AbortController();
+    const fetchTimeout = setTimeout(() => fetchController.abort(), 20000);
+
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userMessage, history: messages })
+        body: JSON.stringify({ message: userMessage, history: messages.slice(-6) }),
+        signal: fetchController.signal
       });
+      clearTimeout(fetchTimeout);
 
       const data = await response.json();
       if (data.status === 'success') {
@@ -45,7 +50,11 @@ const ChatWidget = () => {
         setMessages(prev => [...prev, { role: 'assistant', content: 'Protocol error. Please contact hello@sophisticatesai.com directly.' }]);
       }
     } catch (error) {
-      setMessages(prev => [...prev, { role: 'assistant', content: 'Connection failed. Check your network and try again.' }]);
+      clearTimeout(fetchTimeout);
+      const msg = error?.name === 'AbortError'
+        ? 'Request timed out. Please try again.'
+        : 'Connection failed. Check your network and try again.';
+      setMessages(prev => [...prev, { role: 'assistant', content: msg }]);
     } finally {
       setIsLoading(false);
     }

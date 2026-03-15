@@ -1,18 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { motion, useInView } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { useMobile } from '../hooks/useMobile';
 
 const Values = () => {
     const [hoveredIndex, setHoveredIndex] = useState(null);
-    const ref = React.useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
-
-    const [isDesktop, setIsDesktop] = useState(true);
-    useEffect(() => {
-        const checkSize = () => setIsDesktop(window.innerWidth >= 1024);
-        checkSize();
-        window.addEventListener('resize', checkSize);
-        return () => window.removeEventListener('resize', checkSize);
-    }, []);
+    const isMobile = useMobile();
+    const isDesktop = !isMobile;
 
     const values = [
         {
@@ -36,9 +29,9 @@ const Values = () => {
     ];
 
     return (
-        <section id="values" ref={ref} className="section-padding" style={{ background: 'var(--bg-color)', position: 'relative' }}>
+        <section id="values" className="section-padding" style={{ background: 'var(--bg-color)', position: 'relative' }}>
             <div className="max-w-container">
-                <div style={{ marginBottom: '120px' }}>
+                <div style={{ marginBottom: 'clamp(60px, 10vh, 120px)' }}>
                     <div className="section-label-wrapper">
                         <div className="section-label-line" />
                         <span className="section-label">Foundation</span>
@@ -54,8 +47,8 @@ const Values = () => {
                             key={i}
                             onMouseEnter={() => setHoveredIndex(i)}
                             onMouseLeave={() => setHoveredIndex(null)}
-                            initial={{ opacity: 0, y: 50 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            initial={isMobile ? {} : { opacity: 0, y: 50 }}
+                            whileInView={isMobile ? {} : { opacity: 1, y: 0 }}
                             transition={{ delay: i * 0.1, duration: 1, ease: [0.16, 1, 0.3, 1] }}
                             viewport={{ once: true, margin: "-10%" }}
                             style={{

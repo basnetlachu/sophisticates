@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
+import { useMobile } from '../hooks/useMobile';
 
 const Contact = () => {
     const [formState, setFormState] = useState('idle');
@@ -17,12 +18,10 @@ const Contact = () => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
 
-    const [isDesktop, setIsDesktop] = useState(true);
-    useEffect(() => {
-        const checkSize = () => setIsDesktop(window.innerWidth >= 1024);
-        checkSize();
-        window.addEventListener('resize', checkSize);
+    const isMobile = useMobile();
+    const isDesktop = !isMobile;
 
+    useEffect(() => {
         const handleClickOutside = (event) => {
             if (countryDropdownRef.current && !countryDropdownRef.current.contains(event.target)) {
                 setCountryDropdownOpen(false);
@@ -30,7 +29,6 @@ const Contact = () => {
         };
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
-            window.removeEventListener('resize', checkSize);
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);

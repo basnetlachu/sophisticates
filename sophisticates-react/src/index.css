@@ -540,9 +540,6 @@ body.light-mode .text-gradient {
   .whoweserve-grid {
     grid-template-columns: 1fr !important;
   }
-  .whoweserve-grid > div {
-    min-height: 220px !important;
-  }
 }
 
 /* — Values rows — */
@@ -635,18 +632,16 @@ section {
     min-height: auto !important;
   }
 
-  /* Fix large inline font sizes from components */
-  [style*="fontSize: 'clamp(2.8rem"] {
+  /* Fix large inline font sizes from components (React renders kebab-case in DOM) */
+  [style*="font-size: clamp(2.8rem"] {
     font-size: clamp(1.8rem, 8vw, 2.8rem) !important;
   }
-  [style*="fontSize: 'clamp(3rem"] {
+  [style*="font-size: clamp(3rem"] {
     font-size: clamp(2rem, 9vw, 3rem) !important;
   }
-  [style*="lineHeight: 0.85"],
-  [style*="lineHeight: '0.85'"],
-  [style*="lineHeight: 0.95"],
-  [style*="lineHeight: '0.95'"] {
-    line-height: 1.05 !important;
+  [style*="line-height: 0.85"],
+  [style*="line-height: 0.95"] {
+    line-height: 1.1 !important;
   }
 
   /* Section inner containers: add more breathing room */
@@ -656,8 +651,8 @@ section {
   }
 
   /* Reduce large negative letter-spacing on mobile to improve readability */
-  [style*="letterSpacing: '-0.06em'"],
-  [style*="letterSpacing: '-0.07em'"] {
+  [style*="letter-spacing: -0.06em"],
+  [style*="letter-spacing: -0.07em"] {
     letter-spacing: -0.02em !important;
   }
 
@@ -703,24 +698,24 @@ section {
   .cursor-follower,
   .cursor-outline { display: none !important; }
 
-  .section-padding { padding: clamp(80px, 14vw, 120px) 0 !important; }
+  .section-padding { padding: clamp(50px, 12vw, 90px) 0 !important; }
 
   h1 {
     font-size: clamp(2.2rem, 9vw, 3.4rem) !important;
     letter-spacing: -0.02em !important;
-    line-height: 1.08 !important;
+    line-height: 1.15 !important;
     margin-bottom: 0.6em !important;
   }
   h2 {
     font-size: clamp(1.6rem, 6.5vw, 2.6rem) !important;
     letter-spacing: -0.02em !important;
-    line-height: 1.1 !important;
+    line-height: 1.25 !important;
     margin-bottom: 0.5em !important;
   }
   h3 {
-    font-size: clamp(1.2rem, 5vw, 1.8rem) !important;
+    font-size: clamp(1.4rem, 5.5vw, 2.2rem) !important;
     letter-spacing: -0.01em !important;
-    line-height: 1.2 !important;
+    line-height: 1.25 !important;
     margin-bottom: 0.5em !important;
   }
   p  {

@@ -9,16 +9,9 @@ const Infrastructure = () => {
     const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
 
     // Parallax — disabled on mobile
+    const isDesktop = !isMobile;
     const imageY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [-60, 60]);
     const textY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, 20]);
-
-    const [isDesktop, setIsDesktop] = useState(true);
-    useEffect(() => {
-        const checkSize = () => setIsDesktop(window.innerWidth >= 1024);
-        checkSize();
-        window.addEventListener('resize', checkSize);
-        return () => window.removeEventListener('resize', checkSize);
-    }, []);
 
     return (
         <section id="infrastructure" ref={ref} className="section-padding" style={{

@@ -1,27 +1,33 @@
-# Build and Run Stage
-FROM node:20-slim
+# ── Stage 1: Build ────────────────────────────────────────────────────────────
+FROM node:20-slim AS builder
 
-# Set working directory
 WORKDIR /app
 
-# Copy package files from the app subdirectory
 COPY sophisticates-react/package*.json ./
 
-# Install dependencies
-RUN npm install
+# Install all deps (including devDeps needed for vite build)
+RUN npm ci
 
-# Copy the app subdirectory content
 COPY sophisticates-react/ .
 
-# Build the frontend
 RUN npm run build
 
-# Set environment to production
+# ── Stage 2: Production ────────────────────────────────────────────────────────
+FROM node:20-slim AS runner
+
+WORKDIR /app
+
 ENV NODE_ENV=production
 ENV PORT=3000
 
-# Expose the port (Coolify will use this)
+# Copy package files and install production deps only
+COPY sophisticates-react/package*.json ./
+RUN npm ci --omit=dev
+
+# Copy built frontend and server from builder
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/server ./server
+
 EXPOSE 3000
 
-# Start the server
 CMD ["node", "server/index.js"]

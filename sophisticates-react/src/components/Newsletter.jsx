@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
+import { useMobile } from '../hooks/useMobile';
 
 const Newsletter = () => {
     const [email, setEmail] = useState('');
     const [status, setStatus] = useState('idle');
     const ref = React.useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-20% 0px" });
+    const isMobile = useMobile();
 
     const handleEarlyAccess = async (e) => {
         e.preventDefault();
@@ -46,8 +48,8 @@ const Newsletter = () => {
             <div className="max-w-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 1 }}>
 
                 <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    initial={isMobile ? {} : { opacity: 0, y: 50 }}
+                    animate={(!isMobile && isInView) ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
                     style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}
                 >
@@ -112,8 +114,8 @@ const Newsletter = () => {
                             <motion.form
                                 id="newsletter-form"
                                 key="form"
-                                initial={{ opacity: 0, y: 30 }}
-                                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                                initial={isMobile ? {} : { opacity: 0, y: 30 }}
+                                animate={(!isMobile && isInView) ? { opacity: 1, y: 0 } : {}}
                                 exit={{ opacity: 0, y: -30 }}
                                 transition={{ delay: 0.2, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                                 onSubmit={handleEarlyAccess}

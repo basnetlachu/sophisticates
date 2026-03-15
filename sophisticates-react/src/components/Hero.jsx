@@ -1,11 +1,13 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { useMobile } from '../hooks/useMobile';
 
 // Sharp expo easing — same feel as Linear, Vercel, Framer
 const EXPO = [0.16, 1, 0.3, 1];
 
 const Hero = () => {
     const ref = useRef(null);
+    const isMobile = useMobile();
     const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
 
     const opacityFade = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
@@ -44,9 +46,9 @@ const Hero = () => {
             >
                 {/* Micro-header label */}
                 <motion.div
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={isMobile ? {} : { opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, ease: EXPO, delay: 0.05 }}
+                    transition={{ duration: 1, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
                     style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'clamp(40px, 8vh, 80px)' }}
                 >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
@@ -63,9 +65,9 @@ const Hero = () => {
                     {/* Line 1 */}
                     <div style={{ overflow: 'hidden' }}>
                         <motion.h1
-                            initial={{ y: '105%' }}
+                            initial={isMobile ? {} : { y: '105%' }}
                             animate={{ y: '0%' }}
-                            transition={{ duration: 0.7, ease: EXPO, delay: 0.1 }}
+                            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                             style={{
                                 fontSize: 'clamp(2.4rem, 7vw, 6rem)',
                                 lineHeight: 1.05,

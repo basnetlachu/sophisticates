@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useMobile } from '../hooks/useMobile';
 
@@ -6,14 +6,6 @@ const UseCases = () => {
     const ref = useRef(null);
     const isMobile = useMobile();
     const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
-
-    const [isDesktop, setIsDesktop] = useState(true);
-    useEffect(() => {
-        const checkSize = () => setIsDesktop(window.innerWidth >= 1024);
-        checkSize();
-        window.addEventListener('resize', checkSize);
-        return () => window.removeEventListener('resize', checkSize);
-    }, []);
 
     const benefits = [
         {

@@ -1,19 +1,16 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { useMobile } from '../hooks/useMobile';
 
 const Purpose = () => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
     const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-    const imageY = useTransform(scrollYProgress, [0, 1], [-60, 60]);
+    const isMobile = useMobile();
+    const imageY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [-60, 60]);
 
-    const [isDesktop, setIsDesktop] = useState(true);
-    useEffect(() => {
-        const checkSize = () => setIsDesktop(window.innerWidth >= 1024);
-        checkSize();
-        window.addEventListener('resize', checkSize);
-        return () => window.removeEventListener('resize', checkSize);
-    }, []);
+    // Use !isMobile for logic that was using isDesktop (assuming breakpoint parity)
+    const isDesktop = !isMobile;
 
     return (
         <section id="purpose" ref={ref} className="section-padding" style={{
@@ -50,8 +47,8 @@ const Purpose = () => {
                     {/* Content Section */}
                     <div style={{ paddingTop: isDesktop ? '100px' : '0' }}>
                         <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            initial={isMobile ? {} : { opacity: 0, y: 30 }}
+                            whileInView={isMobile ? {} : { opacity: 1, y: 0 }}
                             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                             viewport={{ once: true }}
                         >
@@ -97,8 +94,8 @@ const Purpose = () => {
                                 ].map((statItem, i) => (
                                     <motion.div
                                         key={i}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
+                                        initial={isMobile ? {} : { opacity: 0, y: 20 }}
+                                        whileInView={isMobile ? {} : { opacity: 1, y: 0 }}
                                         transition={{ delay: 0.2 + (i * 0.1), duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                                         viewport={{ once: true }}
                                         style={{ borderLeft: '1px solid var(--border-color)', paddingLeft: '32px' }}
@@ -115,8 +112,8 @@ const Purpose = () => {
                     {/* Visual Segment */}
                     <div style={{ position: 'relative', width: '100%' }}>
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.98 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
+                            initial={isMobile ? {} : { opacity: 0, scale: 0.98 }}
+                            whileInView={isMobile ? {} : { opacity: 1, scale: 1 }}
                             transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
                             viewport={{ once: true }}
                             className="glass-panel"
