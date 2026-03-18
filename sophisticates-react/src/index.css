@@ -111,6 +111,14 @@ body.light-mode .flexible-logo { filter: grayscale(100%) brightness(0); }
   cursor: none;
 }
 
+/* Restore native cursor on touch / pointer-coarse devices */
+@media (hover: none), (pointer: coarse) {
+  * { cursor: auto !important; }
+  a, button { cursor: pointer !important; }
+  .cursor-follower,
+  .cursor-outline { display: none !important; }
+}
+
 html, body {
   scroll-behavior: smooth;
   overflow-x: hidden;

@@ -9,6 +9,10 @@
     /* Strict black and white mono */
 }
 
+html {
+    overflow-x: hidden;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -16,9 +20,18 @@
     cursor: none;
 }
 
+/* Restore native cursor on touch / pointer-coarse devices */
+@media (hover: none), (pointer: coarse) {
+    * { cursor: auto !important; }
+    a, button { cursor: pointer !important; }
+    .cursor-follower { display: none !important; }
+}
+
 img {
     /* Strict B&W adherence */
     filter: grayscale(100%);
+    max-width: 100%;
+    height: auto;
 }
 
 body {
@@ -238,9 +251,9 @@ body:hover .cursor-follower {
 }
 
 .tagline {
-    font-size: 1rem;
-    max-width: 280px;
-    line-height: 1.4;
+    font-size: clamp(0.85rem, 1.2vw, 1rem);
+    max-width: min(280px, 80vw);
+    line-height: 1.5;
     opacity: 0.8;
 }
 
@@ -319,9 +332,10 @@ body:hover .cursor-follower {
 }
 
 .col-left {
-    padding: 60px 40px;
+    padding: clamp(40px, 6vw, 60px) clamp(20px, 4vw, 40px);
     border-right: 1px solid var(--grid-line);
     position: relative;
+    min-width: 0;
 }
 
 .sticky-col {
@@ -334,11 +348,12 @@ body:hover .cursor-follower {
 }
 
 .col-right {
-    padding: 60px 40px;
+    padding: clamp(40px, 6vw, 60px) clamp(20px, 4vw, 40px);
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 60px;
+    gap: clamp(32px, 6vw, 60px);
+    min-width: 0;
 }
 
 .section-title {
@@ -348,6 +363,7 @@ body:hover .cursor-follower {
     letter-spacing: 1px;
     margin-bottom: 20px;
     color: rgba(255, 255, 255, 0.6);
+    transition: all 0.3s ease;
 }
 
 .section-title::before {
@@ -458,7 +474,7 @@ body:hover .cursor-follower {
 
 /* Bento Grid */
 .bento-section {
-    padding: 100px 40px;
+    padding: clamp(60px, 10vw, 100px) clamp(20px, 4vw, 40px);
     background-image:
         linear-gradient(var(--grid-line) 1px, transparent 1px),
         linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
@@ -485,7 +501,7 @@ body:hover .cursor-follower {
 }
 
 .bento-box {
-    padding: 40px;
+    padding: clamp(24px, 4vw, 40px);
     position: relative;
     transition: all 0.4s ease;
     background: #000;
@@ -559,7 +575,7 @@ body:hover .cursor-follower {
 
 /* Interactive List */
 .interactive-list-section {
-    padding: 100px 40px;
+    padding: clamp(60px, 10vw, 100px) clamp(20px, 4vw, 40px);
     max-width: 1400px;
     margin: 0 auto;
 }
@@ -620,7 +636,7 @@ body:hover .cursor-follower {
 
 /* Footer */
 .minimal-footer {
-    padding: 60px 40px;
+    padding: clamp(40px, 6vw, 60px) clamp(20px, 4vw, 40px);
     border-top: 1px solid var(--grid-line);
     background: #050505;
 }
@@ -724,8 +740,7 @@ body:hover .cursor-follower {
 
 .blink {
     animation: blink 1s infinite;
-    color: #0f0;
-    /* Tech green for status */
+    color: rgba(255, 255, 255, 0.9);
 }
 
 @keyframes blink {
@@ -766,16 +781,6 @@ body:hover .cursor-follower {
 .editorial-split:hover .section-title {
     color: #fff;
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-}
-
-.section-title {
-    font-family: monospace;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
-    color: rgba(255, 255, 255, 0.6);
-    transition: all 0.3s ease;
 }
 
 /* Responsive */
@@ -838,19 +843,35 @@ body:hover .cursor-follower {
     .thin-sub {
         font-size: 0.45em;
         letter-spacing: 0.05em;
-        /* Tighter spacing for mobile */
     }
 
     .fixed-header {
-        padding: 20px;
+        padding: 16px 20px;
+        flex-wrap: wrap;
+        gap: 10px;
     }
 
+    /* Compact scrollable nav on mobile instead of hiding entirely */
     .minimal-nav {
-        display: none;
+        display: flex;
+        gap: 16px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 2px;
+        width: 100%;
+        order: 1;
+    }
+    .minimal-nav::-webkit-scrollbar { display: none; }
+
+    .nav-item {
+        font-size: 0.65rem;
+        white-space: nowrap;
+        flex-shrink: 0;
     }
 
     .hero-fullscreen {
-        padding: 0 15px;
+        padding: 0 16px;
     }
 
     .hero-fullscreen::before {
@@ -864,33 +885,27 @@ body:hover .cursor-follower {
     }
 
     .mega-type {
-        font-size: 9vw;
-        /* Reduced to fit long words */
-        line-height: 0.9;
+        font-size: clamp(2rem, 10vw, 5rem);
+        line-height: 0.95;
     }
 
     .hero-meta {
-        left: 20px;
-        right: 20px;
-        bottom: 30px;
+        left: 16px;
+        right: 16px;
+        bottom: 24px;
         flex-direction: column;
         align-items: flex-start;
-        gap: 20px;
+        gap: 16px;
     }
 
     /* Already stacked from tablet query, just refining padding */
     .col-left,
     .col-right {
-        padding: 40px 20px;
-    }
-
-    .bento-section {
-        padding: 60px 20px;
+        padding: 32px 20px;
     }
 
     .bento-grid {
         grid-template-columns: 1fr;
-        /* 1 column for mobile */
     }
 
     .box-large,
@@ -899,17 +914,17 @@ body:hover .cursor-follower {
         grid-column: span 1;
     }
 
-    .interactive-list-section {
-        padding: 60px 20px;
-    }
-
     .list-item {
         grid-template-columns: 1fr;
-        gap: 15px;
+        gap: 12px;
     }
 
     .title {
-        font-size: 1.8rem;
+        font-size: clamp(1.5rem, 6vw, 1.8rem);
+    }
+
+    .description {
+        font-size: 0.95rem;
     }
 
     .footer-content {
@@ -930,5 +945,138 @@ body:hover .cursor-follower {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
+    }
+
+    .sim-overlay {
+        max-width: calc(100vw - 32px);
+        left: 16px;
+        top: 16px;
+        padding: 16px;
+    }
+
+    .sim-title {
+        font-size: 1.1rem;
+    }
+}
+
+/* Small phones — iPhone SE, Galaxy A series ≤ 480px */
+@media (max-width: 480px) {
+    .mega-type {
+        font-size: clamp(1.8rem, 10.5vw, 3rem);
+        line-height: 1.0;
+    }
+
+    .thin-sub {
+        font-size: 0.4em;
+        letter-spacing: 0.08em;
+    }
+
+    .narrative-text {
+        font-size: clamp(1.3rem, 5.5vw, 2rem);
+    }
+
+    .bento-grid {
+        grid-template-rows: auto;
+    }
+
+    .bento-box h3 {
+        font-size: clamp(1.3rem, 5vw, 1.8rem);
+    }
+
+    .list-item {
+        padding: 24px 12px;
+    }
+
+    .title {
+        font-size: clamp(1.3rem, 5.5vw, 1.6rem);
+    }
+
+    /* CTA button in products section */
+    a[style*="display: inline-block"] {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Galaxy Fold & very small screens ≤ 360px */
+@media (max-width: 360px) {
+    .fixed-header {
+        padding: 12px 16px;
+    }
+
+    .mega-type {
+        font-size: clamp(1.6rem, 10vw, 2.4rem);
+    }
+
+    .col-left,
+    .col-right {
+        padding: 24px 16px;
+    }
+
+    .list-item {
+        padding: 20px 8px;
+    }
+
+    .sim-overlay {
+        left: 8px;
+        max-width: calc(100vw - 16px);
+    }
+}
+
+/* Large desktop ≥ 1440px */
+@media (min-width: 1440px) {
+    .interactive-list-section {
+        padding: 120px 60px;
+        max-width: 1400px;
+    }
+
+    .bento-grid {
+        max-width: 1400px;
+    }
+
+    .narrative-text {
+        font-size: clamp(2rem, 3vw, 3.5rem);
+    }
+}
+
+/* Full HD ≥ 1920px */
+@media (min-width: 1920px) {
+    .fixed-header {
+        padding: 28px 80px;
+    }
+
+    .minimal-nav {
+        gap: 40px;
+    }
+
+    .nav-item {
+        font-size: 0.85rem;
+    }
+
+    .mega-type {
+        font-size: clamp(6rem, 9vw, 10rem);
+    }
+
+    .narrative-text {
+        font-size: clamp(2.5rem, 3.5vw, 4rem);
+    }
+}
+
+/* 2K / 4K ≥ 2560px */
+@media (min-width: 2560px) {
+    body {
+        font-size: 18px;
+    }
+
+    .mega-type {
+        font-size: clamp(8rem, 10vw, 14rem);
+    }
+
+    .fixed-header {
+        padding: 36px 120px;
+    }
+
+    .sim-overlay {
+        max-width: 600px;
     }
 }
