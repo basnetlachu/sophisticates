@@ -114,8 +114,8 @@ const Contact = () => {
         <section id="contact" ref={ref} className="section-padding" style={{
             background: 'var(--bg-color)',
             position: 'relative',
-            paddingTop: 'clamp(120px, 20vh, 200px)',
-            paddingBottom: 'clamp(120px, 20vh, 200px)'
+            paddingTop: 'clamp(60px, 8vh, 100px)',
+            paddingBottom: 'clamp(60px, 8vh, 100px)'
         }}>
             <div className="max-w-container">
                 <div className="contact-grid">
@@ -160,7 +160,7 @@ const Contact = () => {
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '60px' }}>
                             <div>
                                 <span style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: 'var(--text-dim)', letterSpacing: '0.3em', fontFamily: 'var(--font-body)', display: 'block', marginBottom: '16px' }}>Book a Call</span>
-                                <p style={{ fontSize: 'clamp(1.2rem, 1.5vw, 1.4rem)', color: 'var(--text-main)', margin: '0 0 32px 0', fontFamily: 'var(--font-body)', fontWeight: 300, letterSpacing: '-0.01em' }}>partnerships@sophisticatesai.com</p>
+                                <a href="mailto:partnerships@sophisticatesai.com" className="hover-target" style={{ fontSize: 'clamp(1.2rem, 1.5vw, 1.4rem)', color: 'var(--text-main)', margin: '0 0 32px 0', fontFamily: 'var(--font-body)', fontWeight: 300, letterSpacing: '-0.01em', textDecoration: 'none', display: 'block' }}>partnerships@sophisticatesai.com</a>
 
                                 <motion.button
                                     className="btn-premium hover-target"
@@ -173,7 +173,7 @@ const Contact = () => {
                             </div>
                             <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '40px' }}>
                                 <span style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: 'var(--text-dim)', letterSpacing: '0.3em', fontFamily: 'var(--font-body)', display: 'block', marginBottom: '16px' }}>General Inquiry</span>
-                                <p style={{ fontSize: 'clamp(1.2rem, 1.5vw, 1.4rem)', color: 'var(--text-main)', margin: '0', fontFamily: 'var(--font-body)', fontWeight: 300, letterSpacing: '-0.01em' }}>hello@sophisticatesai.com</p>
+                                <a href="mailto:hello@sophisticatesai.com" className="hover-target" style={{ fontSize: 'clamp(1.2rem, 1.5vw, 1.4rem)', color: 'var(--text-main)', margin: '0', fontFamily: 'var(--font-body)', fontWeight: 300, letterSpacing: '-0.01em', textDecoration: 'none' }}>hello@sophisticatesai.com</a>
                             </div>
                         </div>
                     </motion.div>

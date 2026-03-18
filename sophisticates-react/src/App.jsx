@@ -2,9 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './Home';
+import About from './components/About';
+import Research from './components/Research';
+import Careers from './components/Careers';
+import Partners from './components/Partners';
+import PreviewVisuals from './components/PreviewVisuals';
 import { Privacy, Terms } from './components/LegalPages';
 import Footer from './components/Footer';
 import Cursor from './components/Cursor';
+import ContactPage from './pages/ContactPage';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const ChatWidget = () => {
@@ -251,7 +257,12 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/research" element={<Research />} />
+        <Route path="/partners" element={<Partners />} />
+        <Route path="/preview" element={<PreviewVisuals />} />
         <Route path="/privacy" element={<Privacy />} />
+        <Route path="/contact" element={<ContactPage />} />
         <Route path="/terms" element={<Terms />} />
       </Routes>
       <Footer />

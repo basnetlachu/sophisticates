@@ -9,9 +9,9 @@ const ValueProposition = () => {
     const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
 
     return (
-        <section id="values" ref={ref} className="section-padding" style={{ position: 'relative', overflow: 'hidden', paddingBottom: 'clamp(120px, 20vh, 200px)' }}>
+        <section id="values" ref={ref} className="section-padding" style={{ position: 'relative', overflow: 'hidden', paddingBottom: 'clamp(60px, 8vh, 100px)' }}>
             <div className="max-w-container">
-                <div style={{ marginBottom: 'clamp(80px, 12vh, 120px)', maxWidth: '900px' }}>
+                <div style={{ marginBottom: 'clamp(40px, 6vh, 70px)', maxWidth: '900px' }}>
                     <div className="section-label-wrapper">
                         <div className="section-label-line" />
                         <motion.span

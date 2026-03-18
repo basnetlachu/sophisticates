@@ -40,8 +40,8 @@ const Newsletter = () => {
             background: 'var(--bg-color)',
             position: 'relative',
             overflow: 'hidden',
-            paddingTop: 'clamp(120px, 20vh, 200px)',
-            paddingBottom: 'clamp(120px, 20vh, 200px)'
+            paddingTop: 'clamp(60px, 8vh, 100px)',
+            paddingBottom: 'clamp(60px, 8vh, 100px)'
         }}>
             <div className="mesh-gradient-bg" style={{ opacity: 0.05, top: 'auto', bottom: '-50%' }} />
 
@@ -73,7 +73,7 @@ const Newsletter = () => {
                     <p style={{
                         fontSize: 'clamp(1.1rem, 1.5vw, 1.3rem)',
                         color: 'var(--text-muted)',
-                        marginBottom: 'clamp(60px, 10vh, 100px)',
+                        marginBottom: 'clamp(32px, 5vh, 60px)',
                         maxWidth: '640px',
                         fontFamily: 'var(--font-body)',
                         fontWeight: 300,

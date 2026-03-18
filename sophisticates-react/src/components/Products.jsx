@@ -15,7 +15,7 @@ const Products = () => {
 
     return (
         <section id="products" ref={ref} style={{
-            padding: 'clamp(80px, 14vh, 160px) 0',
+            padding: 'clamp(60px, 8vh, 100px) 0',
             background: 'var(--bg-color)',
             position: 'relative',
             overflow: 'hidden'
@@ -37,7 +37,7 @@ const Products = () => {
                             border: '1px solid var(--border-color)'
                         }}>
                             <motion.img
-                                src="/memopt-visual.webp"
+                                src="/products_image.png"
                                 alt="Memopt Architecture"
                                 className="hover-target"
                                 style={{
@@ -45,8 +45,8 @@ const Products = () => {
                                     height: 'auto',
                                     display: 'block',
                                     y: imageY,
-                                    filter: 'grayscale(100%) contrast(1.1) brightness(0.6)',
-                                    scale: 1.3
+                                    filter: 'grayscale(100%) contrast(1.0) brightness(0.9)',
+                                    scale: 1.05
                                 }}
                             />
                             {/* Inner abstract glow */}
@@ -93,20 +93,22 @@ const Products = () => {
                             marginTop: 10,
                             letterSpacing: '-0.02em'
                         }}>
-                            Intelligent Memory Orchestration
+                            Universal Memory Fabric
                         </p>
 
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '40px', marginBottom: '60px' }}>
                             <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '32px' }}>
-                                <h4 style={{ fontSize: '0.7rem', fontFamily: 'var(--font-body)', color: 'var(--text-dim)', textTransform: 'uppercase', marginBottom: '20px', letterSpacing: '0.2em' }}>The Pipeline</h4>
+                                <h4 style={{ fontSize: '0.7rem', fontFamily: 'var(--font-body)', color: 'var(--text-dim)', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '0.2em' }}>The Pipeline</h4>
+                                <h5 style={{ fontSize: 'clamp(1.1rem, 1.5vw, 1.5rem)', fontFamily: 'var(--font-display)', color: 'var(--text-main)', fontWeight: 400, margin: '0 0 16px 0' }}>Automated Hardware Synthesis</h5>
                                 <p style={{ fontSize: 'clamp(1rem, 1.25vw, 1.3rem)', fontFamily: 'var(--font-body)', color: 'var(--text-muted)', lineHeight: '1.6', margin: 0, fontWeight: 300 }}>
-                                    Automated multi-stage orchestration that <span style={{ color: 'var(--text-main)', fontWeight: 400 }}>profiles</span> architectural traffic, <span style={{ color: 'var(--text-main)', fontWeight: 400 }}>attributes</span> deep bottlenecks, and <span style={{ color: 'var(--text-main)', fontWeight: 400 }}>optimizes</span> execution sequences in real-time.
+                                    A foundational orchestration layer that translates architectural constraints into high-performance execution. By profiling deep-tier bottlenecks and synthesizing custom kernels in real-time, the pipeline enables intelligence to flow across diverse silicon NVIDIA, AMD, and custom architectures with zero code changes.
                                 </p>
                             </div>
                             <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '32px' }}>
-                                <h4 style={{ fontSize: '0.7rem', fontFamily: 'var(--font-body)', color: 'var(--text-dim)', textTransform: 'uppercase', marginBottom: '20px', letterSpacing: '0.2em' }}>The Unlock</h4>
+                                <h4 style={{ fontSize: '0.7rem', fontFamily: 'var(--font-body)', color: 'var(--text-dim)', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '0.2em' }}>The Unlock</h4>
+                                <h5 style={{ fontSize: 'clamp(1.1rem, 1.5vw, 1.5rem)', fontFamily: 'var(--font-display)', color: 'var(--text-main)', fontWeight: 400, margin: '0 0 16px 0' }}>Computational Sovereignty at Scale</h5>
                                 <p style={{ fontSize: 'clamp(0.9rem, 1.2vw, 1.15rem)', fontFamily: 'var(--font-body)', color: 'var(--text-muted)', lineHeight: '1.7', margin: 0, fontWeight: 300 }}>
-                                    A significant efficiency protocol via total elimination of cache thrashing and redundant data movement, delivering raw performance at scale.
+                                    A total elimination of the "Memory Wall" through distributed VMM and global KV-deduplication. This protocol recovers up to 90% of wasted capacity, delivering 4x higher tenant density and a 40% reduction in energy overhead. We decouple intelligence from the scarcity of hardware.
                                 </p>
                             </div>
                         </div>

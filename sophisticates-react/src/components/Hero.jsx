@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useMobile } from '../hooks/useMobile';
+import Abstract3D from './Abstract3D';
 
 // Sharp expo easing — same feel as Linear, Vercel, Framer
 const EXPO = [0.16, 1, 0.3, 1];
@@ -26,6 +27,7 @@ const Hero = () => {
             paddingBottom: 'clamp(40px, 8vh, 80px)',
         }}>
             {/* Backgrounds */}
+            <Abstract3D />
             <div className="bg-grid" />
             <div className="mesh-gradient-bg" />
             <div className="mesh-blob" style={{ top: '-10%', right: '5%', width: '50vw', height: '50vw', opacity: 0.8 }} />
@@ -134,7 +136,7 @@ const Hero = () => {
                     {/* Left — description */}
                     <div style={{ maxWidth: '400px' }}>
                         <p style={{ fontSize: 'clamp(0.95rem, 1.2vw, 1.15rem)', color: 'var(--text-muted)', lineHeight: '1.7', fontFamily: 'var(--font-body)', fontWeight: 300, margin: 0 }}>
-                            We build the foundational infrastructure for intelligence and physical systems with scientific rigor.
+                            Solving the hardest problems in AI, Quantum Computing, Robotics, and Physics.
                             <br /><br />
                             <span style={{ color: 'var(--text-main)', fontWeight: 400 }}>Beyond incremental progress.</span>
                         </p>

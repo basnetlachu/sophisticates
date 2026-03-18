@@ -15,7 +15,7 @@ const Roadmap = () => {
         {
             phase: 'Ph-I',
             title: 'Scalable Intelligent Runtimes',
-            desc: 'Optimizing the execution layer for large-scale distributed inference.',
+            desc: 'Scaling the execution layer for large-scale distributed intelligence.',
             status: 'Development'
         },
         {
@@ -32,7 +32,7 @@ const Roadmap = () => {
         },
         {
             phase: 'Ph-IV',
-            title: 'Dynamic Optimization Layers',
+            title: 'Dynamic Execution Layers',
             desc: 'Next-generation auto-tuning for enterprise AI workflows.',
             status: 'Planning'
         }
@@ -61,7 +61,7 @@ const Roadmap = () => {
                             </h2>
 
                             <p style={{ fontSize: 'clamp(0.9rem, 1.2vw, 1.15rem)', color: 'var(--text-muted)', lineHeight: '1.7', maxWidth: '440px', fontFamily: 'var(--font-body)', fontWeight: 300 }}>
-                                We are actively expanding beyond memory optimization to enable the next generation of <span style={{ color: 'var(--text-main)' }}>deep tech infrastructure.</span>
+                                We are actively expanding beyond memory fabrics to enable the next generation of <span style={{ color: 'var(--text-main)' }}>deep tech infrastructure.</span>
                             </p>
 
                         </motion.div>

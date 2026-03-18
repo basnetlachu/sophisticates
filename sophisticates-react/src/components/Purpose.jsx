@@ -88,7 +88,7 @@ const Purpose = () => {
                                 gap: '60px'
                             }}>
                                 {[
-                                    { label: 'Energy Aware', value: 'Optimized Control', detail: 'Minimizing thermodynamic overhead in computation.' },
+                                    { label: 'Energy Aware', value: 'Efficient Control', detail: 'Minimizing thermodynamic overhead in computation.' },
                                     { label: 'Scalability', value: 'Global Infrastructure', detail: 'Architectures designed for planetary-scale deployment.' },
                                     { label: 'Safety', value: 'Intrinsic Security', detail: 'Provable guarantees in every instruction set.' }
                                 ].map((statItem, i) => (

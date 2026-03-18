@@ -1,19 +1,12 @@
 import React, { useEffect } from 'react';
 import Hero from './components/Hero';
-import About from './components/About';
-import Vision from './components/Vision';
-import Purpose from './components/Purpose';
 import ValueProposition from './components/ValueProposition';
-import WhoWeServe from './components/WhoWeServe';
 import Infrastructure from './components/Infrastructure';
 import Products from './components/Products';
-import UseCases from './components/UseCases';
 import Roadmap from './components/Roadmap';
-import Values from './components/Values';
-import Personality from './components/Personality';
 import FAQ from './components/FAQ';
 import Newsletter from './components/Newsletter';
-import Contact from './components/Contact';
+
 
 function Home() {
     useEffect(() => {
@@ -37,19 +30,12 @@ function Home() {
         <main className="smooth-scroll-wrapper">
             <Hero />
             <ValueProposition />
-            <WhoWeServe />
             <Products />
             <Infrastructure />
-            <UseCases />
-            <Vision />
-            <Purpose />
-            <About />
             <Roadmap />
-            <Values />
-            <Personality />
             <FAQ />
             <Newsletter />
-            <Contact />
+
         </main>
     );
 }

@@ -8,6 +8,13 @@ const Footer = () => {
 
     const handleNavClick = (e, id) => {
         e.preventDefault();
+
+        if (typeof id === 'string' && id.startsWith('/')) {
+            navigate(id);
+            window.scrollTo(0, 0);
+            return;
+        }
+
         if (pathname === '/') {
             document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
         } else {
@@ -79,12 +86,11 @@ const Footer = () => {
                         <nav style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
                             {[
                                 { name: 'Home', id: 'hero' },
-                                { name: 'About', id: 'about' },
-                                { name: 'Technology', id: 'vision' },
-                                { name: 'Products', id: 'products' },
-                                { name: 'Use Cases', id: 'use-cases' },
-                                { name: 'Partners', id: 'who-we-serve' },
-                                { name: 'Contact', id: 'contact' }
+                                { name: 'About', id: '/about' },
+                                { name: 'Research', id: '/research' },
+
+                                { name: 'Partners', id: '/partners' },
+                                { name: 'Contact', id: '/contact' }
                             ].map(item => (
                                 <a
                                     key={item.name}

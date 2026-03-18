@@ -11,12 +11,10 @@ const Navbar = () => {
 
     const menuItems = [
         { name: 'Home', id: 'hero' },
-        { name: 'About', id: 'about' },
-        { name: 'Technology', id: 'vision' },
-        { name: 'Products', id: 'products' },
-        { name: 'Use Cases', id: 'use-cases' },
-        { name: 'Partners', id: 'who-we-serve' },
-        { name: 'Contact', id: 'contact' }
+        { name: 'About', id: '/about' },
+        { name: 'Research', id: '/research' },
+        { name: 'Partners', id: '/partners' },
+        { name: 'Contact', id: '/contact' }
     ];
 
     const handleLogoClick = () => {
@@ -28,6 +26,13 @@ const Navbar = () => {
 
     const handleNavClick = (id) => {
         setIsMenuOpen(false);
+
+        if (typeof id === 'string' && id.startsWith('/')) {
+            navigate(id);
+            window.scrollTo(0, 0);
+            return;
+        }
+
         if (pathname === '/') {
             const element = document.getElementById(id);
             if (element) {
@@ -264,7 +269,7 @@ const Navbar = () => {
                             {menuItems.map((item, i) => (
                                 <motion.a
                                     key={item.name}
-                                    href={`#${item.id}`}
+                                    href={typeof item.id === 'string' && item.id.startsWith('/') ? item.id : `#${item.id}`}
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: i * 0.05 + 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -327,7 +332,7 @@ const NavLink = ({ item, id, onClick }) => {
     const [isHovered, setIsHovered] = useState(false);
     return (
         <a
-            href={`#${id}`}
+            href={typeof id === 'string' && id.startsWith('/') ? id : `#${id}`}
             className="hover-target"
             style={{ textDecoration: 'none', position: 'relative', display: 'flex', alignItems: 'center', overflow: 'hidden', padding: '10px 0' }}
             onMouseEnter={() => setIsHovered(true)}

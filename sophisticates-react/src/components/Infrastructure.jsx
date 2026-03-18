@@ -18,7 +18,7 @@ const Infrastructure = () => {
             background: 'var(--bg-color)',
             position: 'relative',
             overflow: 'hidden',
-            paddingTop: 'clamp(80px, 12vh, 140px)'
+            paddingTop: 'clamp(60px, 8vh, 100px)'
         }}>
             <div className="max-w-container">
                 <div className="infra-grid">
@@ -56,9 +56,7 @@ const Infrastructure = () => {
                                 fontFamily: 'var(--font-body)',
                                 fontWeight: 300
                             }}>
-                                We engineer foundational layers that eliminate computational bottlenecks,
-                                aligning raw potential with effective execution. Our specialized tools
-                                optimize memory bandwidth at the architectural level.
+                                We engineer foundational layers that eliminate computational bottlenecks, aligning raw potential with effective execution. Our specialized infrastructure transforms fragmented GPU resources into a contiguous, global memory fabric, ensuring that the mission of Sophisticates remains resilient against supply chain constraints.
                             </p>
                         </div>
 
@@ -85,13 +83,13 @@ const Infrastructure = () => {
                                 style={{
                                     width: '100%',
                                     aspectRatio: '1/1',
-                                    backgroundImage: 'url(/infra_bg.webp)',
+                                    backgroundImage: 'url(/infra_network.png)',
                                     backgroundSize: 'cover',
                                     backgroundPosition: 'center',
-                                    filter: 'grayscale(100%) contrast(1.15) brightness(0.65)',
+                                    filter: 'grayscale(20%) contrast(1.1) brightness(0.8)',
                                     y: imageY,
-                                    scale: 1.25,
-                                    opacity: 0.9
+                                    scale: 1.05,
+                                    opacity: 0.95
                                 }}
                             />
                             {/* Technical Overlay */}
