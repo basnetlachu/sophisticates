@@ -58,6 +58,9 @@ const Hero = () => {
                         <span style={{ fontSize: '0.65rem', fontFamily: 'var(--font-body)', textTransform: 'uppercase', letterSpacing: '0.3em', color: 'var(--text-main)', fontWeight: 500 }}>
                             Sophisticates
                         </span>
+                        <span style={{ fontSize: '0.6rem', fontFamily: 'var(--font-body)', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--text-dim)', fontWeight: 400 }}>
+                            · Deep Tech Venture Company
+                        </span>
                     </div>
                 </motion.div>
 
@@ -136,7 +139,7 @@ const Hero = () => {
                     {/* Left — description */}
                     <div style={{ maxWidth: '400px' }}>
                         <p style={{ fontSize: 'clamp(0.95rem, 1.2vw, 1.15rem)', color: 'var(--text-muted)', lineHeight: '1.7', fontFamily: 'var(--font-body)', fontWeight: 300, margin: 0 }}>
-                            Solving the hardest problems in AI, Quantum Computing, Robotics, and Physics.
+                            A venture company building across AI, Quantum Computing, Robotics, and Physics,  each venture a deliberate bet on the hardest unsolved problems.
                             <br /><br />
                             <span style={{ color: 'var(--text-main)', fontWeight: 400 }}>Beyond incremental progress.</span>
                         </p>

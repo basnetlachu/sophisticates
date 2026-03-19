@@ -22,11 +22,12 @@ const Research = () => {
         return () => observer.disconnect();
     }, []);
 
-    const areas = [
-        {
-            title: 'Artificial Intelligence (AI)',
-            desc: 'We develop high-performance infrastructure and algorithms that push the limits of machine intelligence. From memory fabrics to scalable intelligence deployment, our AI ventures turn complex models into practical, real-world solutions.'
-        },
+    const aiArea = {
+        title: 'Artificial Intelligence (AI)',
+        desc: 'We build the infrastructure layer that makes large-scale intelligence viable. Our flagship venture, MemOpt, targets the foundational memory bottleneck in AI systems — deploying distributed virtual memory management and global key-value deduplication to recover up to 90% of wasted capacity. The result is 4x higher tenant density and a 40% reduction in energy overhead, decoupling intelligence from the scarcity of hardware. Across our AI work, the focus is the same: turn the constraints of physical compute into tractable engineering problems.'
+    };
+
+    const otherAreas = [
         {
             title: 'Quantum Computing',
             desc: 'We unlock new computational frontiers by translating quantum theory into reliable hardware and software systems. Our goal is to make quantum technologies practical, scalable, and impactful across industries.'
@@ -150,46 +151,92 @@ const Research = () => {
                         </p>
 
                         {/* Research Area Cards */}
-                        <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-                            gap: 'clamp(24px, 4vw, 40px)',
-                            marginBottom: '60px'
-                        }}>
-                            {areas.map((area, idx) => (
-                                <motion.div
-                                    key={area.title}
-                                    className="glass-panel hover-target"
-                                    initial={{ opacity: 0, y: 30 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true, margin: "-10% 0px" }}
-                                    transition={{ duration: 0.8, delay: idx * 0.1 }}
-                                    style={{
-                                        padding: 'clamp(32px, 4vw, 48px)',
-                                        border: '1px solid var(--border-color)',
-                                        background: 'rgba(255, 255, 255, 0.01)',
-                                        backdropFilter: 'blur(10px)',
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        gap: '24px'
-                                    }}
-                                >
-                                    <div style={{ fontSize: '0.8rem', fontFamily: 'monospace', color: 'var(--text-dim)', letterSpacing: '0.1em' }}>
-                                        0{idx + 1} //
-                                    </div>
-                                    <h3 style={{
-                                        fontFamily: 'var(--font-display)',
-                                        fontSize: 'clamp(1.2rem, 1.5vw, 1.5rem)',
-                                        color: 'var(--text-main)',
-                                        fontWeight: 400,
-                                        letterSpacing: '-0.02em',
-                                        margin: 0
-                                    }}>{area.title}</h3>
-                                    <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)', lineHeight: '1.7', fontFamily: 'var(--font-body)', fontWeight: 300, margin: 0 }}>
-                                        "{area.desc}"
-                                    </p>
-                                </motion.div>
-                            ))}
+
+                        {/* Group 1: AI Infrastructure */}
+                        <div style={{ marginBottom: '48px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
+                                <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', color: 'var(--text-dim)', letterSpacing: '0.25em', textTransform: 'uppercase' }}>Current Venture</span>
+                                <div style={{ flex: 1, height: '1px', background: 'var(--border-color)' }} />
+                            </div>
+                            <motion.div
+                                className="glass-panel hover-target"
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, margin: "-10% 0px" }}
+                                transition={{ duration: 0.8 }}
+                                style={{
+                                    padding: 'clamp(32px, 4vw, 48px)',
+                                    border: '1px solid var(--border-color)',
+                                    background: 'rgba(255, 255, 255, 0.01)',
+                                    backdropFilter: 'blur(10px)',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: '24px'
+                                }}
+                            >
+                                <div style={{ fontSize: '0.8rem', fontFamily: 'monospace', color: 'var(--text-dim)', letterSpacing: '0.1em' }}>
+                                    01
+                                </div>
+                                <h3 style={{
+                                    fontFamily: 'var(--font-display)',
+                                    fontSize: 'clamp(1.2rem, 1.5vw, 1.5rem)',
+                                    color: 'var(--text-main)',
+                                    fontWeight: 400,
+                                    letterSpacing: '-0.02em',
+                                    margin: 0
+                                }}>{aiArea.title}</h3>
+                                <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)', lineHeight: '1.7', fontFamily: 'var(--font-body)', fontWeight: 300, margin: 0 }}>
+                                    "{aiArea.desc}"
+                                </p>
+                            </motion.div>
+                        </div>
+
+                        {/* Group 2: Other Domains */}
+                        <div style={{ marginBottom: '60px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
+                                <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', color: 'var(--text-dim)', letterSpacing: '0.25em', textTransform: 'uppercase' }}>Future Research Ventures</span>
+                                <div style={{ flex: 1, height: '1px', background: 'var(--border-color)' }} />
+                            </div>
+                            <div style={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                                gap: 'clamp(24px, 4vw, 40px)'
+                            }}>
+                                {otherAreas.map((area, idx) => (
+                                    <motion.div
+                                        key={area.title}
+                                        className="glass-panel hover-target"
+                                        initial={{ opacity: 0, y: 30 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true, margin: "-10% 0px" }}
+                                        transition={{ duration: 0.8, delay: idx * 0.1 }}
+                                        style={{
+                                            padding: 'clamp(32px, 4vw, 48px)',
+                                            border: '1px solid var(--border-color)',
+                                            background: 'rgba(255, 255, 255, 0.01)',
+                                            backdropFilter: 'blur(10px)',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap: '24px'
+                                        }}
+                                    >
+                                        <div style={{ fontSize: '0.8rem', fontFamily: 'monospace', color: 'var(--text-dim)', letterSpacing: '0.1em' }}>
+                                            0{idx + 2}
+                                        </div>
+                                        <h3 style={{
+                                            fontFamily: 'var(--font-display)',
+                                            fontSize: 'clamp(1.2rem, 1.5vw, 1.5rem)',
+                                            color: 'var(--text-main)',
+                                            fontWeight: 400,
+                                            letterSpacing: '-0.02em',
+                                            margin: 0
+                                        }}>{area.title}</h3>
+                                        <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)', lineHeight: '1.7', fontFamily: 'var(--font-body)', fontWeight: 300, margin: 0 }}>
+                                            "{area.desc}"
+                                        </p>
+                                    </motion.div>
+                                ))}
+                            </div>
                         </div>
 
                         {/* Methodology Quote */}

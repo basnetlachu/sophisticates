@@ -16,22 +16,22 @@ import { motion, AnimatePresence } from 'framer-motion';
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { role: 'assistant', content: 'Greetings. I am SOPHISTICATES Chatbot, the Sophisticates protocol.\n\nHow can I assist you with enterprise architecture or technical integrations today?' }
+    { role: 'assistant', content: 'Hello. I am Athenaeum, the Sophisticates intelligence layer.\n\nI’m here to guide you through our work. How may I assist you today?"' }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [collectingEmail, setCollectingEmail] = useState(false);
+  const [emailInput, setEmailInput] = useState('');
   const messagesEndRef = React.useRef(null);
 
-  // Auto-scroll to bottom
   React.useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [messages, isLoading]);
+  }, [messages, isLoading, collectingEmail]);
 
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
-
     const userMessage = input.trim();
     setInput('');
     setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
@@ -48,12 +48,16 @@ const ChatWidget = () => {
         signal: fetchController.signal
       });
       clearTimeout(fetchTimeout);
-
       const data = await response.json();
       if (data.status === 'success') {
-        setMessages(prev => [...prev, { role: 'assistant', content: data.reply }]);
+        let reply = data.reply;
+        if (reply.includes('[COLLECT_EMAIL]')) {
+          reply = reply.replace('[COLLECT_EMAIL]', '').trim();
+          setCollectingEmail(true);
+        }
+        setMessages(prev => [...prev, { role: 'assistant', content: reply }]);
       } else {
-        setMessages(prev => [...prev, { role: 'assistant', content: 'Protocol error. Please contact hello@sophisticatesai.com directly.' }]);
+        setMessages(prev => [...prev, { role: 'assistant', content: 'An error occurred. Please contact hello@sophisticatesai.com directly.' }]);
       }
     } catch (error) {
       clearTimeout(fetchTimeout);
@@ -66,6 +70,31 @@ const ChatWidget = () => {
     }
   };
 
+  const sendEmail = async () => {
+    if (!emailInput.trim()) return;
+    const emailAddr = emailInput.trim();
+    setCollectingEmail(false);
+    setEmailInput('');
+    setIsLoading(true);
+    try {
+      const res = await fetch('/api/athenaeum-send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userEmail: emailAddr, messages })
+      });
+      const data = await res.json();
+      if (data.status === 'success') {
+        setMessages(prev => [...prev, { role: 'assistant', content: `Your query has been sent to the Sophisticates team. They will reach you at ${emailAddr}. Is there anything else I can help with?` }]);
+      } else {
+        setMessages(prev => [...prev, { role: 'assistant', content: 'Failed to send. Please reach us directly at hello@sophisticatesai.com.' }]);
+      }
+    } catch {
+      setMessages(prev => [...prev, { role: 'assistant', content: 'Failed to send. Please reach us directly at hello@sophisticatesai.com.' }]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -73,17 +102,26 @@ const ChatWidget = () => {
     }
   };
 
+  const baseInputStyle = {
+    background: 'transparent',
+    border: 'none',
+    borderBottom: '1px solid var(--border-color)',
+    color: 'var(--text-main)',
+    padding: '10px 0',
+    fontSize: '0.875rem',
+    fontFamily: 'var(--font-body)',
+    outline: 'none',
+    fontWeight: 300,
+    transition: 'border-color 0.3s ease'
+  };
+
   return (
     <>
-      <div style={{
-        position: 'fixed',
-        bottom: 'clamp(16px, 4vh, 40px)',
-        right: 'clamp(12px, 3vw, 40px)',
-        zIndex: 9999
-      }}>
+      {/* Toggle Button */}
+      <div style={{ position: 'fixed', bottom: 'clamp(16px, 4vh, 40px)', right: 'clamp(12px, 3vw, 40px)', zIndex: 9999 }}>
         <motion.button
           onClick={() => setIsOpen(prev => !prev)}
-          whileHover={{ scale: 1.05, boxShadow: '0 20px 60px rgba(0,0,0,0.5)' }}
+          whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="hover-target"
           style={{
@@ -102,110 +140,156 @@ const ChatWidget = () => {
             padding: 0
           }}
         >
-
-          {/* Chat icon always visible */}
           <motion.img
             src="/chat-icon.webp"
-            alt="Chat"
+            alt="Athenaeum"
             style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              borderRadius: '50%',
-              zIndex: 1,
+              position: 'absolute', inset: 0, width: '100%', height: '100%',
+              objectFit: 'cover', borderRadius: '50%', zIndex: 1,
               filter: isOpen ? 'brightness(0.3)' : 'brightness(1)',
               transformOrigin: 'center center'
             }}
             initial={{ scale: 1.35 }}
             animate={{ scale: isOpen ? 1.35 : [1.35, 1.4, 1.35] }}
-            transition={{ duration: 4, repeat: isOpen ? 0 : Infinity, ease: "easeInOut" }}
+            transition={{ duration: 4, repeat: isOpen ? 0 : Infinity, ease: 'easeInOut' }}
           />
-          {/* X overlay when open */}
           {isOpen && (
-            <span style={{
-              position: 'relative',
-              zIndex: 2,
-              color: 'var(--text-main)',
-              fontSize: '1.3rem',
-              fontWeight: 300,
-              lineHeight: 1
-            }}>✕</span>
+            <span style={{ position: 'relative', zIndex: 2, color: 'var(--text-main)', fontSize: '1.3rem', fontWeight: 300, lineHeight: 1 }}>✕</span>
           )}
         </motion.button>
       </div>
 
+      {/* Chat Panel */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            initial={{ opacity: 0, scale: 0.92, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            exit={{ opacity: 0, scale: 0.92, y: 20 }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="chat-container"
           >
+            {/* Header */}
             <div className="chat-header">
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div style={{ width: '8px', height: '8px', background: '#00ff88', borderRadius: '50%', boxShadow: '0 0 10px #00ff88' }} />
-                <div>
-                  <div style={{ fontSize: '0.6rem', fontFamily: 'monospace', color: 'var(--text-dim)', letterSpacing: '0.1em' }}>PROTOCOL_SOPHIA</div>
-                  <div style={{ fontSize: '0.8rem', fontFamily: 'var(--font-display)', color: 'var(--text-main)', letterSpacing: '0.05em' }}>INTELLIGENCE LAYER</div>
+              <div>
+                <div style={{ fontSize: '0.55rem', fontFamily: 'monospace', color: 'var(--text-dim)', letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: '5px' }}>
+                  by Sophisticates
+                </div>
+                <div style={{ fontSize: '1.05rem', fontFamily: 'var(--font-display)', color: 'var(--text-main)', fontWeight: 400, letterSpacing: '-0.02em' }}>
+                  Athenaeum
                 </div>
               </div>
-              <div style={{ fontSize: '0.6rem', fontFamily: 'monospace', color: 'var(--text-dim)' }}>v2.0.4</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <div style={{ width: '6px', height: '6px', background: '#00ff88', borderRadius: '50%', boxShadow: '0 0 8px #00ff88' }} />
+                <span style={{ fontSize: '0.6rem', fontFamily: 'monospace', color: 'var(--text-dim)', letterSpacing: '0.15em' }}>Online</span>
+              </div>
             </div>
 
+            {/* Messages */}
             <div className="chat-messages">
               {messages.map((msg, i) => (
-                <div key={i} className={`chat-message ${msg.role}`}>
+                <div
+                  key={i}
+                  className={`chat-message ${msg.role}`}
+                  style={{ fontFamily: 'var(--font-body)', fontWeight: msg.role === 'assistant' ? 300 : 400, whiteSpace: 'pre-wrap', lineHeight: 1.6 }}
+                >
                   {msg.content}
                 </div>
               ))}
+
               {isLoading && (
-                <div className="chat-message assistant" style={{ opacity: 0.5, fontFamily: 'monospace' }}>
-                  ANALYZING REQUEST...
+                <div className="chat-message assistant" style={{ opacity: 0.45, fontFamily: 'var(--font-body)', fontWeight: 300, fontStyle: 'italic' }}>
+                  Thinking...
                 </div>
               )}
+
+              {/* Email Collection Inline */}
+              {collectingEmail && (
+                <div style={{
+                  padding: '16px 18px',
+                  border: '1px solid var(--border-color)',
+                  background: 'var(--grid-line)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '12px'
+                }}>
+                  <div>
+                    <span style={{ fontSize: '0.6rem', fontFamily: 'monospace', color: 'var(--text-dim)', letterSpacing: '0.25em', textTransform: 'uppercase', display: 'block', marginBottom: '4px' }}>
+                      Your email address
+                    </span>
+                    <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-body)', color: 'var(--text-muted)', fontWeight: 300 }}>
+                      Sophisticates will reply to you directly.
+                    </span>
+                  </div>
+                  <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                    <input
+                      type="email"
+                      value={emailInput}
+                      onChange={e => setEmailInput(e.target.value)}
+                      onKeyDown={e => { if (e.key === 'Enter') sendEmail(); }}
+                      placeholder="you@example.com"
+                      style={{ ...baseInputStyle, flex: 1 }}
+                      autoFocus
+                    />
+                    <button
+                      onClick={sendEmail}
+                      disabled={!emailInput.trim()}
+                      className="hover-target"
+                      style={{
+                        background: emailInput.trim() ? 'var(--text-main)' : 'transparent',
+                        border: '1px solid var(--border-color)',
+                        color: emailInput.trim() ? 'var(--bg-color)' : 'var(--text-dim)',
+                        fontSize: '0.65rem',
+                        fontFamily: 'var(--font-body)',
+                        cursor: emailInput.trim() ? 'none' : 'default',
+                        letterSpacing: '0.15em',
+                        textTransform: 'uppercase',
+                        padding: '8px 16px',
+                        transition: 'all 0.3s ease',
+                        whiteSpace: 'nowrap',
+                        borderRadius: '1px'
+                      }}
+                    >
+                      Send
+                    </button>
+                  </div>
+                </div>
+              )}
+
               <div ref={messagesEndRef} />
             </div>
 
+            {/* Input Area */}
             <div className="chat-input-area">
               <input
                 type="text"
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="INPUT COMMAND..."
-                style={{
-                  width: '100%',
-                  background: 'transparent',
-                  border: 'none',
-                  borderBottom: '1px solid var(--border-color)',
-                  color: 'var(--text-main)',
-                  padding: '12px 0',
-                  fontSize: '0.9rem',
-                  fontFamily: 'monospace',
-                  outline: 'none',
-                  letterSpacing: '0.05em'
-                }}
+                placeholder="Ask Athenaeum..."
+                style={{ ...baseInputStyle, width: '100%' }}
               />
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '12px', alignItems: 'center' }}>
-                <span style={{ fontSize: '0.55rem', color: 'var(--text-dim)', fontFamily: 'monospace' }}>ENT_KEY TO TRANSMIT</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
+                <span style={{ fontSize: '0.6rem', color: 'var(--text-dim)', fontFamily: 'monospace', letterSpacing: '0.1em' }}>
+                  Enter to send
+                </span>
                 <button
                   onClick={sendMessage}
-                  disabled={!input.trim()}
+                  disabled={!input.trim() || isLoading}
+                  className="hover-target"
                   style={{
                     background: 'none',
                     border: 'none',
-                    color: input.trim() ? 'var(--text-main)' : 'var(--text-dim)',
+                    color: input.trim() && !isLoading ? 'var(--text-main)' : 'var(--text-dim)',
                     fontSize: '0.7rem',
-                    fontFamily: 'monospace',
-                    cursor: 'none',
-                    letterSpacing: '0.1em'
+                    fontFamily: 'var(--font-body)',
+                    cursor: input.trim() ? 'none' : 'default',
+                    letterSpacing: '0.15em',
+                    textTransform: 'uppercase',
+                    transition: 'color 0.3s ease'
                   }}
                 >
-                  EXECUTE
+                  Send
                 </button>
               </div>
             </div>
@@ -220,14 +304,8 @@ const ChatWidget = () => {
 function App() {
   const { pathname } = useLocation();
 
-  // Scroll to top on route change
   useEffect(() => {
     window.scrollTo(0, 0);
-
-    // BATCH FIX: Googlebot / Crawler Detection for SEO
-    // Googlebot takes static snapshots quickly and doesn't scroll, 
-    // which leaves Framer Motion elements stuck at opacity: 0 and y: 50
-    // This adds a global class so we can force them visible instantly for bots
     if (typeof window !== 'undefined') {
       const isBot = /bot|googlebot|crawler|spider|robot|crawling/i.test(navigator.userAgent);
       if (isBot) {
@@ -236,7 +314,6 @@ function App() {
     }
   }, [pathname]);
 
-  // Global mouse tracking for deep tech hover effects
   useEffect(() => {
     const handleMouseMove = (e) => {
       const panels = document.querySelectorAll('.glass-panel');
@@ -266,7 +343,7 @@ function App() {
         <Route path="/terms" element={<Terms />} />
       </Routes>
       <Footer />
-      <ChatWidget />
+      {pathname === '/' && <ChatWidget />}
     </div>
   );
 }

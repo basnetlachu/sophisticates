@@ -1,8 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useRef, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Environment, Float } from '@react-three/drei';
+import { Environment, Float, useEnvironment } from '@react-three/drei';
 import { useTheme } from '../context/ThemeContext';
 import { useMobile } from '../hooks/useMobile';
+
+// Preload both HDR presets immediately at module load time — before Canvas mounts
+useEnvironment.preload({ preset: 'city' });
+useEnvironment.preload({ preset: 'studio' });
 
 const Monolith = ({ isDarkMode }) => {
     const meshRef = useRef();
@@ -79,7 +83,9 @@ const Abstract3D = () => {
                 <directionalLight position={[5, 10, 5]} intensity={1.5} color={isDarkMode ? "#ffffff" : "#444444"} />
                 <directionalLight position={[-5, -10, -5]} intensity={0.5} color={isDarkMode ? "#444444" : "#aaaaaa"} />
                 <Monolith isDarkMode={isDarkMode} />
-                <Environment preset={isDarkMode ? "city" : "studio"} />
+                <Suspense fallback={null}>
+                    <Environment preset={isDarkMode ? "city" : "studio"} />
+                </Suspense>
             </Canvas>
         </div>
     );
