@@ -908,3 +908,145 @@ section {
   animation: none !important;
   visibility: visible !important;
 }
+
+/* ══════════════════════════════════════════════════
+   COMPREHENSIVE MOBILE RESPONSIVE PATCHES
+══════════════════════════════════════════════════ */
+
+/* Mesh blobs — too large on mobile, dominate small screens */
+@media (max-width: 768px) {
+  .mesh-blob {
+    width: 80vw !important;
+    height: 35vh !important;
+    filter: blur(80px) !important;
+    opacity: 0.1 !important;
+  }
+}
+@media (max-width: 480px) {
+  .mesh-blob {
+    width: 100vw !important;
+    height: 28vh !important;
+    filter: blur(60px) !important;
+    opacity: 0.08 !important;
+  }
+}
+
+/* Roadmap — timeline connector line repositions with fluid column */
+@media (max-width: 480px) {
+  .roadmap-grid [style*="left: '31px'"],
+  .roadmap-grid [style*="left:31px"] {
+    left: clamp(16px, 4vw, 31px) !important;
+  }
+}
+
+/* Newsletter — form layout on very small phones */
+@media (max-width: 480px) {
+  #newsletter-form {
+    flex-direction: column !important;
+    border-bottom: none !important;
+    gap: 0 !important;
+  }
+  #newsletter-email {
+    border-bottom: 1px solid var(--border-color) !important;
+    padding-right: 0 !important;
+    width: 100% !important;
+  }
+  #newsletter-form button[type="submit"] {
+    position: static !important;
+    padding: 16px 0 !important;
+    border-top: 1px solid var(--border-color) !important;
+    justify-content: flex-start !important;
+    opacity: 0.7 !important;
+  }
+}
+
+/* Partners page — top padding account for navbar on small screens */
+@media (max-width: 768px) {
+  .smooth-scroll-wrapper[style*="paddingTop"] {
+    padding-top: clamp(80px, 14vh, 120px) !important;
+  }
+}
+
+/* FAQ answer indent — reduce on small screens */
+@media (max-width: 480px) {
+  .faq-answer-indent {
+    padding-left: clamp(20px, 5vw, 40px) !important;
+  }
+}
+
+/* Footer decorative background text — scale down on mobile */
+@media (max-width: 768px) {
+  footer [style*="22vw"] {
+    font-size: 30vw !important;
+    opacity: 0.015 !important;
+  }
+}
+
+/* Hero micro-header — wrap on very small screens */
+@media (max-width: 380px) {
+  .hero-micro-header {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+}
+
+/* Roadmap cards — ensure text doesn't overflow on small phones */
+@media (max-width: 480px) {
+  .roadmap-grid .glass-panel {
+    padding: 20px !important;
+  }
+  .roadmap-grid .glass-panel [style*="justifyContent: 'space-between'"] {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+  }
+}
+
+/* Value proposition cards — min-height reduction on phones */
+@media (max-width: 380px) {
+  .value-prop-grid > * {
+    min-height: 180px !important;
+  }
+}
+
+/* Chat widget — very small phones (Galaxy Fold etc) */
+@media (max-width: 360px) {
+  .chat-container {
+    bottom: 80px;
+    right: 8px;
+    width: calc(100vw - 16px) !important;
+    height: min(85vh, 480px) !important;
+  }
+}
+
+/* Prevent overflow on any inline grid with fixed minmax */
+@media (max-width: 360px) {
+  [style*="minmax(280px"],
+  [style*="minmax(260px"],
+  [style*="minmax(320px"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Abstract 3D canvas — hide on very small screens to save performance */
+@media (max-width: 360px) {
+  #hero canvas {
+    opacity: 0.4 !important;
+  }
+}
+
+/* Research page form — fix on mobile */
+@media (max-width: 768px) {
+  .research-form-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Ensure buttons never overflow their container */
+@media (max-width: 480px) {
+  .btn-premium,
+  .btn-outline {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}

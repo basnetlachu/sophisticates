@@ -376,8 +376,8 @@ const Research = () => {
                                         <button className="btn-outline hover-target" onClick={() => setStatus('idle')} style={{ marginTop: '40px', padding: '12px 32px' }}>New Application</button>
                                     </motion.div>
                                 ) : (
-                                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '48px' }}>
-                                        <div style={{ display: 'grid', gridTemplateColumns: isDesktop ? '1fr 1fr' : '1fr', gap: '32px' }}>
+                                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(28px, 5vw, 48px)' }}>
+                                        <div className="research-form-grid" style={{ display: 'grid', gridTemplateColumns: isDesktop ? '1fr 1fr' : '1fr', gap: 'clamp(20px, 3vw, 32px)' }}>
                                             <div className="input-group">
                                                 <label style={labelStyle}>Full Name</label>
                                                 <input
@@ -409,7 +409,7 @@ const Research = () => {
                                             </div>
                                         </div>
 
-                                        <div style={{ display: 'grid', gridTemplateColumns: isDesktop ? '1fr 1fr' : '1fr', gap: '32px' }}>
+                                        <div className="research-form-grid" style={{ display: 'grid', gridTemplateColumns: isDesktop ? '1fr 1fr' : '1fr', gap: 'clamp(20px, 3vw, 32px)' }}>
                                             <div className="input-group">
                                                 <label style={labelStyle}>Organization</label>
                                                 <input

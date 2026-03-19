@@ -6,7 +6,7 @@ const Partners = () => {
     useEffect(() => { window.scrollTo(0, 0); }, []);
 
     return (
-        <main className="smooth-scroll-wrapper" style={{ paddingTop: '160px', paddingBottom: '160px', minHeight: '100vh', background: 'var(--bg-color)', position: 'relative' }}>
+        <main className="smooth-scroll-wrapper" style={{ paddingTop: 'clamp(100px, 12vh, 160px)', paddingBottom: 'clamp(60px, 10vh, 160px)', minHeight: '100vh', background: 'var(--bg-color)', position: 'relative' }}>
             <PartnersVisualizer />
             <div className="max-w-container" style={{ position: 'relative', zIndex: 2 }}>
                 <div className="section-label-wrapper">
@@ -20,7 +20,7 @@ const Partners = () => {
                     We form strategic alliances with industry leaders, research institutions, and visionary enterprises to integrate our deep tech infrastructure into the real world.
                 </p>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px', marginBottom: '100px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))', gap: '40px', marginBottom: '100px' }}>
                     {[
                         { title: 'Research Partnerships', desc: 'Collaborate with our scientists on quantum control, AI reasoning, and robotic perception.' },
                         { title: 'Enterprise Integration', desc: 'Embed Sophisticates core intelligence models directly into your high-scale systems.' },

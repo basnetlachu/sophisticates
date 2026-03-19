@@ -97,7 +97,7 @@ const Newsletter = () => {
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                     gap: '20px',
-                                    padding: '32px 64px',
+                                    padding: 'clamp(20px, 4vw, 32px) clamp(24px, 8vw, 64px)',
                                     fontFamily: 'var(--font-body)',
                                     textTransform: 'uppercase',
                                     letterSpacing: '0.3em',
@@ -145,7 +145,7 @@ const Newsletter = () => {
                                         flex: '1 1 200px',
                                         minWidth: 0,
                                         padding: 'clamp(20px, 4vh, 32px) 0',
-                                        paddingRight: 'clamp(100px, 15vw, 180px)',
+                                        paddingRight: 'clamp(60px, 12vw, 180px)',
                                         backgroundColor: 'transparent',
                                         border: 'none',
                                         color: 'var(--text-main)',
@@ -197,7 +197,7 @@ const Newsletter = () => {
             {/* Aesthetic Detail */}
             <div style={{
                 position: 'absolute', top: '20%', right: '-10%',
-                fontSize: '25rem', fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(6rem, 20vw, 25rem)', fontFamily: 'var(--font-display)',
                 color: 'var(--text-main)', opacity: 0.012, pointerEvents: 'none',
                 lineHeight: 1, fontWeight: 700, transform: 'rotate(15deg)'
             }}>

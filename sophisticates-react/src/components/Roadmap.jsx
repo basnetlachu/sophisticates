@@ -68,7 +68,7 @@ const Roadmap = () => {
                     </div>
 
                     {/* Right Timeline Area */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '40px', position: 'relative' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(24px, 4vw, 40px)', position: 'relative' }}>
                         {/* Connecting Line (Base) */}
                         <div style={{
                             position: 'absolute',
@@ -102,8 +102,8 @@ const Roadmap = () => {
                                 viewport={{ once: true, margin: "-100px" }}
                                 style={{
                                     display: 'grid',
-                                    gridTemplateColumns: '62px 1fr',
-                                    gap: '32px',
+                                    gridTemplateColumns: 'clamp(40px, 8vw, 62px) 1fr',
+                                    gap: 'clamp(16px, 3vw, 32px)',
                                     position: 'relative',
                                     zIndex: 1
                                 }}
@@ -125,7 +125,7 @@ const Roadmap = () => {
                                 </div>
 
                                 {/* Card */}
-                                <div className="glass-panel" style={{ padding: '32px', borderRadius: '2px' }}>
+                                <div className="glass-panel" style={{ padding: 'clamp(20px, 4vw, 32px)', borderRadius: '2px', minWidth: 0 }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
                                         <span style={{ fontFamily: 'monospace', fontSize: '0.7rem', color: 'var(--text-dim)', letterSpacing: '0.2em' }}>{item.phase}</span>
                                         <span style={{

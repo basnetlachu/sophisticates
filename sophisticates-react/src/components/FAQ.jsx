@@ -90,7 +90,7 @@ const FAQ = () => {
                                     style={{
                                         width: '100%',
                                         display: 'grid',
-                                        gridTemplateColumns: 'minmax(40px, 60px) 1fr 40px',
+                                        gridTemplateColumns: 'clamp(28px, 6vw, 60px) 1fr clamp(28px, 5vw, 40px)',
                                         alignItems: 'center',
                                         padding: 'clamp(32px, 5vw, 48px) 0',
                                         background: 'transparent',
@@ -143,7 +143,7 @@ const FAQ = () => {
                                             exit={{ height: 0, opacity: 0 }}
                                             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                                         >
-                                            <div style={{
+                                            <div className="faq-answer-indent" style={{
                                                 padding: '0 0 clamp(32px, 6vw, 56px) clamp(40px, 6vw, 60px)',
                                                 color: 'var(--text-muted)',
                                                 fontFamily: 'var(--font-body)',

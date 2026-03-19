@@ -53,7 +53,7 @@ const Hero = () => {
                     transition={{ duration: 1, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
                     style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'clamp(40px, 8vh, 80px)' }}
                 >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                    <div className="hero-micro-header" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
                         <div style={{ width: '40px', height: '1px', background: 'var(--text-main)' }} />
                         <span style={{ fontSize: '0.65rem', fontFamily: 'var(--font-body)', textTransform: 'uppercase', letterSpacing: '0.3em', color: 'var(--text-main)', fontWeight: 500 }}>
                             Sophisticates

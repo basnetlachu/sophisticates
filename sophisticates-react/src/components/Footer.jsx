@@ -38,8 +38,8 @@ const Footer = () => {
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'flex-start',
-                    gap: '80px',
-                    marginBottom: '100px',
+                    gap: 'clamp(40px, 5vw, 80px)',
+                    marginBottom: 'clamp(40px, 8vh, 100px)',
                     position: 'relative',
                     zIndex: 2
                 }}
@@ -80,7 +80,7 @@ const Footer = () => {
                 </div>
 
                 {/* Middle: Links */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '80px', width: '100%', maxWidth: '600px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 'clamp(32px, 5vw, 80px)', width: '100%', maxWidth: '600px' }}>
                     <div>
                         <h4 style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.3em', marginBottom: '32px', color: 'var(--text-main)', opacity: 0.5 }}>Navigation</h4>
                         <nav style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
@@ -120,7 +120,7 @@ const Footer = () => {
             <div style={{
                 position: 'relative',
                 zIndex: 2,
-                marginTop: '120px',
+                marginTop: 'clamp(40px, 8vh, 120px)',
                 paddingBottom: '40px'
             }}>
                 <div
