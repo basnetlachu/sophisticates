@@ -1,18 +1,20 @@
-import React, { useRef, Suspense } from 'react';
+import React, { useRef, Suspense, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Environment, Float, useEnvironment } from '@react-three/drei';
+import { Environment, Float } from '@react-three/drei';
 import { useTheme } from '../context/ThemeContext';
 import { useMobile } from '../hooks/useMobile';
 
-// Preload both HDR presets immediately at module load time — before Canvas mounts
-useEnvironment.preload({ preset: 'city' });
-useEnvironment.preload({ preset: 'studio' });
-
-const Monolith = ({ isDarkMode }) => {
+const Monolith = ({ isDarkMode, onReady }) => {
     const meshRef = useRef();
     const coreRef = useRef();
+    const firedRef = useRef(false);
 
     useFrame((state, delta) => {
+        // First frame that actually renders — environment is applied, safe to show
+        if (!firedRef.current) {
+            firedRef.current = true;
+            onReady();
+        }
         meshRef.current.rotation.x += delta * 0.08;
         meshRef.current.rotation.y += delta * 0.12;
         coreRef.current.rotation.y -= delta * 0.04;
@@ -38,7 +40,7 @@ const Monolith = ({ isDarkMode }) => {
                         opacity={isDarkMode ? 0.08 : 0.12}
                     />
                 </mesh>
-                
+
                 {/* Inner Solid Core */}
                 <mesh ref={coreRef} scale={3.1}>
                     <icosahedronGeometry args={[1, 0]} />
@@ -55,6 +57,7 @@ const Monolith = ({ isDarkMode }) => {
 
 const Abstract3D = () => {
     const { isDarkMode } = useTheme();
+    const [ready, setReady] = useState(false);
 
     return (
         <div style={{
@@ -65,26 +68,20 @@ const Abstract3D = () => {
             height: '100%',
             zIndex: 1,
             pointerEvents: 'none',
-            // Prevent any CSS transition/fade on the wrapper
-            transition: 'none',
-            opacity: 1,
-            willChange: 'auto',
+            opacity: ready ? 1 : 0,
+            transition: ready ? 'opacity 1s ease' : 'none',
         }}>
             <Canvas
                 camera={{ position: [0, 0, 10], fov: 40 }}
                 gl={{ alpha: true, antialias: true }}
                 dpr={[1, 1.5]}
-                onCreated={({ gl }) => {
-                    // Immediately render first frame so no blank flash
-                    gl.render;
-                }}
             >
                 <ambientLight intensity={isDarkMode ? 0.8 : 1.2} />
                 <directionalLight position={[5, 10, 5]} intensity={1.5} color={isDarkMode ? "#ffffff" : "#444444"} />
                 <directionalLight position={[-5, -10, -5]} intensity={0.5} color={isDarkMode ? "#444444" : "#aaaaaa"} />
-                <Monolith isDarkMode={isDarkMode} />
                 <Suspense fallback={null}>
                     <Environment preset={isDarkMode ? "city" : "studio"} />
+                    <Monolith isDarkMode={isDarkMode} onReady={() => setReady(true)} />
                 </Suspense>
             </Canvas>
         </div>

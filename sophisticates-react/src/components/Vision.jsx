@@ -62,7 +62,7 @@ const Vision = () => {
                             fontSize: '0.8rem',
                             color: 'var(--text-dim)'
                         }}>
-                            <span>Fig. 1 — Visionary Matrix</span>
+                            <span>Fig. 1 · Visionary Matrix</span>
                         </div>
                     </div>
 

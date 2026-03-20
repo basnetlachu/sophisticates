@@ -24,7 +24,7 @@ const Research = () => {
 
     const aiArea = {
         title: 'Artificial Intelligence (AI)',
-        desc: 'We build the infrastructure layer that makes large-scale intelligence viable. Our flagship venture, MemOpt, targets the foundational memory bottleneck in AI systems — deploying distributed virtual memory management and global key-value deduplication to recover up to 90% of wasted capacity. The result is 4x higher tenant density and a 40% reduction in energy overhead, decoupling intelligence from the scarcity of hardware. Across our AI work, the focus is the same: turn the constraints of physical compute into tractable engineering problems.'
+        desc: 'We build the infrastructure layer that makes large-scale intelligence viable. Our flagship venture, MemOpt, targets the foundational memory bottleneck in AI systems, deploying distributed virtual memory management and global key-value deduplication to recover up to 90% of wasted capacity. The result is 4x higher tenant density and a 40% reduction in energy overhead, decoupling intelligence from the scarcity of hardware. Across our AI work, the focus is the same: turn the constraints of physical compute into tractable engineering problems.'
     };
 
     const otherAreas = [

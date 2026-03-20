@@ -11,6 +11,7 @@ const Navbar = () => {
 
     const menuItems = [
         { name: 'Home', id: 'hero' },
+        { name: 'Ventures', id: 'portfolio' },
         { name: 'About', id: '/about' },
         { name: 'Research', id: '/research' },
         { name: 'Partners', id: '/partners' },
@@ -61,16 +62,7 @@ const Navbar = () => {
 
     const handleRequestAccess = () => {
         setIsMenuOpen(false);
-        handleNavClick('newsletter');
-        setTimeout(() => {
-            const input = document.getElementById('newsletter-email');
-            const form = document.getElementById('newsletter-form');
-            if (input && form) {
-                input.focus();
-                form.classList.add('pulse-highlight');
-                setTimeout(() => form.classList.remove('pulse-highlight'), 1200);
-            }
-        }, 800);
+        handleNavClick('closing');
     };
 
     useEffect(() => {

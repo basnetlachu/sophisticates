@@ -1,11 +1,15 @@
 import React, { useEffect } from 'react';
 import Hero from './components/Hero';
+import Marquee from './components/Marquee';
+import StatsStrip from './components/StatsStrip';
+import ProblemStatement from './components/ProblemStatement';
+import Portfolio from './components/Portfolio';
 import ValueProposition from './components/ValueProposition';
-import Infrastructure from './components/Infrastructure';
 import Products from './components/Products';
 import Roadmap from './components/Roadmap';
+import Founder from './components/Founder';
 import FAQ from './components/FAQ';
-import Newsletter from './components/Newsletter';
+import Closing from './components/Closing';
 
 
 function Home() {
@@ -29,12 +33,16 @@ function Home() {
     return (
         <main className="smooth-scroll-wrapper">
             <Hero />
+            <Marquee />
+            <StatsStrip />
+            <ProblemStatement />
+            <Portfolio />
             <ValueProposition />
             <Products />
-            <Infrastructure />
             <Roadmap />
+            <Founder />
             <FAQ />
-            <Newsletter />
+            <Closing />
 
         </main>
     );

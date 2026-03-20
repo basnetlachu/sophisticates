@@ -14,26 +14,30 @@ const Roadmap = () => {
     const items = [
         {
             phase: 'Ph-I',
-            title: 'Scalable Intelligent Runtimes',
-            desc: 'Scaling the execution layer for large-scale distributed intelligence.',
-            status: 'Development'
+            venture: 'MEMOPT · AI Infrastructure',
+            title: 'Universal Memory Fabric',
+            desc: 'Eliminating the memory wall across all silicon. Distributed VMM and global KV-deduplication delivering 4× tenant density and 40% energy reduction. Decoupling intelligence from the scarcity of hardware.',
+            status: 'Live'
         },
         {
             phase: 'Ph-II',
-            title: 'Adaptive Infrastructure for Robotics',
-            desc: 'Building low-latency, high-reliability control systems for physical interaction.',
+            venture: 'Venture · Quantum Computing',
+            title: 'Quantum Systems Outside the Lab',
+            desc: 'Engineering quantum hardware and software that operates reliably in real-world conditions. The goal is not theoretical quantum advantage — it is practical quantum execution at scale.',
             status: 'Research'
         },
         {
             phase: 'Ph-III',
-            title: 'Quantum & Physics Informed Systems',
-            desc: 'Integrating deep scientific constraints directly into computational frameworks.',
+            venture: 'Venture · Physics',
+            title: 'Physics-Informed Engineering',
+            desc: 'Translating deep physical constraints — thermodynamic, electromagnetic, mechanical — into engineered systems that operate at the limits of what matter can compute.',
             status: 'Concept'
         },
         {
             phase: 'Ph-IV',
-            title: 'Dynamic Execution Layers',
-            desc: 'Next-generation auto-tuning for enterprise AI workflows.',
+            venture: 'Venture · Robotics',
+            title: 'Autonomy Under Uncertainty',
+            desc: 'Building machines that reason and act in unstructured physical environments. Low-latency control systems that close the loop between perception, decision, and physical execution.',
             status: 'Planning'
         }
     ];
@@ -126,16 +130,27 @@ const Roadmap = () => {
 
                                 {/* Card */}
                                 <div className="glass-panel" style={{ padding: 'clamp(20px, 4vw, 32px)', borderRadius: '2px', minWidth: 0 }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                                         <span style={{ fontFamily: 'monospace', fontSize: '0.7rem', color: 'var(--text-dim)', letterSpacing: '0.2em' }}>{item.phase}</span>
                                         <span style={{
                                             fontFamily: 'monospace',
                                             fontSize: '0.65rem',
                                             padding: '4px 10px',
-                                            border: '1px solid var(--border-color)',
-                                            color: 'var(--text-main)',
+                                            border: '1px solid',
+                                            borderColor: item.status === 'Live' ? 'rgba(255,255,255,0.4)' : 'var(--border-color)',
+                                            color: item.status === 'Live' ? 'var(--text-main)' : 'var(--text-dim)',
                                             background: 'var(--grid-line)'
                                         }}>{item.status}</span>
+                                    </div>
+                                    <div style={{
+                                        fontFamily: 'var(--font-body)',
+                                        fontSize: '0.6rem',
+                                        textTransform: 'uppercase',
+                                        letterSpacing: '0.2em',
+                                        color: 'var(--text-dim)',
+                                        marginBottom: '20px',
+                                    }}>
+                                        {item.venture}
                                     </div>
                                     <h3 style={{
                                         fontFamily: 'var(--font-display)',

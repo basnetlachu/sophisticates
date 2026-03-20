@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React, { useRef, useState } from 'react';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { useMobile } from '../hooks/useMobile';
 import Abstract3D from './Abstract3D';
 
@@ -8,6 +8,31 @@ const EXPO = [0.16, 1, 0.3, 1];
 
 const Hero = () => {
     const ref = useRef(null);
+    const [email, setEmail] = useState('');
+    const [status, setStatus] = useState('idle'); // idle | submitting | success | error
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!email) return;
+        setStatus('submitting');
+        try {
+            const res = await fetch('/api/early-access', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email }),
+            });
+            if (res.ok) {
+                setStatus('success');
+                setEmail('');
+            } else {
+                setStatus('error');
+                setTimeout(() => setStatus('idle'), 3000);
+            }
+        } catch {
+            setStatus('error');
+            setTimeout(() => setStatus('idle'), 3000);
+        }
+    };
     const isMobile = useMobile();
     const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
 
@@ -109,6 +134,26 @@ const Hero = () => {
                         </motion.h2>
                     </div>
 
+                    {/* Orienting sub-line */}
+                    <div style={{ overflow: 'hidden', marginTop: 'clamp(14px, 2vh, 24px)' }}>
+                        <motion.p
+                            initial={isMobile ? {} : { y: '105%' }}
+                            animate={{ y: '0%' }}
+                            transition={{ duration: 0.7, ease: EXPO, delay: 0.28 }}
+                            style={{
+                                fontSize: 'clamp(0.8rem, 1.1vw, 1rem)',
+                                fontFamily: 'var(--font-body)',
+                                color: 'var(--text-dim)',
+                                fontWeight: 400,
+                                letterSpacing: '0.08em',
+                                textTransform: 'uppercase',
+                                margin: 0,
+                            }}
+                        >
+                            We build companies across AI · Quantum Computing · Robotics · Physics
+                        </motion.p>
+                    </div>
+
                     {/* Accent underline — draws from left */}
                     <motion.div
                         initial={{ scaleX: 0 }}
@@ -139,24 +184,115 @@ const Hero = () => {
                     {/* Left — description */}
                     <div style={{ maxWidth: '400px' }}>
                         <p style={{ fontSize: 'clamp(0.95rem, 1.2vw, 1.15rem)', color: 'var(--text-muted)', lineHeight: '1.7', fontFamily: 'var(--font-body)', fontWeight: 300, margin: 0 }}>
-                            A venture company building across AI, Quantum Computing, Robotics, and Physics,  each venture a deliberate bet on the hardest unsolved problems.
+                            Sophisticates is a deep tech venture company. We build companies from scratch, each one engineered from first principles.
                             <br /><br />
-                            <span style={{ color: 'var(--text-main)', fontWeight: 400 }}>Beyond incremental progress.</span>
+                            Not a fund. Not a consultancy. We build ventures across <span style={{ color: 'var(--text-main)', fontWeight: 400 }}>AI, Quantum Computing, Robotics, and Physics.</span> Each a deliberate bet on the hardest unsolved problems in science and engineering.
                         </p>
                     </div>
 
-                    {/* Right — CTA */}
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '20px', justifySelf: 'start', width: '100%' }}>
-                        <button
-                            className="btn-premium hover-target"
-                            onClick={() => {
-                                const el = document.getElementById('newsletter');
-                                if (el) el.scrollIntoView({ behavior: 'smooth' });
-                            }}
-                            style={{ padding: 'clamp(14px, 2vh, 20px) clamp(24px, 4vw, 40px)', fontSize: 'clamp(0.8rem, 1vw, 1rem)', letterSpacing: '0.1em', textTransform: 'uppercase', width: 'min(100%, 320px)' }}
-                        >
-                            Request Priority Access
-                        </button>
+                    {/* Right — Inline email form */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', justifySelf: 'start', width: '100%', maxWidth: '420px' }}>
+                        <AnimatePresence mode="wait">
+                            {status === 'success' ? (
+                                <motion.div
+                                    key="success"
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0 }}
+                                    style={{
+                                        padding: 'clamp(16px, 2vh, 22px) 0',
+                                        borderBottom: '1px solid var(--border-color)',
+                                        fontFamily: 'var(--font-body)',
+                                        fontSize: '0.75rem',
+                                        textTransform: 'uppercase',
+                                        letterSpacing: '0.25em',
+                                        color: 'var(--text-main)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '12px',
+                                    }}
+                                >
+                                    <span>✓</span> Access Requested
+                                </motion.div>
+                            ) : (
+                                <motion.form
+                                    key="form"
+                                    onSubmit={handleSubmit}
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        borderBottom: '1px solid var(--border-color)',
+                                        transition: 'border-color 0.3s ease',
+                                        gap: '12px',
+                                        paddingBottom: '2px',
+                                        width: '100%',
+                                    }}
+                                    onFocus={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.6)'}
+                                    onBlur={e => e.currentTarget.style.borderColor = 'var(--border-color)'}
+                                >
+                                    <input
+                                        type="email"
+                                        required
+                                        placeholder="Enter your email"
+                                        value={email}
+                                        onChange={e => setEmail(e.target.value)}
+                                        disabled={status === 'submitting'}
+                                        style={{
+                                            flex: 1,
+                                            background: 'transparent',
+                                            border: 'none',
+                                            outline: 'none',
+                                            color: 'var(--text-main)',
+                                            fontFamily: 'var(--font-body)',
+                                            fontSize: 'clamp(0.85rem, 1.1vw, 1rem)',
+                                            fontWeight: 300,
+                                            padding: 'clamp(12px, 2vh, 18px) 0',
+                                            letterSpacing: '0.02em',
+                                        }}
+                                    />
+                                    <motion.button
+                                        type="submit"
+                                        disabled={status === 'submitting'}
+                                        whileHover={{ x: 4 }}
+                                        transition={{ duration: 0.2 }}
+                                        style={{
+                                            background: 'transparent',
+                                            border: 'none',
+                                            color: 'var(--text-main)',
+                                            fontFamily: 'var(--font-body)',
+                                            fontSize: '0.7rem',
+                                            textTransform: 'uppercase',
+                                            letterSpacing: '0.25em',
+                                            cursor: status === 'submitting' ? 'not-allowed' : 'pointer',
+                                            opacity: status === 'submitting' ? 0.4 : 0.7,
+                                            whiteSpace: 'nowrap',
+                                            padding: '0',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '8px',
+                                            flexShrink: 0,
+                                            transition: 'opacity 0.2s ease',
+                                        }}
+                                        onMouseEnter={e => e.currentTarget.style.opacity = 1}
+                                        onMouseLeave={e => e.currentTarget.style.opacity = status === 'submitting' ? '0.4' : '0.7'}
+                                    >
+                                        {status === 'submitting' ? '...' : status === 'error' ? 'Try again' : 'Request Access →'}
+                                    </motion.button>
+                                </motion.form>
+                            )}
+                        </AnimatePresence>
+                        <span style={{
+                            fontFamily: 'var(--font-body)',
+                            fontSize: '0.6rem',
+                            color: 'var(--text-dim)',
+                            letterSpacing: '0.15em',
+                            textTransform: 'uppercase',
+                        }}>
+                            Priority access · No spam · Unsubscribe anytime
+                        </span>
                     </div>
                 </motion.div>
             </motion.div>
