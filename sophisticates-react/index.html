@@ -64,8 +64,9 @@
   {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": "https://sophisticatesai.com/#organization",
     "name": "Sophisticates",
-    "alternateName": ["Sophisticates", "Sophisticate"],
+    "alternateName": ["Sophisticates AI", "Sophisticate"],
     "url": "https://sophisticatesai.com",
     "logo": {
       "@type": "ImageObject",
@@ -85,11 +86,14 @@
       "Infrastructure Scaling"
     ],
     "sameAs": [
-      "https://www.linkedin.com/company/sophisticates/",
-      "https://sophisticatesai.com",
-      "https://sophisticatesai.com/#about",
-      "https://sophisticatesai.com/#products"
+      "https://www.linkedin.com/company/sophisticates/"
     ],
+    "owns": {
+      "@type": "SoftwareApplication",
+      "name": "MEMOPT",
+      "url": "https://memopt.com",
+      "description": "Universal Memory Fabric by Sophisticates. Eliminates the Memory Wall through distributed VMM and global KV-deduplication."
+    },
     "contactPoint": {
       "@type": "ContactPoint",
       "email": "lachu.basnet@sophisticatesai.com",
@@ -101,30 +105,37 @@
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": "https://sophisticatesai.com/#website",
     "name": "Sophisticates",
-    "alternateName": ["Sophisticates", "Sophisticate"],
-    "url": "https://sophisticatesai.com"
+    "alternateName": ["Sophisticates AI", "Sophisticate"],
+    "url": "https://sophisticatesai.com",
+    "publisher": {
+      "@id": "https://sophisticatesai.com/#organization"
+    }
   }
   </script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
+    "@id": "https://sophisticatesai.com/#webpage",
     "name": "Sophisticates – Clarity In Complexity, Redefining Reality",
     "description": "Sophisticates is a deep tech company solving humanity's hardest problems across AI, Quantum Computing, Physics, and Robotics.",
     "url": "https://sophisticatesai.com/",
     "isPartOf": {
-      "@type": "WebSite",
-      "name": "Sophisticates",
-      "url": "https://sophisticatesai.com"
+      "@id": "https://sophisticatesai.com/#website"
     },
     "about": {
-      "@type": "Organization",
-      "name": "Sophisticates"
+      "@id": "https://sophisticatesai.com/#organization"
     },
     "mainEntity": {
-      "@type": "Organization",
-      "name": "Sophisticates"
+      "@id": "https://sophisticatesai.com/#organization"
+    },
+    "mentions": {
+      "@type": "SoftwareApplication",
+      "name": "MEMOPT",
+      "url": "https://memopt.com",
+      "creator": { "@id": "https://sophisticatesai.com/#organization" }
     },
     "breadcrumb": {
       "@type": "BreadcrumbList",
@@ -148,7 +159,7 @@
     "@type": "SoftwareApplication",
     "name": "MEMOPT",
     "applicationCategory": "DeveloperApplication",
-    "description": "Universal Memory Fabric. A foundational orchestration layer that translates architectural constraints into high-performance execution. Eliminates the Memory Wall through distributed VMM and global KV-deduplication.",
+    "description": "Universal Memory Fabric by Sophisticates. A foundational orchestration layer that translates architectural constraints into high-performance execution. Eliminates the Memory Wall through distributed VMM and global KV-deduplication.",
     "operatingSystem": "Linux, CUDA",
     "offers": {
       "@type": "Offer",
@@ -157,11 +168,13 @@
       "availability": "https://schema.org/PreOrder"
     },
     "creator": {
+      "@id": "https://sophisticatesai.com/#organization",
       "@type": "Organization",
       "name": "Sophisticates",
       "url": "https://sophisticatesai.com"
     },
-    "url": "https://sophisticatesai.com/#products",
+    "url": "https://memopt.com",
+    "sameAs": "https://sophisticatesai.com/#products",
     "image": "https://sophisticatesai.com/memopt-visual.png"
   }
   </script>

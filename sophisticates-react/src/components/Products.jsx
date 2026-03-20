@@ -117,8 +117,8 @@ const Products = () => {
                             <button className="btn-premium hover-target" onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}>
                                 Priority Access
                             </button>
-                            <a href="https://memopt.com" target="_blank" rel="noopener noreferrer" className="btn-outline hover-target">
-                                Specification
+                            <a href="https://memopt.com" target="_blank" rel="noopener" className="btn-outline hover-target" title="MEMOPT by Sophisticates — Universal Memory Fabric">
+                                MEMOPT Specification
                             </a>
                         </div>
                     </motion.div>
