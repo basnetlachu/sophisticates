@@ -1,19 +1,25 @@
-import React, { useRef, Suspense, useState } from 'react';
+import React, { useRef, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Environment, Float } from '@react-three/drei';
+import { Environment, Float, useEnvironment } from '@react-three/drei';
 import { useTheme } from '../context/ThemeContext';
 import { useMobile } from '../hooks/useMobile';
 
-const Monolith = ({ isDarkMode, onReady }) => {
+// Preload HDR presets before Canvas mounts so environment is ready on frame 1
+useEnvironment.preload({ preset: 'city' });
+useEnvironment.preload({ preset: 'studio' });
+
+const Monolith = ({ isDarkMode, wrapperRef }) => {
     const meshRef = useRef();
     const coreRef = useRef();
-    const firedRef = useRef(false);
+    const shownRef = useRef(false);
 
     useFrame((state, delta) => {
-        // First frame that actually renders — environment is applied, safe to show
-        if (!firedRef.current) {
-            firedRef.current = true;
-            onReady();
+        // Reveal wrapper directly via DOM — no React state, no re-render
+        if (!shownRef.current) {
+            shownRef.current = true;
+            if (wrapperRef.current) {
+                wrapperRef.current.style.visibility = 'visible';
+            }
         }
         meshRef.current.rotation.x += delta * 0.08;
         meshRef.current.rotation.y += delta * 0.12;
@@ -57,20 +63,22 @@ const Monolith = ({ isDarkMode, onReady }) => {
 
 const Abstract3D = () => {
     const { isDarkMode } = useTheme();
-    const [ready, setReady] = useState(false);
+    const wrapperRef = useRef(null);
 
     return (
-        <div style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            zIndex: 1,
-            pointerEvents: 'none',
-            opacity: ready ? 1 : 0,
-            transition: ready ? 'opacity 1s ease' : 'none',
-        }}>
+        <div
+            ref={wrapperRef}
+            style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                zIndex: 1,
+                pointerEvents: 'none',
+                visibility: 'hidden',
+            }}
+        >
             <Canvas
                 camera={{ position: [0, 0, 10], fov: 40 }}
                 gl={{ alpha: true, antialias: true }}
@@ -81,7 +89,7 @@ const Abstract3D = () => {
                 <directionalLight position={[-5, -10, -5]} intensity={0.5} color={isDarkMode ? "#444444" : "#aaaaaa"} />
                 <Suspense fallback={null}>
                     <Environment preset={isDarkMode ? "city" : "studio"} />
-                    <Monolith isDarkMode={isDarkMode} onReady={() => setReady(true)} />
+                    <Monolith isDarkMode={isDarkMode} wrapperRef={wrapperRef} />
                 </Suspense>
             </Canvas>
         </div>

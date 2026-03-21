@@ -139,9 +139,12 @@ const Founder = () => {
 
                             <div style={{
                                 display: 'flex',
-                                flexDirection: 'column',
-                                gap: '6px',
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                gap: '20px',
                             }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                                 <span style={{
                                     fontFamily: 'var(--font-body)',
                                     fontSize: '0.7rem',
@@ -162,6 +165,38 @@ const Founder = () => {
                                 }}>
                                     Founder, Sophisticates
                                 </span>
+                                </div>
+
+                                <a
+                                    href="https://www.linkedin.com/in/lachu-man-basnet-b7787922b/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '8px',
+                                        fontFamily: 'var(--font-body)',
+                                        fontSize: '0.6rem',
+                                        textTransform: 'uppercase',
+                                        letterSpacing: '0.2em',
+                                        color: 'var(--text-dim)',
+                                        textDecoration: 'none',
+                                        border: '1px solid var(--border-color)',
+                                        padding: '8px 14px',
+                                        transition: 'all 0.3s ease',
+                                        flexShrink: 0,
+                                    }}
+                                    onMouseEnter={e => {
+                                        e.currentTarget.style.color = 'var(--text-main)';
+                                        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.4)';
+                                    }}
+                                    onMouseLeave={e => {
+                                        e.currentTarget.style.color = 'var(--text-dim)';
+                                        e.currentTarget.style.borderColor = 'var(--border-color)';
+                                    }}
+                                >
+                                    LinkedIn ↗
+                                </a>
                             </div>
                         </blockquote>
                     </motion.div>
