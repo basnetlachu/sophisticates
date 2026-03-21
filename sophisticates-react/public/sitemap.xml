@@ -2,36 +2,68 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
-  <!-- Homepage — The single-page app root (all sections live here) -->
+  <!-- Homepage -->
   <url>
     <loc>https://sophisticatesai.com/</loc>
-    <lastmod>2026-03-06</lastmod>
+    <lastmod>2026-03-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://sophisticatesai.com/sophisticates.png</image:loc>
-      <image:title>Sophisticates – Deep Tech Company Logo</image:title>
-      <image:caption>Official logo of Sophisticates, a deep tech company specializing in AI, Quantum Computing, Physics, and Robotics</image:caption>
+      <image:title>Sophisticates – Deep Tech Venture Company</image:title>
+      <image:caption>Sophisticates is a deep tech venture company building across AI, Quantum Computing, Robotics, and Physics</image:caption>
     </image:image>
     <image:image>
       <image:loc>https://sophisticatesai.com/memopt-visual.png</image:loc>
-      <image:title>Memopt – GPU Memory Fabric Visualization</image:title>
-      <image:caption>Kernel bandwidth flow visualization for Memopt, a GPU memory fabric by Sophisticates</image:caption>
+      <image:title>MEMOPT – Universal Memory Fabric by Sophisticates</image:title>
+      <image:caption>MEMOPT eliminates the memory wall across AI workloads, delivering 4x tenant density and 40% energy reduction</image:caption>
     </image:image>
   </url>
 
-  <!-- Privacy Policy — Real standalone page -->
+  <!-- About -->
+  <url>
+    <loc>https://sophisticatesai.com/about</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Research -->
+  <url>
+    <loc>https://sophisticatesai.com/research</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Partners -->
+  <url>
+    <loc>https://sophisticatesai.com/partners</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Contact -->
+  <url>
+    <loc>https://sophisticatesai.com/contact</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Privacy Policy -->
   <url>
     <loc>https://sophisticatesai.com/privacy</loc>
-    <lastmod>2026-03-06</lastmod>
+    <lastmod>2026-03-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 
-  <!-- Terms of Service — Real standalone page -->
+  <!-- Terms of Service -->
   <url>
     <loc>https://sophisticatesai.com/terms</loc>
-    <lastmod>2026-03-06</lastmod>
+    <lastmod>2026-03-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
