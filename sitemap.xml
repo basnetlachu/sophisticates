@@ -2,10 +2,10 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
-  <!-- Homepage — Primary entry point -->
+  <!-- Homepage -->
   <url>
     <loc>https://sophisticatesai.com/</loc>
-    <lastmod>2026-03-18</lastmod>
+    <lastmod>2026-03-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -20,44 +20,52 @@
     </image:image>
   </url>
 
-  <!-- Vision Section -->
+  <!-- About -->
   <url>
-    <loc>https://sophisticatesai.com/#vision</loc>
-    <lastmod>2026-03-18</lastmod>
+    <loc>https://sophisticatesai.com/about</loc>
+    <lastmod>2026-03-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Purpose Section -->
+  <!-- Research -->
   <url>
-    <loc>https://sophisticatesai.com/#purpose</loc>
-    <lastmod>2026-03-18</lastmod>
+    <loc>https://sophisticatesai.com/research</loc>
+    <lastmod>2026-03-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Optimization Section -->
+  <!-- Partners -->
   <url>
-    <loc>https://sophisticatesai.com/#optimization</loc>
-    <lastmod>2026-03-18</lastmod>
+    <loc>https://sophisticatesai.com/partners</loc>
+    <lastmod>2026-03-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
-  <!-- Core Values Section -->
+  <!-- Contact -->
   <url>
-    <loc>https://sophisticatesai.com/#values</loc>
-    <lastmod>2026-03-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <loc>https://sophisticatesai.com/contact</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
   </url>
 
-  <!-- Products Section -->
+  <!-- Privacy Policy -->
   <url>
-    <loc>https://sophisticatesai.com/#products</loc>
-    <lastmod>2026-03-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://sophisticatesai.com/privacy</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- Terms of Service -->
+  <url>
+    <loc>https://sophisticatesai.com/terms</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
 
 </urlset>
