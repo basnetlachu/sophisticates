@@ -11,6 +11,7 @@ import { Privacy, Terms } from './components/LegalPages';
 import Footer from './components/Footer';
 import Cursor from './components/Cursor';
 import ContactPage from './pages/ContactPage';
+import NotFound from './pages/NotFound';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const ChatWidget = () => {
@@ -335,6 +336,7 @@ function App() {
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/terms" element={<Terms />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
       {pathname === '/' && <ChatWidget />}
