@@ -306,12 +306,6 @@ function App() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (typeof window !== 'undefined') {
-      const isBot = /bot|googlebot|crawler|spider|robot|crawling/i.test(navigator.userAgent);
-      if (isBot) {
-        document.body.classList.add('is-bot');
-      }
-    }
   }, [pathname]);
 
   useEffect(() => {

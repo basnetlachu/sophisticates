@@ -92,7 +92,7 @@ const Hero = () => {
                 {/* ── Main headline — each line clip-reveals upward ── */}
                 <div style={{ position: 'relative', width: '100%', display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: 'clamp(40px, 10vh, 100px)' }}>
 
-                    {/* Line 1 */}
+                    {/* Line 1 — H1 = brand name (SEO entity signal) */}
                     <div style={{ overflow: 'hidden' }}>
                         <motion.h1
                             initial={isMobile ? {} : { y: '105%' }}
@@ -109,11 +109,32 @@ const Hero = () => {
                                 fontFamily: 'var(--font-display)',
                             }}
                         >
-                            Clarity in <span style={{ color: 'var(--text-dim)' }}>Complexity.</span>
+                            Sophisticates
                         </motion.h1>
                     </div>
 
-                    {/* Line 2 */}
+                    {/* Line 2 — tagline */}
+                    <div style={{ overflow: 'hidden' }}>
+                        <motion.h2
+                            initial={isMobile ? {} : { y: '105%' }}
+                            animate={{ y: '0%' }}
+                            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+                            style={{
+                                fontSize: 'clamp(2.4rem, 7vw, 6rem)',
+                                lineHeight: 1.05,
+                                letterSpacing: '-0.03em',
+                                textAlign: 'left',
+                                color: 'var(--text-main)',
+                                fontWeight: 400,
+                                margin: 0,
+                                fontFamily: 'var(--font-display)',
+                            }}
+                        >
+                            Clarity in <span style={{ color: 'var(--text-dim)' }}>Complexity.</span>
+                        </motion.h2>
+                    </div>
+
+                    {/* Line 3 */}
                     <div style={{ overflow: 'hidden' }}>
                         <motion.h2
                             initial={{ y: '105%' }}
