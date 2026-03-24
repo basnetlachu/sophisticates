@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { PartnersVisualizer } from './Visuals3D';
 
@@ -7,6 +8,11 @@ const Partners = () => {
 
     return (
         <main className="smooth-scroll-wrapper" style={{ paddingTop: 'clamp(100px, 12vh, 160px)', paddingBottom: 'clamp(60px, 10vh, 160px)', minHeight: '100vh', background: 'var(--bg-color)', position: 'relative' }}>
+            <Helmet>
+                <title>Partners — Sophisticates | Deep Tech Strategic Alliances</title>
+                <meta name="description" content="Partner with Sophisticates on the frontier of deep tech. We form strategic alliances with industry leaders, research institutions, and enterprises to integrate AI, Quantum Computing, and Robotics infrastructure." />
+                <link rel="canonical" href="https://sophisticatesai.com/partners" />
+            </Helmet>
             <PartnersVisualizer />
             <div className="max-w-container" style={{ position: 'relative', zIndex: 2 }}>
                 <div className="section-label-wrapper">

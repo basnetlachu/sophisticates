@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useMobile } from '../hooks/useMobile';
 import { ResearchVisualizer } from './Visuals3D';
@@ -104,6 +105,11 @@ const Research = () => {
 
     return (
         <main className="smooth-scroll-wrapper">
+            <Helmet>
+                <title>Research — Sophisticates | AI, Quantum Computing, Robotics & Physics</title>
+                <meta name="description" content="Sophisticates research spans AI infrastructure, Quantum Computing, Robotics, and Physics. Explore our deep tech research areas including MEMOPT — our Universal Memory Fabric for AI workloads." />
+                <link rel="canonical" href="https://sophisticatesai.com/research" />
+            </Helmet>
             <section ref={ref} style={{
                 background: 'var(--bg-color)',
                 position: 'relative',

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 
 const LegalLayout = ({ title, children }) => {
@@ -53,6 +54,12 @@ const LegalLayout = ({ title, children }) => {
 };
 
 export const Privacy = () => (
+    <>
+    <Helmet>
+        <title>Privacy Policy — Sophisticates</title>
+        <meta name="description" content="Sophisticates privacy policy. We collect the minimum necessary data with scientific rigor. Read how we handle your information." />
+        <link rel="canonical" href="https://sophisticatesai.com/privacy" />
+    </Helmet>
     <LegalLayout title="Privacy Policy">
         <section>
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', textTransform: 'uppercase', letterSpacing: '0.2em', marginBottom: '32px', color: 'var(--text-muted)' }}>// 01. Data Protocols</h2>
@@ -82,9 +89,16 @@ export const Privacy = () => (
             </p>
         </section>
     </LegalLayout>
+    </>
 );
 
 export const Terms = () => (
+    <>
+    <Helmet>
+        <title>Terms of Service — Sophisticates</title>
+        <meta name="description" content="Sophisticates terms of service. Read the terms governing your use of sophisticatesai.com and our deep tech platform." />
+        <link rel="canonical" href="https://sophisticatesai.com/terms" />
+    </Helmet>
     <LegalLayout title="Terms of Service">
         <section>
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', textTransform: 'uppercase', letterSpacing: '0.2em', marginBottom: '32px', color: 'var(--text-muted)' }}>// 01. Engagement</h2>
@@ -114,4 +128,5 @@ export const Terms = () => (
             </p>
         </section>
     </LegalLayout>
+    </>
 );

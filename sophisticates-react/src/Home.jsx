@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import Hero from './components/Hero';
 import Marquee from './components/Marquee';
 import StatsStrip from './components/StatsStrip';
@@ -32,6 +33,11 @@ function Home() {
 
     return (
         <main className="smooth-scroll-wrapper">
+            <Helmet>
+                <title>Sophisticates — Deep Tech Venture Company | AI, Quantum Computing, Robotics & Physics</title>
+                <meta name="description" content="Sophisticates is a deep tech venture company founded by Lachu Man Basnet. We build companies from first principles across AI, Quantum Computing, Robotics, and Physics. Flagship product: MEMOPT — Universal Memory Fabric." />
+                <link rel="canonical" href="https://sophisticatesai.com/" />
+            </Helmet>
             <Hero />
             <Marquee />
             <StatsStrip />

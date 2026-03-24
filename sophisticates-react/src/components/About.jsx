@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { motion, useInView } from 'framer-motion';
 import { useMobile } from '../hooks/useMobile';
 import Vision from './Vision';
@@ -31,6 +32,11 @@ const About = () => {
 
     return (
         <main className="smooth-scroll-wrapper">
+            <Helmet>
+                <title>About Sophisticates — Deep Tech Venture Company | Clarity In Complexity</title>
+                <meta name="description" content="Learn about Sophisticates — a deep tech venture company founded by Lachu Man Basnet. We bridge the gap between theoretical possibility and practical reality across AI, Quantum Computing, Robotics, and Physics." />
+                <link rel="canonical" href="https://sophisticatesai.com/about" />
+            </Helmet>
         <section id="about" ref={ref} className="section-padding" style={{
             background: 'var(--bg-color)',
             position: 'relative',
