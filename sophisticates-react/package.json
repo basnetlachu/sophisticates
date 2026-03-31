@@ -7,6 +7,7 @@
     "dev": "vite",
     "dev:all": "concurrently \"nodemon server/index.js\" \"vite\"",
     "build": "vite build",
+    "build:seo": "vite build && node prerender.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "nodemon server/index.js",
