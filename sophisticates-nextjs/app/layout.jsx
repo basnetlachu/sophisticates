@@ -30,7 +30,7 @@ export const metadata = {
         url: '/sophisticates.png',
         width: 667,
         height: 667,
-        alt: 'Sophisticates – Deep Tech Company Logo',
+        alt: 'Sophisticates: Deep Tech Company Logo',
       },
     ],
   },
