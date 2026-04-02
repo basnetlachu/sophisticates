@@ -20,7 +20,7 @@ const Careers = () => {
                     We are looking for the top 1% of researchers, physicists, and engineers. Join Sophisticates to build the fundamental infrastructure of intelligence and physical systems.
                 </p>
 
-                <h3 style={{ fontSize: '1.5rem', color: 'var(--text-main)', fontFamily: 'var(--font-display)', marginBottom: '40px' }}>Open Positions</h3>
+                <h2 style={{ fontSize: '1.5rem', color: 'var(--text-main)', fontFamily: 'var(--font-display)', marginBottom: '40px' }}>Open Positions</h2>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                     {[
                         { title: 'Senior AI Researcher', dept: 'Artificial Intelligence', loc: 'Remote / London' },

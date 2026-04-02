@@ -5,7 +5,7 @@
   <!-- Homepage -->
   <url>
     <loc>https://sophisticatesai.com/</loc>
-    <lastmod>2026-03-31</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -18,7 +18,7 @@
   <!-- About -->
   <url>
     <loc>https://sophisticatesai.com/about</loc>
-    <lastmod>2026-03-31</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -26,7 +26,7 @@
   <!-- Research -->
   <url>
     <loc>https://sophisticatesai.com/research</loc>
-    <lastmod>2026-03-31</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -34,7 +34,7 @@
   <!-- Partners -->
   <url>
     <loc>https://sophisticatesai.com/partners</loc>
-    <lastmod>2026-03-31</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -42,7 +42,7 @@
   <!-- Contact -->
   <url>
     <loc>https://sophisticatesai.com/contact</loc>
-    <lastmod>2026-03-31</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -50,7 +50,7 @@
   <!-- Privacy Policy -->
   <url>
     <loc>https://sophisticatesai.com/privacy</loc>
-    <lastmod>2026-03-31</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
@@ -58,9 +58,17 @@
   <!-- Terms of Service -->
   <url>
     <loc>https://sophisticatesai.com/terms</loc>
-    <lastmod>2026-03-31</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
+  </url>
+
+  <!-- Careers -->
+  <url>
+    <loc>https://sophisticatesai.com/careers</loc>
+    <lastmod>2026-04-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 
 </urlset>

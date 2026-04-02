@@ -90,11 +90,6 @@ body.light-mode {
   100% { transform: translate(-5vw, 10vh) scale(0.9) rotate(-10deg); }
 }
 
-/* SEO bot fix */
-body.is-bot [style*="opacity: 0"] {
-  opacity: 1 !important;
-  visibility: visible !important;
-}
 
 .flexible-logo {
   display: block;

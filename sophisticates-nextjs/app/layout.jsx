@@ -76,7 +76,7 @@ export default function RootLayout({ children }) {
               "legalName": "Sophisticates",
               "disambiguatingDescription": "Sophisticates is a global deep tech venture specializing in Quantum Computing, AI infrastructure, Robotics, and Physics — building companies from first principles.",
               "slogan": "Clarity In Complexity, Redefining Reality",
-              "url": "https://sophisticatesai.com",
+              "url": "https://sophisticatesai.com/",
               "logo": {
                 "@type": "ImageObject",
                 "url": "https://sophisticatesai.com/sophisticates.png",

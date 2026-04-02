@@ -6,6 +6,18 @@ export const metadata = {
     alternates: {
         canonical: 'https://sophisticatesai.com/partners',
     },
+    openGraph: {
+        title: 'Partners: Sophisticates | Deep Tech Strategic Alliances',
+        description: 'Partner with Sophisticates on the frontier of deep tech. Strategic alliances across AI, Quantum Computing, and Robotics infrastructure.',
+        url: 'https://sophisticatesai.com/partners',
+        images: [{ url: '/sophisticates.png', width: 667, height: 667, alt: 'Sophisticates Partners' }],
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'Partners: Sophisticates | Deep Tech Strategic Alliances',
+        description: 'Partner with Sophisticates on the frontier of deep tech.',
+        images: ['/sophisticates.png'],
+    },
 };
 
 export default function PartnersPage() {
