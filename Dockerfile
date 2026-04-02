@@ -3,13 +3,12 @@ FROM node:20-slim AS builder
 
 WORKDIR /app
 
-COPY sophisticates-react/package*.json ./
-
-# Install all deps (including devDeps needed for vite build)
+COPY sophisticates-nextjs/package*.json ./
 RUN npm ci
 
-COPY sophisticates-react/ .
+COPY sophisticates-nextjs/ .
 
+# Build the Next.js app (standalone output)
 RUN npm run build
 
 # ── Stage 2: Production ────────────────────────────────────────────────────────
@@ -19,15 +18,13 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
 
-# Copy package files and install production deps only
-COPY sophisticates-react/package*.json ./
-RUN npm ci --omit=dev
-
-# Copy built frontend and server from builder
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/server ./server
+# Copy the standalone server output
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
 
 EXPOSE 3000
 
-CMD ["node", "server/index.js"]
+CMD ["node", "server.js"]
