@@ -27,39 +27,6 @@ const ResponsiveWrapper = ({ children }) => {
     );
 };
 
-// --- ABOUT SCENE ---
-const AboutScene = () => {
-    const { isDarkMode } = useTheme();
-    const groupRef = useRef();
-
-    useFrame((state, delta) => {
-        groupRef.current.rotation.x += delta * 0.1;
-        groupRef.current.rotation.y += delta * 0.15;
-    });
-
-    return (
-        <Float speed={1.5} rotationIntensity={0.5} floatIntensity={1}>
-            <group ref={groupRef}>
-                <mesh scale={2.8}>
-                    <boxGeometry args={[1, 1, 1]} />
-                    <meshPhysicalMaterial color={isDarkMode ? "#ffffff" : "#000000"} wireframe={true} metalness={1} opacity={isDarkMode ? 0.15 : 0.05} transparent={true} />
-                </mesh>
-                <mesh scale={2.0}>
-                    <icosahedronGeometry args={[1, 0]} />
-                    <meshStandardMaterial color={isDarkMode ? "#050505" : "#ffffff"} metalness={0.8} roughness={0.2} />
-                </mesh>
-            </group>
-        </Float>
-    );
-};
-
-export const AboutVisualizer = () => (
-    <ResponsiveWrapper>
-        <AboutScene />
-    </ResponsiveWrapper>
-);
-
-
 // --- RESEARCH SCENE ---
 const ResearchScene = () => {
     const { isDarkMode } = useTheme();
@@ -138,35 +105,3 @@ export const PartnersVisualizer = () => (
 );
 
 
-// --- CAREERS SCENE ---
-const CareersScene = () => {
-    const { isDarkMode } = useTheme();
-    const groupRef = useRef();
-
-    useFrame((state, delta) => {
-        groupRef.current.rotation.y += delta * 0.1;
-    });
-
-    return (
-        <Float speed={2} rotationIntensity={0.1} floatIntensity={1.2}>
-            <group ref={groupRef} position={[0, -1, 0]}>
-                {[0, 1, 2, 3].map((i) => (
-                    <mesh key={i} position={[Math.sin(i)*1.5, i * 1.2, Math.cos(i)*1.5]} scale={1 - (i*0.15)}>
-                        <boxGeometry args={[1.5, 0.2, 1.5]} />
-                        <meshStandardMaterial color={isDarkMode ? "#ffffff" : "#000000"} metalness={0.8} roughness={0.2} transparent={true} opacity={0.8 - (i*0.1)} />
-                    </mesh>
-                ))}
-                <mesh position={[0, 4.5, 0]} scale={0.6}>
-                    <octahedronGeometry args={[1, 0]} />
-                    <meshStandardMaterial color={isDarkMode ? "#020202" : "#ffffff"} metalness={0.9} roughness={0.2} />
-                </mesh>
-            </group>
-        </Float>
-    );
-};
-
-export const CareersVisualizer = () => (
-    <ResponsiveWrapper>
-        <CareersScene />
-    </ResponsiveWrapper>
-);
