@@ -3,9 +3,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { useMobile } from '../hooks/useMobile';
+import { Turnstile } from '@marsidev/react-turnstile';
 
 const Contact = () => {
     const [formState, setFormState] = useState('idle');
+    const [turnstileToken, setTurnstileToken] = useState(null);
+    const turnstileRef = useRef(null);
     const [formData, setFormData] = useState({
         name: '',
         businessName: '',
@@ -85,6 +88,11 @@ const Contact = () => {
             return;
         }
 
+        if (!turnstileToken) {
+            alert('Please wait for the security check to complete.');
+            return;
+        }
+
         setFormState('submitting');
 
         try {
@@ -93,7 +101,7 @@ const Contact = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({ ...formData, turnstileToken }),
             });
 
             const result = await response.json();
@@ -101,6 +109,8 @@ const Contact = () => {
             if (response.ok && result.status === 'success') {
                 setFormState('success');
                 setFormData({ name: '', businessName: '', email: '', country: '', message: '' });
+                setTurnstileToken(null);
+                turnstileRef.current?.reset();
             } else {
                 setFormState('error');
                 alert(result.message || 'Transmission failed. Please try again.');
@@ -330,11 +340,19 @@ const Contact = () => {
                                     />
                                 </div>
 
+                                <Turnstile
+                                    ref={turnstileRef}
+                                    siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+                                    onSuccess={setTurnstileToken}
+                                    onExpire={() => setTurnstileToken(null)}
+                                    options={{ theme: 'auto', size: 'invisible' }}
+                                />
+
                                 <motion.button
                                     className="btn-premium hover-target"
                                     whileTap={{ scale: 0.98 }}
                                     type="submit"
-                                    disabled={formState === 'submitting'}
+                                    disabled={formState === 'submitting' || !turnstileToken}
                                     style={{
                                         marginTop: '16px',
                                         alignSelf: 'flex-start',

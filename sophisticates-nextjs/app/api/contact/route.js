@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import { isValidOrigin } from '../../../lib/security';
 
 const brandedEmail = ({ heading, body, footer = '' }) => `
 <!DOCTYPE html>
@@ -60,10 +61,28 @@ const transporter = nodemailer.createTransport({
 });
 
 export async function POST(request) {
-  const { name, businessName, email, country, message } = await request.json();
+  if (!isValidOrigin(request)) {
+    return NextResponse.json({ status: 'error', message: 'Forbidden' }, { status: 403 });
+  }
+
+  const { name, businessName, email, country, message, turnstileToken } = await request.json();
 
   if (!name || !email || !message || !businessName || !country) {
     return NextResponse.json({ status: 'error', message: 'Missing required fields' }, { status: 400 });
+  }
+
+  // Verify Turnstile token
+  const verify = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      secret: process.env.TURNSTILE_SECRET_KEY,
+      response: turnstileToken,
+    }),
+  });
+  const verifyResult = await verify.json();
+  if (!verifyResult.success) {
+    return NextResponse.json({ status: 'error', message: 'Security check failed. Please try again.' }, { status: 400 });
   }
 
   const adminHtml = brandedEmail({

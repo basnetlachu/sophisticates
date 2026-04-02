@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
+import { isValidOrigin } from '../../../lib/security';
 
 const SYSTEM_PROMPT = `You are Athenaeum — the official AI assistant embedded on the Sophisticates website (sophisticatesai.com).
 
@@ -46,6 +47,10 @@ EMAIL CAPABILITY:
 - Do not offer email as an alternative when you can answer the question yourself.`;
 
 export async function POST(request) {
+  if (!isValidOrigin(request)) {
+    return NextResponse.json({ status: 'error', message: 'Forbidden' }, { status: 403 });
+  }
+
   const { message, history } = await request.json();
 
   if (!message) {

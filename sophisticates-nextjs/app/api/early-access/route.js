@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import { isValidOrigin } from '../../../lib/security';
 
 const brandedEmail = ({ heading, body, footer = '' }) => `
 <!DOCTYPE html>
@@ -60,6 +61,10 @@ const transporter = nodemailer.createTransport({
 });
 
 export async function POST(request) {
+  if (!isValidOrigin(request)) {
+    return NextResponse.json({ status: 'error', message: 'Forbidden' }, { status: 403 });
+  }
+
   const { email } = await request.json();
 
   if (!email) {
